@@ -24,58 +24,6 @@ func (t *Token) IsValid() bool {
 	return true
 }
 
-// type TokenStorage interface {
-// 	Load() (*Token, error)
-// 	Save(*Token) error
-// }
-
-// type JSONTokenStorage struct {
-// 	Path string
-// }
-
-// func (jts JSONTokenStorage) Load() (*Token, error) {
-// 	fp, err := os.Stat(jts.Path)
-
-// 	if err != nil {
-// 		if os.IsNotExist(err) {
-// 			// create new file
-// 			if _, err = os.Create(jts.Path); err != nil {
-// 				return nil, err
-// 			}
-// 		} else {
-// 			// unexpected error
-// 			return nil, err
-// 		}
-// 	}
-
-// 	if fp.Size() == 0 {
-// 		return nil, errors.New("There is no connection to KinoPub")
-// 	}
-
-// 	dat, err := ioutil.ReadFile(jts.Path)
-// 	if err != nil {
-// 		return nil, err
-// 	}
-
-// 	token := Token{}
-// 	err = json.Unmarshal(dat, &token)
-// 	if err != nil {
-// 		return nil, err
-// 	}
-
-// 	return &token, nil
-// }
-
-// // Save token to json file.
-// func (jts JSONTokenStorage) Save(t *Token) error {
-// 	dat, err := json.Marshal(t)
-// 	if err != nil {
-// 		return err
-// 	}
-
-// 	return ioutil.WriteFile(jts.Path, dat, os.ModeAppend)
-// }
-
 type KinoPubClient interface {
 	SearchItemBy(q ItemsFilter) ([]Item, error)
 
