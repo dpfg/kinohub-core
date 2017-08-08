@@ -3,6 +3,7 @@ package main
 import (
 	"net/http"
 
+	"github.com/dpfg/kinohub-core/providers"
 	"github.com/dpfg/kinohub-core/providers/kinopub"
 	"github.com/gin-gonic/gin"
 )
@@ -20,13 +21,13 @@ func main() {
 		cl := kinopub.KinoPubClientImpl{
 			ClientID:     "plex",
 			ClientSecret: "h2zx6iom02t9cxydcmbo9oi0llld7jsv",
-			TokenStorage: kinopub.JSONTokenStorage{
-				Path: "config.json",
+			PreferenceStorage: providers.JSONPreferenceStorage{
+				Path: ".data/",
 			},
 		}
 
 		r, err := cl.SearchItemBy(kinopub.ItemsFilter{
-			Title: "trans",
+			Title: "game of th",
 		})
 
 		if err != nil {
@@ -35,6 +36,10 @@ func main() {
 		}
 
 		c.JSON(200, r)
+	})
+
+	r.GET("/trakt/signin", func(c *gin.Context) {
+		// trakt.NewTraktClient
 	})
 
 	r.Run("0.0.0.0:8081") // listen and serve on 0.0.0.0:8080

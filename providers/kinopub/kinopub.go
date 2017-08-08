@@ -1,15 +1,12 @@
 package kinopub
 
 import (
-	"encoding/json"
-	"errors"
 	"fmt"
-	"io/ioutil"
 	"log"
-	"os"
 	"path"
 	"time"
 
+	"github.com/dpfg/kinohub-core/providers"
 	"github.com/franela/goreq"
 )
 
@@ -27,59 +24,60 @@ func (t *Token) IsValid() bool {
 	return true
 }
 
-type TokenStorage interface {
-	Load() (*Token, error)
-	Save(*Token) error
-}
+// type TokenStorage interface {
+// 	Load() (*Token, error)
+// 	Save(*Token) error
+// }
 
-type JSONTokenStorage struct {
-	Path string
-}
+// type JSONTokenStorage struct {
+// 	Path string
+// }
 
-func (jts JSONTokenStorage) Load() (*Token, error) {
-	fp, err := os.Stat(jts.Path)
+// func (jts JSONTokenStorage) Load() (*Token, error) {
+// 	fp, err := os.Stat(jts.Path)
 
-	if err != nil {
-		if os.IsNotExist(err) {
-			// create new file
-			if _, err = os.Create(jts.Path); err != nil {
-				return nil, err
-			}
-		} else {
-			// unexpected error
-			return nil, err
-		}
-	}
+// 	if err != nil {
+// 		if os.IsNotExist(err) {
+// 			// create new file
+// 			if _, err = os.Create(jts.Path); err != nil {
+// 				return nil, err
+// 			}
+// 		} else {
+// 			// unexpected error
+// 			return nil, err
+// 		}
+// 	}
 
-	if fp.Size() == 0 {
-		return nil, errors.New("There is no connection to KinoPub")
-	}
+// 	if fp.Size() == 0 {
+// 		return nil, errors.New("There is no connection to KinoPub")
+// 	}
 
-	dat, err := ioutil.ReadFile(jts.Path)
-	if err != nil {
-		return nil, err
-	}
+// 	dat, err := ioutil.ReadFile(jts.Path)
+// 	if err != nil {
+// 		return nil, err
+// 	}
 
-	token := Token{}
-	err = json.Unmarshal(dat, &token)
-	if err != nil {
-		return nil, err
-	}
+// 	token := Token{}
+// 	err = json.Unmarshal(dat, &token)
+// 	if err != nil {
+// 		return nil, err
+// 	}
 
-	return &token, nil
-}
+// 	return &token, nil
+// }
 
-func (jts JSONTokenStorage) Save(t *Token) error {
-	dat, err := json.Marshal(t)
-	if err != nil {
-		return err
-	}
+// // Save token to json file.
+// func (jts JSONTokenStorage) Save(t *Token) error {
+// 	dat, err := json.Marshal(t)
+// 	if err != nil {
+// 		return err
+// 	}
 
-	return ioutil.WriteFile(jts.Path, dat, os.ModeAppend)
-}
+// 	return ioutil.WriteFile(jts.Path, dat, os.ModeAppend)
+// }
 
 type KinoPubClient interface {
-	SearchItemBy(q map[string]string) ([]Item, error)
+	SearchItemBy(q ItemsFilter) ([]Item, error)
 
 	GetItemById(id int) (*Item, error)
 }
@@ -89,14 +87,16 @@ type ItemsFilter struct {
 }
 
 type KinoPubClientImpl struct {
-	ClientID     string
-	ClientSecret string
-	TokenStorage TokenStorage
+	ClientID          string
+	ClientSecret      string
+	PreferenceStorage providers.PreferenceStorage
 }
 
 const (
 	BaseURL  = "https://api.service-kp.com/v1/"
 	TokenURL = "https://api.service-kp.com/oauth2/token"
+
+	KinoPubPrefKey = "kinopub"
 )
 
 type authQuery struct {
@@ -104,7 +104,8 @@ type authQuery struct {
 }
 
 func (cl KinoPubClientImpl) getToken() (*Token, error) {
-	t, err := cl.TokenStorage.Load()
+	t := &Token{}
+	err := cl.PreferenceStorage.Load(KinoPubPrefKey, t)
 	if err != nil {
 		return nil, err
 	}
@@ -114,7 +115,7 @@ func (cl KinoPubClientImpl) getToken() (*Token, error) {
 			return nil, err
 		}
 
-		if t, err = cl.TokenStorage.Load(); err != nil {
+		if err = cl.PreferenceStorage.Load(KinoPubPrefKey, t); err != nil {
 			return nil, err
 		}
 	}
@@ -154,7 +155,7 @@ func (cl KinoPubClientImpl) refreshToken(t *Token) error {
 		return err
 	}
 
-	cl.TokenStorage.Save(&Token{
+	cl.PreferenceStorage.Save(KinoPubPrefKey, &Token{
 		AccessToken:  nt.AccessToken,
 		RefreshToken: nt.RefreshToken,
 		ExpiresAt:    time.Now().Add(time.Duration(nt.ExpiresIn) * time.Second),

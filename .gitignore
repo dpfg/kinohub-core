@@ -9,6 +9,14 @@
 
 # Output of the go coverage tool, specifically when used with LiteIDE
 *.out
+debug
+kinohub-core
+
+# VSCode
+.vscode
 
 # Project-local glide cache, RE: https://github.com/Masterminds/glide/issues/736
 .glide/
+
+# Runtime data
+.data
