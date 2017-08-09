@@ -1,10 +1,12 @@
 package main
 
 import (
+	"context"
 	"net/http"
 
 	"github.com/dpfg/kinohub-core/providers"
 	"github.com/dpfg/kinohub-core/providers/kinopub"
+	"github.com/dpfg/kinohub-core/providers/trakt"
 	"github.com/gin-gonic/gin"
 )
 
@@ -39,7 +41,31 @@ func main() {
 	})
 
 	r.GET("/trakt/signin", func(c *gin.Context) {
-		// trakt.NewTraktClient
+		cl := trakt.NewTraktClient()
+		// f0429b45753645dae219dcf44d673e4eda082dd1dc0f808e925c5e78b6184019
+		c.JSON(http.StatusOK, cl.GetAuthCodeURL())
+	})
+
+	r.GET("/trakt/exchange", func(c *gin.Context) {
+		cl := trakt.NewTraktClient()
+		t, err := cl.Exchange(context.Background(), "f0429b45753645dae219dcf44d673e4eda082dd1dc0f808e925c5e78b6184019")
+		if err != nil {
+			c.JSON(http.StatusInternalServerError, err.Error())
+			return
+		}
+
+		c.JSON(http.StatusOK, t)
+	})
+
+	r.GET("/trakt/shows/tranding", func(c *gin.Context) {
+		cl := trakt.NewTraktClient()
+		m, err := cl.GetMyShows(12)
+		if err != nil {
+			c.JSON(http.StatusInternalServerError, err.Error())
+			return
+		}
+
+		c.JSON(http.StatusOK, m)
 	})
 
 	r.Run("0.0.0.0:8081") // listen and serve on 0.0.0.0:8080
