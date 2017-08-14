@@ -3,11 +3,14 @@ package kinopub
 import (
 	"fmt"
 	"log"
-	"path"
+	"strconv"
 	"time"
 
 	"github.com/dpfg/kinohub-core/providers"
+	"github.com/dpfg/kinohub-core/util"
 	"github.com/franela/goreq"
+	"github.com/pkg/errors"
+	"github.com/sirupsen/logrus"
 )
 
 type Token struct {
@@ -41,7 +44,7 @@ type KinoPubClientImpl struct {
 }
 
 const (
-	BaseURL  = "https://api.service-kp.com/v1/"
+	BaseURL  = "https://api.service-kp.com/v1"
 	TokenURL = "https://api.service-kp.com/oauth2/token"
 
 	KinoPubPrefKey = "kinopub"
@@ -114,12 +117,12 @@ func (cl KinoPubClientImpl) refreshToken(t *Token) error {
 func (cl KinoPubClientImpl) SearchItemBy(q ItemsFilter) ([]Item, error) {
 	t, err := cl.getToken()
 	if err != nil {
-		return nil, err
+		return nil, errors.Wrap(err, "No auth")
 	}
 
 	resp, err := goreq.Request{
 		Method: "GET",
-		Uri:    BaseURL + "items",
+		Uri:    util.JoinURL(BaseURL, "items"),
 		QueryString: struct {
 			Title       string `url:"title,omitempty"`
 			AccessToken string `url:"access_token,omitempty"`
@@ -149,26 +152,91 @@ func (cl KinoPubClientImpl) SearchItemBy(q ItemsFilter) ([]Item, error) {
 	return m.Items, nil
 }
 
-func (cl KinoPubClientImpl) GetItemById(id int) (*Item, error) {
-	t, _ := cl.getToken()
+func (cl KinoPubClientImpl) GetItemById(id int64) (*Item, error) {
+	log.Printf("Loading item by ID=%d\n", id)
+
+	t, err := cl.getToken()
+	if err != nil {
+		return nil, errors.Wrap(err, "No auth")
+	}
 
 	resp, err := goreq.Request{
 		Method: "GET",
-		Uri:    path.Join(BaseURL, "item", string(id)),
-		QueryString: authQuery{
+		Uri:    util.JoinURL(BaseURL, "items", strconv.FormatInt(id, 10)),
+		QueryString: struct {
+			AccessToken string `url:"access_token,omitempty"`
+		}{
 			AccessToken: t.AccessToken,
 		},
 	}.Do()
 
 	if err != nil {
-		return nil, err
+		return nil, errors.WithMessage(err, "Can't fetch item")
 	}
 
-	item := &Item{}
-	err = resp.Body.FromJsonTo(item)
+	if resp.StatusCode != 200 {
+		return nil, fmt.Errorf("Unexpected status code: %s", resp.Status)
+	}
+
+	m := &struct {
+		Item Item `json:"item,omitempty"`
+	}{}
+
+	err = resp.Body.FromJsonTo(m)
 	if err != nil {
 		return nil, err
 	}
 
-	return item, nil
+	return &m.Item, nil
+}
+
+// FindItemByIMDB search item by IMDB id. As there is no filter data by id, getch by title and then filter manually.
+func (cl KinoPubClientImpl) FindItemByIMDB(imdbID int, title string) (*Item, error) {
+	items, err := cl.SearchItemBy(ItemsFilter{
+		Title: title,
+	})
+
+	if err != nil {
+		return nil, errors.WithMessage(err, "Can't find item")
+	}
+
+	for _, item := range items {
+		if item.Imdb == imdbID {
+			return &item, nil
+		}
+	}
+
+	return nil, nil
+}
+
+// GetEpisode returns kinopub episode structure by season number (1-based) and episode number (1-based)
+func (cl KinoPubClientImpl) GetEpisode(imdbID int, title string, seasonNum int, episodeNum int) (interface{}, error) {
+	item, err := cl.FindItemByIMDB(imdbID, title)
+	if err != nil {
+		return nil, err
+	}
+
+	if item == nil {
+		return nil, nil
+	}
+
+	logrus.Debugf("Found %s. Query: %s \n", title, item.Title)
+
+	it, err := cl.GetItemById(item.ID)
+	if err != nil {
+		return nil, errors.WithMessage(err, "Can't load kinopub item by id")
+	}
+
+	for _, season := range it.Seasons {
+		if season.Number != seasonNum {
+			continue
+		}
+
+		for _, episode := range season.Episodes {
+			if episode.Number == episodeNum {
+				return episode, nil
+			}
+		}
+	}
+	return nil, nil
 }

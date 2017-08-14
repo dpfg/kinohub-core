@@ -6,7 +6,6 @@ import (
 	"io/ioutil"
 	"net/http"
 	"strconv"
-	"time"
 
 	"github.com/dpfg/kinohub-core/providers"
 	"github.com/dpfg/kinohub-core/util"
@@ -74,10 +73,10 @@ func (tc *TraktClient) GetTrendingShows() ([]interface{}, error) {
 	return m, nil
 }
 
-func (tc *TraktClient) GetMyShows(days int64) ([]interface{}, error) {
-	m := make([]interface{}, 0)
+func (tc *TraktClient) GetMyShows(days int64) ([]MyShow, error) {
+	m := make([]MyShow, 0)
 
-	today := time.Now().Format("2006-01-02")
+	today := "2017-08-01" //time.Now().Format("2006-01-02")
 	numDays := strconv.FormatInt(days, 10)
 
 	err := tc.get(util.JoinURL(BaseURL, "calendars", "my", "shows", today, numDays), &m)
