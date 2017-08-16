@@ -9,6 +9,8 @@ import (
 
 	"github.com/dpfg/kinohub-core/providers"
 	"github.com/dpfg/kinohub-core/util"
+	"github.com/pkg/errors"
+	"github.com/sirupsen/logrus"
 
 	"golang.org/x/oauth2"
 )
@@ -16,6 +18,7 @@ import (
 type TraktClient struct {
 	Config            oauth2.Config
 	PreferenceStorage providers.PreferenceStorage
+	logger            *logrus.Logger
 }
 
 const (
@@ -74,6 +77,8 @@ func (tc *TraktClient) GetTrendingShows() ([]interface{}, error) {
 }
 
 func (tc *TraktClient) GetMyShows(days int64) ([]MyShow, error) {
+	tc.logger.Debugln("Loading Trakt.TV My Shows")
+
 	m := make([]MyShow, 0)
 
 	today := "2017-08-01" //time.Now().Format("2006-01-02")
@@ -81,13 +86,17 @@ func (tc *TraktClient) GetMyShows(days int64) ([]MyShow, error) {
 
 	err := tc.get(util.JoinURL(BaseURL, "calendars", "my", "shows", today, numDays), &m)
 	if err != nil {
-		return nil, err
+		tc.logger.Error("Unable to load trakt.tv my shows")
+		return nil, errors.WithStack(err)
 	}
 
 	return m, nil
 }
 
 func NewTraktClient() *TraktClient {
+	logger := logrus.StandardLogger()
+	logger.SetLevel(logrus.DebugLevel)
+
 	return &TraktClient{
 		Config: oauth2.Config{
 			ClientID:     "c1bc6797965a798d9fcb83ca32c1258273c334fe543939e1378df22c1a765808",
@@ -102,5 +111,6 @@ func NewTraktClient() *TraktClient {
 		PreferenceStorage: providers.JSONPreferenceStorage{
 			Path: ".data/",
 		},
+		logger: logger,
 	}
 }

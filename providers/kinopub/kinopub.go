@@ -2,7 +2,6 @@ package kinopub
 
 import (
 	"fmt"
-	"log"
 	"strconv"
 	"time"
 
@@ -41,6 +40,8 @@ type KinoPubClientImpl struct {
 	ClientID          string
 	ClientSecret      string
 	PreferenceStorage providers.PreferenceStorage
+	CacheFactory      providers.CacheFactory
+	Logger            *logrus.Logger
 }
 
 const (
@@ -75,7 +76,7 @@ func (cl KinoPubClientImpl) getToken() (*Token, error) {
 }
 
 func (cl KinoPubClientImpl) refreshToken(t *Token) error {
-	log.Println("refreshing token....")
+	cl.Logger.Debugln("refreshing token....")
 	resp, err := goreq.Request{
 		Method: "POST",
 		Uri:    TokenURL,
@@ -146,20 +147,35 @@ func (cl KinoPubClientImpl) SearchItemBy(q ItemsFilter) ([]Item, error) {
 
 	err = resp.Body.FromJsonTo(m)
 	if err != nil {
-		return nil, err
+		return nil, errors.WithStack(err)
 	}
 
 	return m.Items, nil
 }
 
 func (cl KinoPubClientImpl) GetItemById(id int64) (*Item, error) {
-	log.Printf("Loading item by ID=%d\n", id)
+	cl.Logger.Debugf("Loading kinpub item by ID=%d", id)
+
+	cache := cl.CacheFactory.Get("KP_GetItemById", time.Hour)
+	cacheKey := fmt.Sprint(id)
+	item := &Item{ID: -1}
+	err := cache.Load(cacheKey, item)
+
+	if err != nil {
+		return nil, errors.WithMessage(err, "Failed to get item from the cache")
+	}
+
+	if item.ID != -1 {
+		cl.Logger.Debugln("Kinpub item has been loaded using cache")
+		return item, nil
+	}
 
 	t, err := cl.getToken()
 	if err != nil {
 		return nil, errors.Wrap(err, "No auth")
 	}
 
+	cl.Logger.Debugln("Fetching kinpub item from the remote service")
 	resp, err := goreq.Request{
 		Method: "GET",
 		Uri:    util.JoinURL(BaseURL, "items", strconv.FormatInt(id, 10)),
@@ -184,7 +200,12 @@ func (cl KinoPubClientImpl) GetItemById(id int64) (*Item, error) {
 
 	err = resp.Body.FromJsonTo(m)
 	if err != nil {
-		return nil, err
+		return nil, errors.WithStack(err)
+	}
+
+	err = cache.Save(cacheKey, m.Item)
+	if err != nil {
+		return nil, errors.WithMessage(err, "Can't save item to the cache")
 	}
 
 	return &m.Item, nil
@@ -192,6 +213,20 @@ func (cl KinoPubClientImpl) GetItemById(id int64) (*Item, error) {
 
 // FindItemByIMDB search item by IMDB id. As there is no filter data by id, getch by title and then filter manually.
 func (cl KinoPubClientImpl) FindItemByIMDB(imdbID int, title string) (*Item, error) {
+	cache := cl.CacheFactory.Get("KP_FindItemByIMDB", time.Hour*10)
+	cacheKey := strconv.Itoa(imdbID)
+	item := &Item{ID: -1}
+	err := cache.Load(cacheKey, item)
+	if err != nil {
+		return nil, errors.WithStack(err)
+	}
+
+	if item.ID != -1 {
+		cl.Logger.Debugln("Found item by IMDB in cache")
+		return item, nil
+	}
+
+	cl.Logger.Debugln("Searching item by IMDB Id on remote host.")
 	items, err := cl.SearchItemBy(ItemsFilter{
 		Title: title,
 	})
@@ -202,6 +237,7 @@ func (cl KinoPubClientImpl) FindItemByIMDB(imdbID int, title string) (*Item, err
 
 	for _, item := range items {
 		if item.Imdb == imdbID {
+			cache.Save(cacheKey, &item)
 			return &item, nil
 		}
 	}
@@ -220,13 +256,14 @@ func (cl KinoPubClientImpl) GetEpisode(imdbID int, title string, seasonNum int, 
 		return nil, nil
 	}
 
-	logrus.Debugf("Found %s. Query: %s \n", title, item.Title)
+	cl.Logger.Debugf("Found %s. Query: %s", title, item.Title)
 
 	it, err := cl.GetItemById(item.ID)
 	if err != nil {
 		return nil, errors.WithMessage(err, "Can't load kinopub item by id")
 	}
 
+	cl.Logger.Debugf("Kinpub Item %d has been loaded", item.ID)
 	for _, season := range it.Seasons {
 		if season.Number != seasonNum {
 			continue

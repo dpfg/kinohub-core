@@ -2,32 +2,21 @@ package main
 
 import (
 	"context"
-	"log"
 	"net/http"
 	"strconv"
 	"strings"
 	"time"
 
+	"github.com/sirupsen/logrus"
+
 	"github.com/dpfg/kinohub-core/providers"
 	"github.com/dpfg/kinohub-core/providers/kinopub"
 	"github.com/dpfg/kinohub-core/providers/trakt"
-	"github.com/gin-gonic/contrib/ginrus"
 	"github.com/gin-gonic/gin"
-	"github.com/sirupsen/logrus"
 )
 
 func main() {
-	r := gin.New()
-
-	logger := logrus.StandardLogger()
-	// logger.Level = logrus.DebugLevel
-	r.Use(ginrus.Ginrus(logger, time.RFC3339, true))
-
-	r.GET("/ping", func(c *gin.Context) {
-		c.JSON(200, gin.H{
-			"message": "pong",
-		})
-	})
+	r := gin.Default()
 
 	r.GET("/creds", func(c *gin.Context) {
 		cl := kinopub.KinoPubClientImpl{
@@ -74,19 +63,30 @@ func main() {
 			c.JSON(http.StatusInternalServerError, err.Error())
 			return
 		}
-		logger.Debugln("Show log here")
+
+		cm, err := providers.NewCacheFactory()
+		if err != nil {
+			c.JSON(http.StatusBadGateway, err.Error())
+			return
+		}
+
+		logger := logrus.StandardLogger()
+		logger.SetLevel(logrus.DebugLevel)
+
 		kpc := kinopub.KinoPubClientImpl{
 			ClientID:     "plex",
 			ClientSecret: "h2zx6iom02t9cxydcmbo9oi0llld7jsv",
 			PreferenceStorage: providers.JSONPreferenceStorage{
 				Path: ".data/",
 			},
+			CacheFactory: cm,
+			Logger:       logger,
 		}
 
 		r := make([]interface{}, 0)
 		for _, item := range m {
 			id, _ := strconv.Atoi(strings.TrimLeft(item.Show.Ids.Imdb, "tt"))
-			log.Println(item.Episode)
+			logrus.Debugln("--------------------------------------")
 			ep, err := kpc.GetEpisode(id, item.Show.Title, item.Episode.Season, item.Episode.Number)
 			if err != nil {
 				c.JSON(http.StatusInternalServerError, err.Error())

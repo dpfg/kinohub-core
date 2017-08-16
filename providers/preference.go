@@ -21,7 +21,7 @@ func (jts JSONPreferenceStorage) getFilePath(key string) string {
 	return path.Join(jts.Path, key+".json")
 }
 
-func (jts JSONPreferenceStorage) ensureFileExists(filePath string) error {
+func ensureFileExists(filePath string) error {
 	if _, err := os.Stat(filePath); err != nil {
 		if os.IsNotExist(err) {
 			// create new file
@@ -39,7 +39,7 @@ func (jts JSONPreferenceStorage) ensureFileExists(filePath string) error {
 
 func (jts JSONPreferenceStorage) Load(key string, value interface{}) error {
 	filePath := jts.getFilePath(key)
-	err := jts.ensureFileExists(filePath)
+	err := ensureFileExists(filePath)
 
 	if err != nil {
 		return errors.New("There is no connection to " + key)
@@ -70,7 +70,7 @@ func (jts JSONPreferenceStorage) Save(key string, value interface{}) error {
 	}
 
 	filePath := jts.getFilePath(key)
-	err = jts.ensureFileExists(filePath)
+	err = ensureFileExists(filePath)
 	if err != nil {
 		return err
 	}
