@@ -2,6 +2,7 @@ package main
 
 import (
 	"context"
+	"fmt"
 	"net/http"
 	"strconv"
 	"strings"
@@ -56,17 +57,17 @@ func main() {
 		c.JSON(http.StatusOK, t)
 	})
 
+	cm, err := providers.NewCacheFactory()
+	if err != nil {
+		fmt.Errorf("%s", err.Error())
+		return
+	}
+
 	r.GET("/trakt/shows/tranding", func(c *gin.Context) {
 		cl := trakt.NewTraktClient()
 		m, err := cl.GetMyShows(12)
 		if err != nil {
 			c.JSON(http.StatusInternalServerError, err.Error())
-			return
-		}
-
-		cm, err := providers.NewCacheFactory()
-		if err != nil {
-			c.JSON(http.StatusBadGateway, err.Error())
 			return
 		}
 
