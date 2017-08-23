@@ -119,11 +119,6 @@ type expirableCache struct {
 	logger *logrus.Logger
 }
 
-type expirableCacheItem struct {
-	Item      interface{} `json:"item,omitempty"`
-	CreatedAt time.Time   `json:"created_at,omitempty"`
-}
-
 func (c *expirableCache) Save(key string, value interface{}) error {
 	c.logger.Debugf("Saving expirable item. Key: %s Now: %s", key, time.Now())
 	// save experation
