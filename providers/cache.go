@@ -12,7 +12,7 @@ import (
 	"github.com/sirupsen/logrus"
 )
 
-func NewCacheFactory() (CacheFactory, error) {
+func NewCacheManager() (CacheFactory, error) {
 	err := ensureFileExists(".data/cache.db")
 	if err != nil {
 		return nil, err

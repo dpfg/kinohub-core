@@ -5,7 +5,9 @@ import (
 	"encoding/json"
 	"io/ioutil"
 	"net/http"
+	"net/http/httputil"
 	"strconv"
+	"time"
 
 	"github.com/dpfg/kinohub-core/providers"
 	"github.com/dpfg/kinohub-core/util"
@@ -58,6 +60,14 @@ func (tc *TraktClient) get(url string, m interface{}) error {
 		return err
 	}
 
+	if resp.StatusCode != http.StatusOK {
+		rd, _ := httputil.DumpRequest(req, false)
+		tc.logger.Errorln(string(rd))
+		tc.logger.Errorln(resp.Status)
+		tc.logger.Error(string(body))
+		return nil
+	}
+
 	err = json.Unmarshal(body, m)
 	if err != nil {
 		return err
@@ -76,27 +86,24 @@ func (tc *TraktClient) GetTrendingShows() ([]interface{}, error) {
 	return m, nil
 }
 
-func (tc *TraktClient) GetMyShows(days int64) ([]MyShow, error) {
-	tc.logger.Debugln("Loading Trakt.TV My Shows")
+func (tc *TraktClient) GetMyShows(from time.Time, to time.Time) ([]MyShow, error) {
+	tc.logger.Debugf("Loading Trakt.TV My Shows: %v, %v", from, to)
 
 	m := make([]MyShow, 0)
 
-	today := "2017-08-01" //time.Now().Format("2006-01-02")
-	numDays := strconv.FormatInt(days, 10)
+	fromDate := from.Format("2006-01-02")
+	numDays := int(to.Sub(from).Hours() / 24)
 
-	err := tc.get(util.JoinURL(BaseURL, "calendars", "my", "shows", today, numDays), &m)
+	err := tc.get(util.JoinURL(BaseURL, "calendars", "my", "shows", fromDate, strconv.Itoa(numDays)), &m)
 	if err != nil {
-		tc.logger.Error("Unable to load trakt.tv my shows")
+		tc.logger.Error(err.Error())
 		return nil, errors.WithStack(err)
 	}
 
 	return m, nil
 }
 
-func NewTraktClient() *TraktClient {
-	logger := logrus.StandardLogger()
-	logger.SetLevel(logrus.DebugLevel)
-
+func NewTraktClient(logger *logrus.Logger) *TraktClient {
 	return &TraktClient{
 		Config: oauth2.Config{
 			ClientID:     "c1bc6797965a798d9fcb83ca32c1258273c334fe543939e1378df22c1a765808",

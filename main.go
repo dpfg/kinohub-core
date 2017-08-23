@@ -1,8 +1,6 @@
 package main
 
 import (
-	"context"
-	"fmt"
 	"net/http"
 	"strconv"
 	"strings"
@@ -19,17 +17,31 @@ import (
 func main() {
 	r := gin.Default()
 
-	r.GET("/creds", func(c *gin.Context) {
-		cl := kinopub.KinoPubClientImpl{
-			ClientID:     "plex",
-			ClientSecret: "h2zx6iom02t9cxydcmbo9oi0llld7jsv",
-			PreferenceStorage: providers.JSONPreferenceStorage{
-				Path: ".data/",
-			},
-		}
+	// Initialize common cache manager that will be used by API clients
+	cacheManager, err := providers.NewCacheManager()
+	if err != nil {
+		logrus.Errorf("Cannot initialize cache manager. %s", err.Error())
+		return
+	}
 
-		r, err := cl.SearchItemBy(kinopub.ItemsFilter{
-			Title: "game of th",
+	logger := logrus.StandardLogger()
+	logger.SetLevel(logrus.DebugLevel)
+
+	kpc := kinopub.KinoPubClientImpl{
+		ClientID:     "plex",
+		ClientSecret: "h2zx6iom02t9cxydcmbo9oi0llld7jsv",
+		PreferenceStorage: providers.JSONPreferenceStorage{
+			Path: ".data/",
+		},
+		CacheFactory: cacheManager,
+		Logger:       logger,
+	}
+
+	tc := trakt.NewTraktClient(logger)
+
+	r.GET("/search", func(c *gin.Context) {
+		r, err := kpc.SearchItemBy(kinopub.ItemsFilter{
+			Title: c.Query("q"),
 		})
 
 		if err != nil {
@@ -40,48 +52,30 @@ func main() {
 		c.JSON(200, r)
 	})
 
-	r.GET("/trakt/signin", func(c *gin.Context) {
-		cl := trakt.NewTraktClient()
-		// f0429b45753645dae219dcf44d673e4eda082dd1dc0f808e925c5e78b6184019
-		c.JSON(http.StatusOK, cl.GetAuthCodeURL())
-	})
-
-	r.GET("/trakt/exchange", func(c *gin.Context) {
-		cl := trakt.NewTraktClient()
-		t, err := cl.Exchange(context.Background(), "f0429b45753645dae219dcf44d673e4eda082dd1dc0f808e925c5e78b6184019")
+	r.GET("/items/:item-id", func(c *gin.Context) {
+		id, err := strconv.Atoi(c.Param("item-id"))
 		if err != nil {
-			c.JSON(http.StatusInternalServerError, err.Error())
+			c.JSON(http.StatusBadRequest, err.Error())
 			return
 		}
 
-		c.JSON(http.StatusOK, t)
-	})
-
-	cm, err := providers.NewCacheFactory()
-	if err != nil {
-		fmt.Errorf("%s", err.Error())
-		return
-	}
-
-	r.GET("/trakt/shows/tranding", func(c *gin.Context) {
-		cl := trakt.NewTraktClient()
-		m, err := cl.GetMyShows(12)
+		item, err := kpc.GetItemById(int64(id))
 		if err != nil {
-			c.JSON(http.StatusInternalServerError, err.Error())
+			c.JSON(http.StatusBadGateway, err.Error())
 			return
 		}
 
-		logger := logrus.StandardLogger()
-		logger.SetLevel(logrus.DebugLevel)
+		c.JSON(200, item)
+	})
 
-		kpc := kinopub.KinoPubClientImpl{
-			ClientID:     "plex",
-			ClientSecret: "h2zx6iom02t9cxydcmbo9oi0llld7jsv",
-			PreferenceStorage: providers.JSONPreferenceStorage{
-				Path: ".data/",
-			},
-			CacheFactory: cm,
-			Logger:       logger,
+	r.GET("/tv/releases", func(c *gin.Context) {
+		from, _ := time.Parse("2006-01-02", c.Query("from"))
+		to, _ := time.Parse("2006-01-02", c.Query("to"))
+
+		m, err := tc.GetMyShows(from, to)
+		if err != nil {
+			c.JSON(http.StatusInternalServerError, err.Error())
+			return
 		}
 
 		r := make([]interface{}, 0)
@@ -109,6 +103,23 @@ func main() {
 
 		c.JSON(http.StatusOK, r)
 	})
+
+	// r.GET("/trakt/signin", func(c *gin.Context) {
+	// 	cl := trakt.NewTraktClient()
+	// 	// f0429b45753645dae219dcf44d673e4eda082dd1dc0f808e925c5e78b6184019
+	// 	c.JSON(http.StatusOK, cl.GetAuthCodeURL())
+	// })
+
+	// r.GET("/trakt/exchange", func(c *gin.Context) {
+	// 	cl := trakt.NewTraktClient()
+	// 	t, err := cl.Exchange(context.Background(), "f0429b45753645dae219dcf44d673e4eda082dd1dc0f808e925c5e78b6184019")
+	// 	if err != nil {
+	// 		c.JSON(http.StatusInternalServerError, err.Error())
+	// 		return
+	// 	}
+
+	// 	c.JSON(http.StatusOK, t)
+	// })
 
 	r.Run("0.0.0.0:8081") // listen and serve on 0.0.0.0:8080
 }
