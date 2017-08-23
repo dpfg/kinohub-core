@@ -4,7 +4,6 @@ import (
 	"bytes"
 	"encoding/json"
 	"fmt"
-	"reflect"
 	"time"
 
 	"github.com/boltdb/bolt"
@@ -47,20 +46,15 @@ type StandardCacheManager struct {
 }
 
 func (scm *StandardCacheManager) Get(cacheName string, ttl time.Duration) Cache {
-	return &boltCache{
-		db:        scm.db,
-		cacheName: cacheName,
-		logger:    scm.logger,
+	return &expirableCache{
+		ttl:    ttl,
+		logger: scm.logger,
+		cache: &boltCache{
+			db:        scm.db,
+			cacheName: cacheName,
+			logger:    scm.logger,
+		},
 	}
-	// &expirableCache{
-	// 	ttl:    ttl,
-	// 	logger: scm.logger,
-	// 	cache: &boltCache{
-	// 		db:        scm.db,
-	// 		cacheName: cacheName,
-	// 		logger:    scm.logger,
-	// 	},
-	// }
 }
 
 type boltCache struct {
@@ -132,29 +126,28 @@ type expirableCacheItem struct {
 
 func (c *expirableCache) Save(key string, value interface{}) error {
 	c.logger.Debugf("Saving expirable item. Key: %s Now: %s", key, time.Now())
-	return c.cache.Save(key, &expirableCacheItem{Item: value, CreatedAt: time.Now()})
+	// save experation
+	c.cache.Save("_CREATED_AT_:"+key, time.Now())
+	// save data
+	return c.cache.Save(key, value)
 }
 
 func (c *expirableCache) Load(key string, value interface{}) (err error) {
-	copy := reflect.New(reflect.TypeOf(value)).Elem().Interface()
+	c.logger.Debugln("Loading from expirable cache")
 
-	item := &expirableCacheItem{Item: copy}
-	err = c.cache.Load(key, item)
+	createdAt := &time.Time{}
+	err = c.cache.Load("_CREATED_AT_:"+key, createdAt)
 	if err != nil {
 		return
 	}
 
-	if item.CreatedAt.Add(c.ttl).Before(time.Now()) {
+	c.logger.Debugf("Created at: [%v]", createdAt)
+	if createdAt.Add(c.ttl).Before(time.Now()) {
+		c.logger.Debugln("Item has been expired.")
 		return
 	}
 
-	// c.logger.WithFields(logrus.Fields{
-	// 	"createAt": item.CreatedAt,
-	// 	"ttl":      c.ttl,
-	// 	"now":      time.Now(),
-	// }).Debugln("Expirable entry has been loaded from cache")
+	err = c.cache.Load(key, value)
 
-	c.logger.Debugf("Expirable entry has been loaded from cache: %v+", copy)
-	value = copy
 	return
 }
