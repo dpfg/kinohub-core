@@ -6,6 +6,8 @@ import (
 	"strings"
 	"time"
 
+	cors "gopkg.in/gin-contrib/cors.v1"
+
 	"github.com/sirupsen/logrus"
 
 	"github.com/dpfg/kinohub-core/providers"
@@ -16,6 +18,9 @@ import (
 
 func main() {
 	r := gin.Default()
+	config := cors.DefaultConfig()
+	config.AllowAllOrigins = true
+	r.Use(cors.New(config))
 
 	// Initialize common cache manager that will be used by API clients
 	cacheManager, err := providers.NewCacheManager()
