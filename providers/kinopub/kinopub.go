@@ -213,7 +213,7 @@ func (cl KinoPubClientImpl) GetItemById(id int64) (*Item, error) {
 
 // FindItemByIMDB search item by IMDB id. As there is no filter data by id, getch by title and then filter manually.
 func (cl KinoPubClientImpl) FindItemByIMDB(imdbID int, title string) (*Item, error) {
-	cache := cl.CacheFactory.Get("KP_FindItemByIMDB", time.Hour*10)
+	cache := cl.CacheFactory.Get("KP_FindItemByIMDB", time.Hour*24*7)
 	cacheKey := strconv.Itoa(imdbID)
 	item := &Item{ID: -1}
 	err := cache.Load(cacheKey, item)
