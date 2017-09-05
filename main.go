@@ -9,6 +9,7 @@ import (
 	cors "gopkg.in/gin-contrib/cors.v1"
 
 	"github.com/sirupsen/logrus"
+	ginlogrus "github.com/toorop/gin-logrus"
 
 	"github.com/dpfg/kinohub-core/providers"
 	"github.com/dpfg/kinohub-core/providers/kinopub"
@@ -17,20 +18,23 @@ import (
 )
 
 func main() {
-	r := gin.Default()
+	r := gin.New()
+	r.Use(gin.Recovery())
+
 	config := cors.DefaultConfig()
 	config.AllowAllOrigins = true
 	r.Use(cors.New(config))
 
+	logger := logrus.StandardLogger()
+	logger.SetLevel(logrus.DebugLevel)
+	r.Use(ginlogrus.Logger(logger))
+
 	// Initialize common cache manager that will be used by API clients
-	cacheManager, err := providers.NewCacheManager()
+	cacheManager, err := providers.NewCacheManager(logger)
 	if err != nil {
 		logrus.Errorf("Cannot initialize cache manager. %s", err.Error())
 		return
 	}
-
-	logger := logrus.StandardLogger()
-	logger.SetLevel(logrus.DebugLevel)
 
 	kpc := kinopub.KinoPubClientImpl{
 		ClientID:     "plex",

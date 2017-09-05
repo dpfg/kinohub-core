@@ -11,7 +11,7 @@ import (
 	"github.com/sirupsen/logrus"
 )
 
-func NewCacheManager() (CacheFactory, error) {
+func NewCacheManager(logger *logrus.Logger) (CacheFactory, error) {
 	err := ensureFileExists(".data/cache.db")
 	if err != nil {
 		return nil, err
@@ -22,12 +22,9 @@ func NewCacheManager() (CacheFactory, error) {
 		return nil, errors.WithMessage(err, "Can't open cache")
 	}
 
-	cacheLogger := logrus.StandardLogger()
-	cacheLogger.SetLevel(logrus.DebugLevel)
-
 	return &StandardCacheManager{
 		db:     db,
-		logger: cacheLogger,
+		logger: logger,
 	}, nil
 }
 
