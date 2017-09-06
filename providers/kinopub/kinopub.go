@@ -2,6 +2,7 @@ package kinopub
 
 import (
 	"fmt"
+	"net/http"
 	"strconv"
 	"time"
 
@@ -97,6 +98,10 @@ func (cl KinoPubClientImpl) refreshToken(t *Token) error {
 		return err
 	}
 
+	if resp.StatusCode != http.StatusOK {
+		return errors.Errorf("Cannot refresh kinopub token: service response - %s", resp.Status)
+	}
+
 	nt := &struct {
 		AccessToken  string `json:"access_token,omitempty"`
 		RefreshToken string `json:"refresh_token,omitempty"`
@@ -105,6 +110,10 @@ func (cl KinoPubClientImpl) refreshToken(t *Token) error {
 	err = resp.Body.FromJsonTo(nt)
 	if err != nil {
 		return err
+	}
+
+	if len(nt.RefreshToken) == 0 || len(nt.AccessToken) == 0 {
+		return errors.Errorf("Cannot refresh kinohub token: empty refresh token.")
 	}
 
 	cl.PreferenceStorage.Save(KinoPubPrefKey, &Token{
