@@ -42,7 +42,7 @@ type KinoPubClientImpl struct {
 	ClientSecret      string
 	PreferenceStorage providers.PreferenceStorage
 	CacheFactory      providers.CacheFactory
-	Logger            *logrus.Logger
+	Logger            *logrus.Entry
 }
 
 const (

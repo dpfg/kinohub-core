@@ -10,6 +10,7 @@ import (
 
 	"github.com/sirupsen/logrus"
 	ginlogrus "github.com/toorop/gin-logrus"
+	prefixed "github.com/x-cray/logrus-prefixed-formatter"
 
 	"github.com/dpfg/kinohub-core/providers"
 	"github.com/dpfg/kinohub-core/providers/kinopub"
@@ -18,6 +19,8 @@ import (
 )
 
 func main() {
+	gin.SetMode(gin.ReleaseMode)
+
 	r := gin.New()
 	r.Use(gin.Recovery())
 
@@ -25,8 +28,16 @@ func main() {
 	config.AllowAllOrigins = true
 	r.Use(cors.New(config))
 
+	// Setup logger
 	logger := logrus.StandardLogger()
 	logger.SetLevel(logrus.DebugLevel)
+
+	logfmt := new(prefixed.TextFormatter)
+	logfmt.DisableColors = true
+	logfmt.FullTimestamp = true
+	logfmt.TimestampFormat = "2006/01/02 15:04:05"
+	logger.Formatter = logfmt
+
 	r.Use(ginlogrus.Logger(logger))
 
 	// Initialize common cache manager that will be used by API clients
@@ -43,7 +54,7 @@ func main() {
 			Path: ".data/",
 		},
 		CacheFactory: cacheManager,
-		Logger:       logger,
+		Logger:       logger.WithFields(logrus.Fields{"prefix": "kinpub"}),
 	}
 
 	tc := trakt.NewTraktClient(logger)

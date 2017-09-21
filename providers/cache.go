@@ -24,7 +24,7 @@ func NewCacheManager(logger *logrus.Logger) (CacheFactory, error) {
 
 	return &StandardCacheManager{
 		db:     db,
-		logger: logger,
+		logger: logger.WithFields(logrus.Fields{"prefix": "cache"}),
 	}, nil
 }
 
@@ -38,7 +38,7 @@ type Cache interface {
 }
 
 type StandardCacheManager struct {
-	logger *logrus.Logger
+	logger *logrus.Entry
 	db     *bolt.DB
 }
 
@@ -57,7 +57,7 @@ func (scm *StandardCacheManager) Get(cacheName string, ttl time.Duration) Cache 
 type boltCache struct {
 	db        *bolt.DB
 	cacheName string
-	logger    *logrus.Logger
+	logger    *logrus.Entry
 }
 
 // Save new value to the cache using provided key
@@ -113,7 +113,7 @@ func (c *boltCache) Load(key string, value interface{}) (err error) {
 type expirableCache struct {
 	ttl    time.Duration
 	cache  Cache
-	logger *logrus.Logger
+	logger *logrus.Entry
 }
 
 func (c *expirableCache) Save(key string, value interface{}) error {
