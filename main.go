@@ -1,6 +1,7 @@
 package main
 
 import (
+	"fmt"
 	"net/http"
 	"strconv"
 	"strings"
@@ -8,6 +9,7 @@ import (
 
 	cors "gopkg.in/gin-contrib/cors.v1"
 
+	"github.com/grandcat/zeroconf"
 	"github.com/sirupsen/logrus"
 	ginlogrus "github.com/toorop/gin-logrus"
 	prefixed "github.com/x-cray/logrus-prefixed-formatter"
@@ -18,15 +20,15 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
+const (
+	defaultPort = 8081
+
+	zeroConfName    = "KinoHub"
+	zeroConfService = "_kinohub._tcp"
+	zeroConfDomain  = "local."
+)
+
 func main() {
-	gin.SetMode(gin.ReleaseMode)
-
-	r := gin.New()
-	r.Use(gin.Recovery())
-
-	config := cors.DefaultConfig()
-	config.AllowAllOrigins = true
-	r.Use(cors.New(config))
 
 	// Setup logger
 	logger := logrus.StandardLogger()
@@ -38,25 +40,31 @@ func main() {
 	logfmt.TimestampFormat = "2006/01/02 15:04:05"
 	logger.Formatter = logfmt
 
+	// Register as a zero config service
+	logger.Infof("Starting zeroconf service [%s]\n", zeroConfName)
+	server, err := zeroconf.Register(zeroConfName, zeroConfService, zeroConfDomain, defaultPort, nil, nil)
+	if err != nil {
+		logger.Errorf("Cannot start zeroconf service: %s\n", err.Error())
+	}
+	defer server.Shutdown()
+
+	r := gin.New()
+	r.Use(gin.Recovery())
+
+	config := cors.DefaultConfig()
+	config.AllowAllOrigins = true
+	r.Use(cors.New(config))
+
 	r.Use(ginlogrus.Logger(logger))
 
 	// Initialize common cache manager that will be used by API clients
-	cacheManager, err := providers.NewCacheManager(logger)
+	cacheFactory, err := providers.NewCacheFactory(logger)
 	if err != nil {
 		logrus.Errorf("Cannot initialize cache manager. %s", err.Error())
 		return
 	}
 
-	kpc := kinopub.KinoPubClientImpl{
-		ClientID:     "plex",
-		ClientSecret: "h2zx6iom02t9cxydcmbo9oi0llld7jsv",
-		PreferenceStorage: providers.JSONPreferenceStorage{
-			Path: ".data/",
-		},
-		CacheFactory: cacheManager,
-		Logger:       logger.WithFields(logrus.Fields{"prefix": "kinpub"}),
-	}
-
+	kpc := kinopub.NewKinoPubClient(logger, cacheFactory)
 	tc := trakt.NewTraktClient(logger)
 
 	r.GET("/search", func(c *gin.Context) {
@@ -79,7 +87,7 @@ func main() {
 			return
 		}
 
-		item, err := kpc.GetItemById(int64(id))
+		item, err := kpc.GetItemById(id)
 		if err != nil {
 			c.JSON(http.StatusBadGateway, err.Error())
 			return
@@ -141,5 +149,5 @@ func main() {
 	// 	c.JSON(http.StatusOK, t)
 	// })
 
-	r.Run("0.0.0.0:8081") // listen and serve on 0.0.0.0:8080
+	r.Run(fmt.Sprintf("0.0.0.0:%d", defaultPort)) // listen and serve on 0.0.0.0:8080
 }

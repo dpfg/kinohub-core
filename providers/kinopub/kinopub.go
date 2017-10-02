@@ -31,6 +31,8 @@ type KinoPubClient interface {
 	SearchItemBy(q ItemsFilter) ([]Item, error)
 
 	GetItemById(id int) (*Item, error)
+
+	GetEpisode(imdbID int, title string, seasonNum int, episodeNum int) (interface{}, error)
 }
 
 type ItemsFilter struct {
@@ -162,7 +164,7 @@ func (cl KinoPubClientImpl) SearchItemBy(q ItemsFilter) ([]Item, error) {
 	return m.Items, nil
 }
 
-func (cl KinoPubClientImpl) GetItemById(id int64) (*Item, error) {
+func (cl KinoPubClientImpl) GetItemById(id int) (*Item, error) {
 	cl.Logger.Debugf("Loading kinpub item by ID=%d", id)
 
 	cache := cl.CacheFactory.Get("KP_GetItemById", time.Hour)
@@ -187,7 +189,7 @@ func (cl KinoPubClientImpl) GetItemById(id int64) (*Item, error) {
 	cl.Logger.Debugln("Fetching kinpub item from the remote service")
 	resp, err := goreq.Request{
 		Method: "GET",
-		Uri:    util.JoinURL(BaseURL, "items", strconv.FormatInt(id, 10)),
+		Uri:    util.JoinURL(BaseURL, "items", strconv.FormatInt(int64(id), 10)),
 		QueryString: struct {
 			AccessToken string `url:"access_token,omitempty"`
 		}{
@@ -267,7 +269,7 @@ func (cl KinoPubClientImpl) GetEpisode(imdbID int, title string, seasonNum int, 
 
 	cl.Logger.Debugf("Found %s. Query: %s", title, item.Title)
 
-	it, err := cl.GetItemById(item.ID)
+	it, err := cl.GetItemById(int(item.ID))
 	if err != nil {
 		return nil, errors.WithMessage(err, "Can't load kinopub item by id")
 	}
@@ -285,4 +287,17 @@ func (cl KinoPubClientImpl) GetEpisode(imdbID int, title string, seasonNum int, 
 		}
 	}
 	return nil, nil
+}
+
+// NewKinoPubClient returns new kinopub client
+func NewKinoPubClient(logger *logrus.Logger, cf providers.CacheFactory) KinoPubClient {
+	return KinoPubClientImpl{
+		ClientID:     "plex",
+		ClientSecret: "h2zx6iom02t9cxydcmbo9oi0llld7jsv",
+		PreferenceStorage: providers.JSONPreferenceStorage{
+			Path: ".data/",
+		},
+		CacheFactory: cf,
+		Logger:       logger.WithFields(logrus.Fields{"prefix": "kinpub"}),
+	}
 }

@@ -11,7 +11,7 @@ import (
 	"github.com/sirupsen/logrus"
 )
 
-func NewCacheManager(logger *logrus.Logger) (CacheFactory, error) {
+func NewCacheFactory(logger *logrus.Logger) (CacheFactory, error) {
 	err := ensureFileExists(".data/cache.db")
 	if err != nil {
 		return nil, err

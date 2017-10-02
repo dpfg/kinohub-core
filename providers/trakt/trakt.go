@@ -20,7 +20,7 @@ import (
 type TraktClient struct {
 	Config            oauth2.Config
 	PreferenceStorage providers.PreferenceStorage
-	logger            *logrus.Logger
+	logger            *logrus.Entry
 }
 
 const (
@@ -118,6 +118,6 @@ func NewTraktClient(logger *logrus.Logger) *TraktClient {
 		PreferenceStorage: providers.JSONPreferenceStorage{
 			Path: ".data/",
 		},
-		logger: logger,
+		logger: logger.WithFields(logrus.Fields{"prefix": "trakt.tv"}),
 	}
 }
