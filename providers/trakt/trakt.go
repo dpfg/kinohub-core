@@ -87,7 +87,7 @@ func (tc *TraktClient) GetTrendingShows() ([]interface{}, error) {
 }
 
 func (tc *TraktClient) GetMyShows(from time.Time, to time.Time) ([]MyShow, error) {
-	tc.logger.Debugf("Loading Trakt.TV My Shows: %v, %v", from, to)
+	tc.logger.Debugf("Loading My Shows: %v, %v", from, to)
 
 	m := make([]MyShow, 0)
 
@@ -118,6 +118,6 @@ func NewTraktClient(logger *logrus.Logger) *TraktClient {
 		PreferenceStorage: providers.JSONPreferenceStorage{
 			Path: ".data/",
 		},
-		logger: logger.WithFields(logrus.Fields{"prefix": "trakt.tv"}),
+		logger: logger.WithFields(logrus.Fields{"prefix": "trakt"}),
 	}
 }

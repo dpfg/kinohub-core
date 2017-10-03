@@ -60,7 +60,7 @@ func main() {
 	// Initialize common cache manager that will be used by API clients
 	cacheFactory, err := providers.NewCacheFactory(logger)
 	if err != nil {
-		logrus.Errorf("Cannot initialize cache manager. %s", err.Error())
+		logrus.Errorf("Cannot initialize cache factory. %s", err.Error())
 		return
 	}
 
@@ -73,7 +73,7 @@ func main() {
 		})
 
 		if err != nil {
-			c.JSON(http.StatusInternalServerError, err.Error())
+			httpError(c, http.StatusInternalServerError, err.Error())
 			return
 		}
 
@@ -83,13 +83,13 @@ func main() {
 	r.GET("/items/:item-id", func(c *gin.Context) {
 		id, err := strconv.Atoi(c.Param("item-id"))
 		if err != nil {
-			c.JSON(http.StatusBadRequest, err.Error())
+			httpError(c, http.StatusBadRequest, err.Error())
 			return
 		}
 
 		item, err := kpc.GetItemById(id)
 		if err != nil {
-			c.JSON(http.StatusBadGateway, err.Error())
+			httpError(c, http.StatusBadGateway, err.Error())
 			return
 		}
 
@@ -102,7 +102,7 @@ func main() {
 
 		m, err := tc.GetMyShows(from, to)
 		if err != nil {
-			c.JSON(http.StatusInternalServerError, err.Error())
+			httpError(c, http.StatusInternalServerError, err.Error())
 			return
 		}
 
@@ -112,7 +112,7 @@ func main() {
 			logrus.Debugln("--------------------------------------")
 			ep, err := kpc.GetEpisode(id, item.Show.Title, item.Episode.Season, item.Episode.Number)
 			if err != nil {
-				c.JSON(http.StatusInternalServerError, err.Error())
+				httpError(c, http.StatusInternalServerError, err.Error())
 				return
 			}
 
@@ -130,6 +130,16 @@ func main() {
 		}
 
 		c.JSON(http.StatusOK, r)
+	})
+
+	r.GET("/trakt/trending", func(c *gin.Context) {
+		shows, err := tc.GetTrendingShows()
+		if err != nil {
+			httpError(c, http.StatusInternalServerError, err.Error())
+			return
+		}
+
+		c.JSON(http.StatusOK, shows)
 	})
 
 	// r.GET("/trakt/signin", func(c *gin.Context) {
@@ -150,4 +160,8 @@ func main() {
 	// })
 
 	r.Run(fmt.Sprintf("0.0.0.0:%d", defaultPort)) // listen and serve on 0.0.0.0:8080
+}
+
+func httpError(c *gin.Context, code int, msg string) {
+	c.JSON(http.StatusInternalServerError, struct{ Msg string }{Msg: msg})
 }
