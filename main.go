@@ -4,7 +4,6 @@ import (
 	"fmt"
 	"net/http"
 	"strconv"
-	"strings"
 	"time"
 
 	cors "gopkg.in/gin-contrib/cors.v1"
@@ -17,6 +16,7 @@ import (
 	"github.com/dpfg/kinohub-core/providers"
 	"github.com/dpfg/kinohub-core/providers/kinopub"
 	"github.com/dpfg/kinohub-core/providers/trakt"
+	"github.com/dpfg/kinohub-core/services"
 	"github.com/gin-gonic/gin"
 )
 
@@ -35,7 +35,7 @@ func main() {
 	logger.SetLevel(logrus.DebugLevel)
 
 	logfmt := new(prefixed.TextFormatter)
-	logfmt.DisableColors = true
+	// logfmt.DisableColors = true
 	logfmt.FullTimestamp = true
 	logfmt.TimestampFormat = "2006/01/02 15:04:05"
 	logger.Formatter = logfmt
@@ -66,6 +66,7 @@ func main() {
 
 	kpc := kinopub.NewKinoPubClient(logger, cacheFactory)
 	tc := trakt.NewTraktClient(logger)
+	feed := services.NewFeed(tc, kpc, logger)
 
 	r.GET("/search", func(c *gin.Context) {
 		r, err := kpc.SearchItemBy(kinopub.ItemsFilter{
@@ -100,36 +101,21 @@ func main() {
 		from, _ := time.Parse("2006-01-02", c.Query("from"))
 		to, _ := time.Parse("2006-01-02", c.Query("to"))
 
-		m, err := tc.GetMyShows(from, to)
+		releases, err := feed.Releases(from, to)
 		if err != nil {
 			httpError(c, http.StatusInternalServerError, err.Error())
 			return
 		}
 
-		r := make([]interface{}, 0)
-		for _, item := range m {
-			id, _ := strconv.Atoi(strings.TrimLeft(item.Show.Ids.Imdb, "tt"))
-			logrus.Debugln("--------------------------------------")
-			ep, err := kpc.GetEpisode(id, item.Show.Title, item.Episode.Season, item.Episode.Number)
-			if err != nil {
-				httpError(c, http.StatusInternalServerError, err.Error())
-				return
-			}
+		c.JSON(http.StatusOK, releases)
+	})
 
-			r = append(r, struct {
-				ShowTitle   string
-				EpisodeTite string
-				FirstAired  time.Time
-				Episode     interface{}
-			}{
-				ShowTitle:   item.Show.Title,
-				EpisodeTite: item.Episode.Title,
-				FirstAired:  item.FirstAired,
-				Episode:     ep,
-			})
+	r.POST("/scrobble/:imdb-id", func(c *gin.Context) {
+		err = tc.Scrobble(c.Param("imdb-id"))
+		if err != nil {
+			httpError(c, http.StatusBadGateway, "Cannot scrobble item: "+err.Error())
+			return
 		}
-
-		c.JSON(http.StatusOK, r)
 	})
 
 	r.GET("/trakt/trending", func(c *gin.Context) {

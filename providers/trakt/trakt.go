@@ -1,6 +1,7 @@
 package trakt
 
 import (
+	"bytes"
 	"context"
 	"encoding/json"
 	"io/ioutil"
@@ -76,6 +77,59 @@ func (tc *TraktClient) get(url string, m interface{}) error {
 	return nil
 }
 
+func (tc *TraktClient) post(url string, body interface{}, response interface{}) error {
+	tc.logger.Debugf("POST to URL: %s", url)
+
+	t := &oauth2.Token{}
+	err := tc.PreferenceStorage.Load("trakt", t)
+	if err != nil {
+		return err
+	}
+
+	cl := tc.Config.Client(context.TODO(), t)
+
+	bodyBytes, err := json.Marshal(body)
+	if err != nil {
+		return err
+	}
+
+	tc.logger.Debugf("%s", bodyBytes)
+
+	req, _ := http.NewRequest("POST", url, bytes.NewBuffer(bodyBytes))
+
+	req.Header.Add("trakt-api-version", "2")
+	req.Header.Add("trakt-api-key", tc.Config.ClientID)
+
+	resp, err := cl.Do(req)
+	if err != nil {
+		return err
+	}
+
+	defer resp.Body.Close()
+
+	respBytes, err := ioutil.ReadAll(resp.Body)
+	if err != nil {
+		return err
+	}
+
+	if resp.StatusCode != http.StatusOK {
+		rd, _ := httputil.DumpRequest(req, false)
+		tc.logger.Errorln(string(rd))
+		tc.logger.Errorln(resp.Status)
+		tc.logger.Errorln(string(respBytes))
+		return nil
+	}
+
+	if response != nil {
+		err = json.Unmarshal(respBytes, response)
+		if err != nil {
+			return err
+		}
+	}
+
+	return nil
+}
+
 func (tc *TraktClient) GetTrendingShows() ([]interface{}, error) {
 	m := make([]interface{}, 0)
 	err := tc.get(util.JoinURL(BaseURL, "shows", "trending"), &m)
@@ -101,6 +155,25 @@ func (tc *TraktClient) GetMyShows(from time.Time, to time.Time) ([]MyShow, error
 	}
 
 	return m, nil
+}
+
+// Scrobble starts scrobbling new item.
+func (tc *TraktClient) Scrobble(imdbId string) error {
+	tc.logger.Debugf("Scrobbling %d", imdbId)
+
+	body := struct {
+		Episode  Episode `json:"episode"`
+		Progress int     `json:"progress"`
+	}{
+		Episode: Episode{
+			Ids: EpisodeIds{
+				Imdb: imdbId,
+			},
+		},
+		Progress: 0,
+	}
+
+	return tc.post(util.JoinURL(BaseURL, "scrobble", "start"), body, nil)
 }
 
 func NewTraktClient(logger *logrus.Logger) *TraktClient {
