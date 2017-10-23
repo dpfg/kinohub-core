@@ -13,8 +13,11 @@ import (
 
 // Client is an interface that describes capabilities of TMDB API.
 type Client interface {
+	// Get the primary TV show details by id.
 	GetTVShowByID(id int) (*TVShow, error)
+	// Get the external ids for a TV show
 	GetTVShowExternalIDS(id int)
+	// Get the images that belong to a TV show.
 	GetTVShowImages(id int) (*ShowBackdrops, error)
 
 	// Get the TV episode details by id.
@@ -58,6 +61,7 @@ func (cl ClientImpl) doGet(url string, body interface{}) error {
 	return nil
 }
 
+// GetTVShowByID returns the primary TV show details by id.
 func (cl ClientImpl) GetTVShowByID(id int) (*TVShow, error) {
 	show := &TVShow{}
 	err := cl.doGet(util.JoinURL(BaseURL, "tv", strconv.Itoa(id)), show)
