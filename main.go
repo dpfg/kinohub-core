@@ -15,6 +15,7 @@ import (
 
 	"github.com/dpfg/kinohub-core/providers"
 	"github.com/dpfg/kinohub-core/providers/kinopub"
+	"github.com/dpfg/kinohub-core/providers/tmdb"
 	"github.com/dpfg/kinohub-core/providers/trakt"
 	"github.com/dpfg/kinohub-core/services"
 	"github.com/gin-gonic/gin"
@@ -64,9 +65,15 @@ func main() {
 		return
 	}
 
+	// Initialize common preference storage
+	ps := providers.JSONPreferenceStorage{
+		Path: ".data/",
+	}
+
 	kpc := kinopub.NewKinoPubClient(logger, cacheFactory)
 	tc := trakt.NewTraktClient(logger)
 	feed := services.NewFeed(tc, kpc, logger)
+	_ := tmdb.New(logger, cacheFactory, ps)
 
 	r.GET("/search", func(c *gin.Context) {
 		r, err := kpc.SearchItemBy(kinopub.ItemsFilter{
