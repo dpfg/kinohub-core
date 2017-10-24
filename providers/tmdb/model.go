@@ -43,10 +43,10 @@ type TVShow struct {
 		PosterPath   string `json:"poster_path"`
 		SeasonNumber int    `json:"season_number"`
 	} `json:"seasons"`
-	Status      string `json:"status"`
-	Type        string `json:"type"`
-	VoteAverage int    `json:"vote_average"`
-	VoteCount   int    `json:"vote_count"`
+	Status      string  `json:"status"`
+	Type        string  `json:"type"`
+	VoteAverage float64 `json:"vote_average"`
+	VoteCount   int     `json:"vote_count"`
 }
 
 type TVEpisode struct {

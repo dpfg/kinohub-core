@@ -7,6 +7,7 @@ import (
 	"io/ioutil"
 	"net/http"
 	"net/http/httputil"
+	"os"
 	"strconv"
 	"time"
 
@@ -179,8 +180,8 @@ func (tc *TraktClient) Scrobble(imdbId string) error {
 func NewTraktClient(logger *logrus.Logger) *TraktClient {
 	return &TraktClient{
 		Config: oauth2.Config{
-			ClientID:     "c1bc6797965a798d9fcb83ca32c1258273c334fe543939e1378df22c1a765808",
-			ClientSecret: "3cc89ccfaaf30f06c84fb87c136bb15493dc52dd1a86259ea521b31780afbb46",
+			ClientID:     os.Getenv("TRAKT_CLIENT_ID"),
+			ClientSecret: os.Getenv("TRAKT_CLIENT_SECRET"),
 			Scopes:       []string{},
 			Endpoint: oauth2.Endpoint{
 				AuthURL:  "https://api.trakt.tv/oauth/authorize",

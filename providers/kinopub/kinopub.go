@@ -3,6 +3,7 @@ package kinopub
 import (
 	"fmt"
 	"net/http"
+	"os"
 	"strconv"
 	"time"
 
@@ -292,8 +293,8 @@ func (cl KinoPubClientImpl) GetEpisode(imdbID int, title string, seasonNum int, 
 // NewKinoPubClient returns new kinopub client
 func NewKinoPubClient(logger *logrus.Logger, cf providers.CacheFactory) KinoPubClient {
 	return KinoPubClientImpl{
-		ClientID:     "plex",
-		ClientSecret: "h2zx6iom02t9cxydcmbo9oi0llld7jsv",
+		ClientID:     os.Getenv("KINOPUB_CLIENT_ID"),
+		ClientSecret: os.Getenv("KINOPUB_CLIENT_SECRET"),
 		PreferenceStorage: providers.JSONPreferenceStorage{
 			Path: ".data/",
 		},

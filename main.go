@@ -73,7 +73,16 @@ func main() {
 	kpc := kinopub.NewKinoPubClient(logger, cacheFactory)
 	tc := trakt.NewTraktClient(logger)
 	feed := services.NewFeed(tc, kpc, logger)
-	_ := tmdb.New(logger, cacheFactory, ps)
+	tmdb := tmdb.New(logger, cacheFactory, ps)
+
+	r.GET("/demo", func(c *gin.Context) {
+		show, err := tmdb.GetTVShowByID(1418)
+		if err != nil {
+			c.JSON(http.StatusBadGateway, err.Error())
+		}
+
+		c.JSON(http.StatusOK, show)
+	})
 
 	r.GET("/search", func(c *gin.Context) {
 		r, err := kpc.SearchItemBy(kinopub.ItemsFilter{
