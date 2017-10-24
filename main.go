@@ -8,17 +8,16 @@ import (
 
 	cors "gopkg.in/gin-contrib/cors.v1"
 
-	"github.com/grandcat/zeroconf"
-	"github.com/sirupsen/logrus"
-	ginlogrus "github.com/toorop/gin-logrus"
-	prefixed "github.com/x-cray/logrus-prefixed-formatter"
-
 	"github.com/dpfg/kinohub-core/providers"
 	"github.com/dpfg/kinohub-core/providers/kinopub"
 	"github.com/dpfg/kinohub-core/providers/tmdb"
 	"github.com/dpfg/kinohub-core/providers/trakt"
 	"github.com/dpfg/kinohub-core/services"
+	"github.com/dpfg/kinohub-core/util"
 	"github.com/gin-gonic/gin"
+	"github.com/grandcat/zeroconf"
+	"github.com/sirupsen/logrus"
+	prefixed "github.com/x-cray/logrus-prefixed-formatter"
 )
 
 const (
@@ -56,7 +55,7 @@ func main() {
 	config.AllowAllOrigins = true
 	r.Use(cors.New(config))
 
-	r.Use(ginlogrus.Logger(logger))
+	r.Use(util.HTTPLogger(logger))
 
 	// Initialize common cache manager that will be used by API clients
 	cacheFactory, err := providers.NewCacheFactory(logger)
