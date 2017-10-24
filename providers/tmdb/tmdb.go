@@ -2,6 +2,7 @@ package tmdb
 
 import (
 	"net/http"
+	"os"
 	"strconv"
 
 	"github.com/dpfg/kinohub-core/providers"
@@ -40,6 +41,28 @@ type ClientImpl struct {
 }
 
 func (cl ClientImpl) doGet(url string, body interface{}) error {
+	// cache := cl.cache.Get("TMDB_ENTITIES", time.Hour*24)
+
+	// cacheEntry := &struct {
+	// 	ID   int
+	// 	body interface{}
+	// }{
+	// 	ID:   -1,
+	// 	body: body,
+	// }
+
+	// cacheKey := url
+
+	// err := cache.Load(cacheKey, cacheEntry)
+	// if err != nil {
+	// 	return err
+	// }
+
+	// cl.logger.Debugln(cacheEntry.body)
+	// if cacheEntry.ID != -1 {
+	// 	return nil
+	// }
+
 	resp, err := goreq.Request{
 		Method: "GET",
 		Uri:    url,
@@ -58,11 +81,22 @@ func (cl ClientImpl) doGet(url string, body interface{}) error {
 	if err != nil {
 		return err
 	}
+
+	// cache.Save(cacheKey, &struct {
+	// 	ID   int
+	// 	body interface{}
+	// }{
+	// 	ID:   1,
+	// 	body: body,
+	// })
+
 	return nil
 }
 
 // GetTVShowByID returns the primary TV show details by id.
 func (cl ClientImpl) GetTVShowByID(id int) (*TVShow, error) {
+	cl.logger.Debugf("Getting TMDB show by ID=[%d]", id)
+
 	show := &TVShow{}
 	err := cl.doGet(util.JoinURL(BaseURL, "tv", strconv.Itoa(id)), show)
 	if err != nil {
@@ -119,7 +153,7 @@ func (cl ClientImpl) GetTVEpisodeImages(tvID int, seasonNum int, episodeNum int)
 // New returns new TMDB API client
 func New(logger *logrus.Logger, cf providers.CacheFactory, ps providers.PreferenceStorage) Client {
 	return ClientImpl{
-		apiKey:            "",
+		apiKey:            os.Getenv("TMDB_API_KEY"),
 		preferenceStorage: ps,
 		cache:             cf,
 		logger:            logger.WithField("prefix", "tmdb"),

@@ -1,5 +1,7 @@
 package kinopub
 
+import "encoding/json"
+
 type Item struct {
 	ID       int64  `json:"id"`
 	Type     string `json:"type"`
@@ -90,4 +92,12 @@ type Item struct {
 			} `json:"files"`
 		} `json:"episodes"`
 	} `json:"seasons"`
+}
+
+func (item Item) MarshalBinary() (data []byte, err error) {
+	return json.Marshal(item)
+}
+
+func (item *Item) UnmarshalBinary(data []byte) error {
+	return json.Unmarshal(data, item)
 }

@@ -2,6 +2,7 @@ package providers
 
 import (
 	"bytes"
+	"encoding"
 	"encoding/json"
 	"fmt"
 	"time"
@@ -33,8 +34,8 @@ type CacheFactory interface {
 }
 
 type Cache interface {
-	Save(key string, value interface{}) error
-	Load(key string, value interface{}) error
+	Save(key string, value encoding.BinaryMarshaler)
+	Load(key string, value encoding.BinaryUnmarshaler)
 }
 
 type StandardCacheManager struct {
@@ -61,10 +62,10 @@ type boltCache struct {
 }
 
 // Save new value to the cache using provided key
-func (c *boltCache) Save(key string, value interface{}) error {
+func (c *boltCache) Save(key string, value encoding.BinaryMarshaler) {
 	c.logger.Debugf("Saving value to cache [%s] using [%s] key", c.cacheName, key)
 
-	return c.db.Update(func(tx *bolt.Tx) error {
+	err := c.db.Update(func(tx *bolt.Tx) error {
 
 		bucket, err := tx.CreateBucketIfNotExists([]byte(c.cacheName))
 		if err != nil {
@@ -74,7 +75,7 @@ func (c *boltCache) Save(key string, value interface{}) error {
 		}
 
 		// Marshal user data into bytes.
-		buf, err := json.Marshal(value)
+		buf, err := value.MarshalBinary()
 		if err != nil {
 			return errors.WithMessage(err, "Cannot marshal value to cache")
 		}
@@ -82,13 +83,17 @@ func (c *boltCache) Save(key string, value interface{}) error {
 		// Persist bytes to users bucket.
 		return bucket.Put([]byte(key), buf)
 	})
+
+	if err != nil {
+		panic(err.Error())
+	}
 }
 
 // Load value by key from the specified cache
-func (c *boltCache) Load(key string, value interface{}) (err error) {
+func (c *boltCache) Load(key string, value encoding.BinaryUnmarshaler) {
 	c.logger.Debugf("Load value from cache [%s] using [%s] key", c.cacheName, key)
 
-	err = c.db.View(func(tx *bolt.Tx) error {
+	err := c.db.View(func(tx *bolt.Tx) error {
 
 		bucket := tx.Bucket([]byte(c.cacheName))
 		if bucket == nil {
@@ -100,14 +105,16 @@ func (c *boltCache) Load(key string, value interface{}) (err error) {
 		key := []byte(key)
 		for k, v := cur.Seek(key); bytes.Equal(k, key); k, v = cur.Next() {
 			c.logger.Debugln("Unmarshaling cache value")
-			return json.Unmarshal(v, value)
+			return value.UnmarshalBinary(v)
 		}
 
 		c.logger.Debugln("No element in cache with provided key")
 		return nil
 	})
 
-	return
+	if err != nil {
+		panic(err.Error())
+	}
 }
 
 type expirableCache struct {
@@ -116,22 +123,31 @@ type expirableCache struct {
 	logger *logrus.Entry
 }
 
-func (c *expirableCache) Save(key string, value interface{}) error {
-	c.logger.Debugf("Saving expirable item. Key: %s Now: %s", key, time.Now())
-	// save experation
-	c.cache.Save("_CREATED_AT_:"+key, time.Now())
-	// save data
-	return c.cache.Save(key, value)
+type experationTime struct {
+	time.Time
 }
 
-func (c *expirableCache) Load(key string, value interface{}) (err error) {
+func (time experationTime) Serialize() ([]byte, error) {
+	return json.Marshal(time)
+}
+
+func (time experationTime) Deserialize(bytes []byte) error {
+	return json.Unmarshal(bytes, time)
+}
+
+func (c *expirableCache) Save(key string, value encoding.BinaryMarshaler) {
+	c.logger.Debugf("Saving expirable item. Key: %s Now: %s", key, time.Now())
+	// save experation
+	c.cache.Save("_CREATED_AT_:"+key, experationTime{time.Now()})
+	// save data
+	c.cache.Save(key, value)
+}
+
+func (c *expirableCache) Load(key string, value encoding.BinaryUnmarshaler) {
 	c.logger.Debugln("Loading from expirable cache")
 
-	createdAt := &time.Time{}
-	err = c.cache.Load("_CREATED_AT_:"+key, createdAt)
-	if err != nil {
-		return
-	}
+	createdAt := &experationTime{}
+	c.cache.Load("_CREATED_AT_:"+key, createdAt)
 
 	c.logger.Debugf("Created at: [%v]", createdAt)
 	if createdAt.Add(c.ttl).Before(time.Now()) {
@@ -139,7 +155,5 @@ func (c *expirableCache) Load(key string, value interface{}) (err error) {
 		return
 	}
 
-	err = c.cache.Load(key, value)
-
-	return
+	c.cache.Load(key, value)
 }
