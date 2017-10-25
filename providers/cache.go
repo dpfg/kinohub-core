@@ -3,7 +3,6 @@ package providers
 import (
 	"bytes"
 	"encoding"
-	"encoding/json"
 	"fmt"
 	"time"
 
@@ -35,7 +34,12 @@ type CacheFactory interface {
 
 type Cache interface {
 	Save(key string, value encoding.BinaryMarshaler)
-	Load(key string, value encoding.BinaryUnmarshaler)
+	Load(key string, value encoding.BinaryUnmarshaler) bool
+}
+
+type CacheableEntry interface {
+	MarshalBinary() (data []byte, err error)
+	UnmarshalBinary(data []byte) error
 }
 
 type StandardCacheManager struct {
@@ -90,8 +94,10 @@ func (c *boltCache) Save(key string, value encoding.BinaryMarshaler) {
 }
 
 // Load value by key from the specified cache
-func (c *boltCache) Load(key string, value encoding.BinaryUnmarshaler) {
+func (c *boltCache) Load(key string, value encoding.BinaryUnmarshaler) bool {
 	c.logger.Debugf("Load value from cache [%s] using [%s] key", c.cacheName, key)
+
+	var loaded bool
 
 	err := c.db.View(func(tx *bolt.Tx) error {
 
@@ -105,6 +111,7 @@ func (c *boltCache) Load(key string, value encoding.BinaryUnmarshaler) {
 		key := []byte(key)
 		for k, v := cur.Seek(key); bytes.Equal(k, key); k, v = cur.Next() {
 			c.logger.Debugln("Unmarshaling cache value")
+			loaded = true
 			return value.UnmarshalBinary(v)
 		}
 
@@ -115,6 +122,8 @@ func (c *boltCache) Load(key string, value encoding.BinaryUnmarshaler) {
 	if err != nil {
 		panic(err.Error())
 	}
+
+	return loaded
 }
 
 type expirableCache struct {
@@ -123,37 +132,25 @@ type expirableCache struct {
 	logger *logrus.Entry
 }
 
-type experationTime struct {
-	time.Time
-}
-
-func (time experationTime) Serialize() ([]byte, error) {
-	return json.Marshal(time)
-}
-
-func (time experationTime) Deserialize(bytes []byte) error {
-	return json.Unmarshal(bytes, time)
-}
-
 func (c *expirableCache) Save(key string, value encoding.BinaryMarshaler) {
 	c.logger.Debugf("Saving expirable item. Key: %s Now: %s", key, time.Now())
 	// save experation
-	c.cache.Save("_CREATED_AT_:"+key, experationTime{time.Now()})
+	c.cache.Save("_CREATED_AT_:"+key, time.Now())
 	// save data
 	c.cache.Save(key, value)
 }
 
-func (c *expirableCache) Load(key string, value encoding.BinaryUnmarshaler) {
+func (c *expirableCache) Load(key string, value encoding.BinaryUnmarshaler) bool {
 	c.logger.Debugln("Loading from expirable cache")
 
-	createdAt := &experationTime{}
+	createdAt := &time.Time{}
 	c.cache.Load("_CREATED_AT_:"+key, createdAt)
 
 	c.logger.Debugf("Created at: [%v]", createdAt)
 	if createdAt.Add(c.ttl).Before(time.Now()) {
 		c.logger.Debugln("Item has been expired.")
-		return
+		return false
 	}
 
-	c.cache.Load(key, value)
+	return c.cache.Load(key, value)
 }

@@ -170,12 +170,10 @@ func (cl KinoPubClientImpl) GetItemById(id int) (*Item, error) {
 
 	cache := cl.CacheFactory.Get("KP_GetItemById", time.Hour)
 	cacheKey := fmt.Sprint(id)
-	item := &Item{ID: -1}
 
-	cache.Load(cacheKey, item)
+	item := &Item{}
 
-	if item.ID != -1 {
-		cl.Logger.Debugln("Kinpub item has been loaded using cache")
+	if cache.Load(cacheKey, item) {
 		return item, nil
 	}
 
@@ -221,12 +219,10 @@ func (cl KinoPubClientImpl) GetItemById(id int) (*Item, error) {
 func (cl KinoPubClientImpl) FindItemByIMDB(imdbID int, title string) (*Item, error) {
 	cache := cl.CacheFactory.Get("KP_FindItemByIMDB", time.Hour*24*7)
 	cacheKey := strconv.Itoa(imdbID)
-	item := &Item{ID: -1}
 
-	cache.Load(cacheKey, item)
+	item := &Item{}
 
-	if item.ID != -1 {
-		cl.Logger.Debugln("Found item by IMDB in cache")
+	if cache.Load(cacheKey, item) {
 		return item, nil
 	}
 

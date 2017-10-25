@@ -78,6 +78,7 @@ func main() {
 		show, err := tmdb.GetTVShowByID(1418)
 		if err != nil {
 			c.JSON(http.StatusBadGateway, err.Error())
+			return
 		}
 
 		c.JSON(http.StatusOK, show)

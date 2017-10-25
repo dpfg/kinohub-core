@@ -4,6 +4,7 @@ import (
 	"net/http"
 	"os"
 	"strconv"
+	"time"
 
 	"github.com/dpfg/kinohub-core/providers"
 	"github.com/dpfg/kinohub-core/util"
@@ -40,28 +41,12 @@ type ClientImpl struct {
 	preferenceStorage providers.PreferenceStorage
 }
 
-func (cl ClientImpl) doGet(url string, body interface{}) error {
-	// cache := cl.cache.Get("TMDB_ENTITIES", time.Hour*24)
+func (cl ClientImpl) doGet(url string, body providers.CacheableEntry) error {
+	cache := cl.cache.Get("TMDB_ENTITIES", time.Hour*24)
 
-	// cacheEntry := &struct {
-	// 	ID   int
-	// 	body interface{}
-	// }{
-	// 	ID:   -1,
-	// 	body: body,
-	// }
-
-	// cacheKey := url
-
-	// err := cache.Load(cacheKey, cacheEntry)
-	// if err != nil {
-	// 	return err
-	// }
-
-	// cl.logger.Debugln(cacheEntry.body)
-	// if cacheEntry.ID != -1 {
-	// 	return nil
-	// }
+	if cache.Load(url, body) {
+		return nil
+	}
 
 	resp, err := goreq.Request{
 		Method: "GET",
@@ -77,18 +62,17 @@ func (cl ClientImpl) doGet(url string, body interface{}) error {
 		return errors.Errorf("Network error - %s", resp.Status)
 	}
 
-	err = resp.Body.FromJsonTo(body)
+	rb, err := resp.Body.ToString()
 	if err != nil {
-		return err
+		return errors.WithMessage(err, "cannot read response body")
 	}
 
-	// cache.Save(cacheKey, &struct {
-	// 	ID   int
-	// 	body interface{}
-	// }{
-	// 	ID:   1,
-	// 	body: body,
-	// })
+	err = body.UnmarshalBinary([]byte(rb))
+	if err != nil {
+		return errors.WithMessage(err, "cannot unmarshal response")
+	}
+
+	cache.Save(url, body)
 
 	return nil
 }
@@ -98,10 +82,12 @@ func (cl ClientImpl) GetTVShowByID(id int) (*TVShow, error) {
 	cl.logger.Debugf("Getting TMDB show by ID=[%d]", id)
 
 	show := &TVShow{}
-	err := cl.doGet(util.JoinURL(BaseURL, "tv", strconv.Itoa(id)), show)
+	err := cl.doGet(util.JoinURL(BaseURL, "tv", strconv.Itoa(id)), Cacheable(show))
 	if err != nil {
 		return nil, err
 	}
+
+	cl.logger.Debugf("TMDB show ID=[%d] has been loaded", id)
 
 	return show, nil
 }
@@ -114,7 +100,7 @@ func (cl ClientImpl) GetTVShowExternalIDS(id int) {
 // GetTVShowImages returns the images that belong to a TV show.
 func (cl ClientImpl) GetTVShowImages(id int) (*ShowBackdrops, error) {
 	backdrops := &ShowBackdrops{}
-	err := cl.doGet(util.JoinURL(BaseURL, "tv", id, "images"), backdrops)
+	err := cl.doGet(util.JoinURL(BaseURL, "tv", id, "images"), Cacheable(backdrops))
 	if err != nil {
 		return nil, err
 	}
@@ -127,7 +113,7 @@ func (cl ClientImpl) GetTVEpisode(tvID int, seasonNum int, episodeNum int) (*TVE
 	url := util.JoinURL(BaseURL, "tv", tvID, "season", seasonNum, "episode", episodeNum)
 
 	episode := &TVEpisode{}
-	err := cl.doGet(url, episode)
+	err := cl.doGet(url, Cacheable(episode))
 
 	if err != nil {
 		return nil, err
@@ -141,7 +127,7 @@ func (cl ClientImpl) GetTVEpisodeImages(tvID int, seasonNum int, episodeNum int)
 	url := util.JoinURL(BaseURL, "tv", tvID, "season", seasonNum, "episode", episodeNum, "images")
 
 	stills := &TVEpisodeStills{}
-	err := cl.doGet(url, stills)
+	err := cl.doGet(url, Cacheable(stills))
 
 	if err != nil {
 		return nil, err

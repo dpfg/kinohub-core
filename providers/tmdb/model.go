@@ -1,5 +1,8 @@
 package tmdb
 
+import "encoding/json"
+import "github.com/dpfg/kinohub-core/providers"
+
 type TVShow struct {
 	BackdropPath string `json:"backdrop_path"`
 	CreatedBy    []struct {
@@ -111,4 +114,20 @@ type ShowBackdrops struct {
 		VoteCount   int     `json:"vote_count"`
 		Width       int     `json:"width"`
 	} `json:"posters"`
+}
+
+type cacheable struct {
+	entry interface{}
+}
+
+func (c cacheable) MarshalBinary() (data []byte, err error) {
+	return json.Marshal(c.entry)
+}
+
+func (c cacheable) UnmarshalBinary(data []byte) error {
+	return json.Unmarshal(data, &c.entry)
+}
+
+func Cacheable(m interface{}) providers.CacheableEntry {
+	return &cacheable{entry: &m}
 }
