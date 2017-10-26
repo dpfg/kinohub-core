@@ -159,8 +159,8 @@ func (tc *TraktClient) GetMyShows(from time.Time, to time.Time) ([]MyShow, error
 }
 
 // Scrobble starts scrobbling new item.
-func (tc *TraktClient) Scrobble(imdbId string) error {
-	tc.logger.Debugf("Scrobbling %d", imdbId)
+func (tc *TraktClient) Scrobble(tmdbId int) error {
+	tc.logger.Debugf("Scrobbling %d", tmdbId)
 
 	body := struct {
 		Episode  Episode `json:"episode"`
@@ -168,7 +168,7 @@ func (tc *TraktClient) Scrobble(imdbId string) error {
 	}{
 		Episode: Episode{
 			Ids: EpisodeIds{
-				Imdb: imdbId,
+				Tmdb: tmdbId,
 			},
 		},
 		Progress: 0,

@@ -165,8 +165,14 @@ func main() {
 		c.JSON(http.StatusOK, releases)
 	})
 
-	r.POST("/scrobble/:imdb-id", func(c *gin.Context) {
-		err = tc.Scrobble(c.Param("imdb-id"))
+	r.POST("/scrobble/:tmdb-id", func(c *gin.Context) {
+		id, err := strconv.Atoi(c.Param("tmdb-id"))
+		if err != nil {
+			httpError(c, http.StatusBadRequest, err.Error())
+			return
+		}
+
+		err = tc.Scrobble(id)
 		if err != nil {
 			httpError(c, http.StatusBadGateway, "Cannot scrobble item: "+err.Error())
 			return
