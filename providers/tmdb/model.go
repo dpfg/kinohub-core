@@ -8,19 +8,15 @@ type TVShow struct {
 		Gender      int    `json:"gender"`
 		ProfilePath string `json:"profile_path"`
 	} `json:"created_by"`
-	EpisodeRunTime []int  `json:"episode_run_time"`
-	FirstAirDate   string `json:"first_air_date"`
-	Genres         []struct {
-		ID   int    `json:"id"`
-		Name string `json:"name"`
-	} `json:"genres"`
-	Homepage     string   `json:"homepage"`
-	ID           int      `json:"id"`
-	InProduction bool     `json:"in_production"`
-	Languages    []string `json:"languages"`
-	LastAirDate  string   `json:"last_air_date"`
-	Name         string   `json:"name"`
-	Networks     []struct {
+	EpisodeRunTime []int    `json:"episode_run_time"`
+	FirstAirDate   string   `json:"first_air_date"`
+	Homepage       string   `json:"homepage"`
+	ID             int      `json:"id"`
+	InProduction   bool     `json:"in_production"`
+	Languages      []string `json:"languages"`
+	LastAirDate    string   `json:"last_air_date"`
+	Name           string   `json:"name"`
+	Networks       []struct {
 		ID   int    `json:"id"`
 		Name string `json:"name"`
 	} `json:"networks"`
@@ -54,24 +50,8 @@ type TVSeason struct {
 }
 
 type TVEpisode struct {
-	AirDate string `json:"air_date"`
-	Crew    []struct {
-		ID          int    `json:"id"`
-		CreditID    string `json:"credit_id"`
-		Name        string `json:"name"`
-		Department  string `json:"department"`
-		Job         string `json:"job"`
-		ProfilePath string `json:"profile_path"`
-	} `json:"crew"`
-	EpisodeNumber int `json:"episode_number"`
-	GuestStars    []struct {
-		ID          int    `json:"id"`
-		Name        string `json:"name"`
-		CreditID    string `json:"credit_id"`
-		Character   string `json:"character"`
-		Order       int    `json:"order"`
-		ProfilePath string `json:"profile_path"`
-	} `json:"guest_stars"`
+	AirDate        string  `json:"air_date"`
+	EpisodeNumber  int     `json:"episode_number"`
 	Name           string  `json:"name"`
 	Overview       string  `json:"overview"`
 	ID             int     `json:"id"`
