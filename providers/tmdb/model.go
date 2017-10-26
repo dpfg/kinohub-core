@@ -96,3 +96,6 @@ type ShowBackdrops struct {
 		Width       int     `json:"width"`
 	} `json:"posters"`
 }
+
+type SearchResult struct {
+}

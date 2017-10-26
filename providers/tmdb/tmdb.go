@@ -29,6 +29,8 @@ type Client interface {
 	GetTVEpisode(tvID int, seasonNum int, episodeNum int) (*TVEpisode, error)
 	// Get the images that belong to a TV episode.
 	GetTVEpisodeImages(tvID int, seasonNum int, episodeNum int) (*TVEpisodeStills, error)
+
+	// FindByID(id string) (*SearchResult, error)
 }
 
 const (

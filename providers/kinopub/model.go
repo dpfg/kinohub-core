@@ -1,6 +1,7 @@
 package kinopub
 
 import "encoding/json"
+import "github.com/dpfg/kinohub-core/domain"
 
 type Item struct {
 	ID       int64  `json:"id"`
@@ -100,4 +101,15 @@ func (item Item) MarshalBinary() (data []byte, err error) {
 
 func (item *Item) UnmarshalBinary(data []byte) error {
 	return json.Unmarshal(data, item)
+}
+
+func (item *Item) DomainType() string {
+	switch item.Type {
+	case "serial":
+		return domain.TypeSerial
+	case "movie":
+		return domain.TypeMovie
+	default:
+		return domain.TypeUnknown
+	}
 }

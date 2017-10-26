@@ -125,6 +125,17 @@ func main() {
 		c.JSON(200, r)
 	})
 
+	r.GET("/search2", func(c *gin.Context) {
+		search := services.ContentSearchImpl{Kinopub: kpc}
+		result, err := search.Search(c.Query("q"))
+		if err != nil {
+			httpError(c, http.StatusBadGateway, err.Error())
+			return
+		}
+
+		c.JSON(200, result)
+	})
+
 	r.GET("/items/:item-id", func(c *gin.Context) {
 		id, err := strconv.Atoi(c.Param("item-id"))
 		if err != nil {
