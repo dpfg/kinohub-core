@@ -52,6 +52,16 @@ type TVShow struct {
 	VoteCount   int     `json:"vote_count"`
 }
 
+type TVSeason struct {
+	ID           int         `json:"id"`
+	AirDate      string      `json:"air_date"`
+	Episodes     []TVEpisode `json:"episodes"`
+	Name         string      `json:"name"`
+	Overview     string      `json:"overview"`
+	PosterPath   string      `json:"poster_path"`
+	SeasonNumber int         `json:"season_number"`
+}
+
 type TVEpisode struct {
 	AirDate string `json:"air_date"`
 	Crew    []struct {

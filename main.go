@@ -74,14 +74,42 @@ func main() {
 	feed := services.NewFeed(tc, kpc, logger)
 	tmdb := tmdb.New(logger, cacheFactory, ps)
 
-	r.GET("/demo", func(c *gin.Context) {
-		show, err := tmdb.GetTVShowByID(1418)
+	r.GET("/show/:show-id", func(c *gin.Context) {
+		id, err := strconv.Atoi(c.Param("show-id"))
 		if err != nil {
-			c.JSON(http.StatusBadGateway, err.Error())
+			httpError(c, http.StatusBadRequest, err.Error())
+			return
+		}
+
+		show, err := tmdb.GetTVShowByID(id)
+		if err != nil {
+			httpError(c, http.StatusBadGateway, err.Error())
 			return
 		}
 
 		c.JSON(http.StatusOK, show)
+	})
+
+	r.GET("/show/:show-id/seasons/:season-num", func(c *gin.Context) {
+		show, err := strconv.Atoi(c.Param("show-id"))
+		if err != nil {
+			httpError(c, http.StatusBadRequest, err.Error())
+			return
+		}
+
+		seasonNum, err := strconv.Atoi(c.Param("season-num"))
+		if err != nil {
+			httpError(c, http.StatusBadRequest, err.Error())
+			return
+		}
+
+		season, err := tmdb.GetTVSeason(show, seasonNum)
+		if err != nil {
+			httpError(c, http.StatusBadGateway, err.Error())
+			return
+		}
+
+		c.JSON(http.StatusOK, season)
 	})
 
 	r.GET("/search", func(c *gin.Context) {

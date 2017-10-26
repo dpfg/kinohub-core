@@ -22,6 +22,9 @@ type Client interface {
 	// Get the images that belong to a TV show.
 	GetTVShowImages(id int) (*ShowBackdrops, error)
 
+	//
+	GetTVSeason(id, seasonNum int) (*TVSeason, error)
+
 	// Get the TV episode details by id.
 	GetTVEpisode(tvID int, seasonNum int, episodeNum int) (*TVEpisode, error)
 	// Get the images that belong to a TV episode.
@@ -30,7 +33,8 @@ type Client interface {
 
 const (
 	// BaseURL is the TMDB API base url
-	BaseURL = "https://api.themoviedb.org/3"
+	BaseURL    = "https://api.themoviedb.org/3"
+	ImgBaseURL = "https://image.tmdb.org/t/p/"
 )
 
 // ClientImpl is a default implementation of TMDB API consumer
@@ -108,6 +112,19 @@ func (cl ClientImpl) GetTVShowImages(id int) (*ShowBackdrops, error) {
 	return backdrops, nil
 }
 
+// GetTVSeason return the detailed information about the season
+func (cl ClientImpl) GetTVSeason(id, seasonNum int) (*TVSeason, error) {
+	season := &TVSeason{}
+	err := cl.doGet(util.JoinURL(BaseURL, "tv", id, "season", seasonNum), Cacheable(season))
+	if err != nil {
+		return nil, err
+	}
+
+	season.PosterPath = FullImagePath(-1, season.PosterPath)
+
+	return season, nil
+}
+
 // GetTVEpisode returns TV episode details by id.
 func (cl ClientImpl) GetTVEpisode(tvID int, seasonNum int, episodeNum int) (*TVEpisode, error) {
 	url := util.JoinURL(BaseURL, "tv", tvID, "season", seasonNum, "episode", episodeNum)
@@ -134,6 +151,19 @@ func (cl ClientImpl) GetTVEpisodeImages(tvID int, seasonNum int, episodeNum int)
 	}
 
 	return stills, nil
+}
+
+func FullImagePath(w int, path string) string {
+	if w > 600 {
+		panic("unsupported image size")
+	}
+
+	size := strconv.Itoa(w)
+	if w < 0 {
+		size = "original"
+	}
+
+	return ImgBaseURL + "/" + size + path
 }
 
 // New returns new TMDB API client

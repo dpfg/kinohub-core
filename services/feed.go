@@ -5,9 +5,11 @@ import (
 	"strings"
 	"time"
 
+	"github.com/pkg/errors"
 	"github.com/sirupsen/logrus"
 
 	"github.com/dpfg/kinohub-core/providers/kinopub"
+	"github.com/dpfg/kinohub-core/providers/tmdb"
 
 	"github.com/dpfg/kinohub-core/domain"
 	"github.com/dpfg/kinohub-core/providers/trakt"
@@ -24,9 +26,10 @@ type FeedItem struct {
 }
 
 type FeedImpl struct {
-	tc     *trakt.TraktClient
-	kpc    kinopub.KinoPubClient
-	logger *logrus.Entry
+	tc      *trakt.TraktClient
+	kpc     kinopub.KinoPubClient
+	tmdbCli tmdb.Client
+	logger  *logrus.Entry
 }
 
 func (f FeedImpl) Releases(from time.Time, to time.Time) ([]FeedItem, error) {
@@ -37,20 +40,21 @@ func (f FeedImpl) Releases(from time.Time, to time.Time) ([]FeedItem, error) {
 
 	r := make([]FeedItem, 0)
 	for _, item := range m {
-		id, _ := strconv.Atoi(strings.TrimLeft(item.Show.Ids.Imdb, "tt"))
-		ep, err := f.kpc.GetEpisode(id, item.Show.Title, item.Episode.Season, item.Episode.Number)
+		imdbID, _ := strconv.Atoi(strings.TrimLeft(item.Show.Ids.Imdb, "tt"))
+		ep, err := f.kpc.GetEpisode(imdbID, item.Show.Title, item.Episode.Season, item.Episode.Number)
 		if err != nil {
-			return nil, err
+			f.logger.Errorln(errors.WithMessage(err, "Cannot load KinHub episode").Error())
+			continue
 		}
 
 		r = append(r, FeedItem{
 			ContentAvailable: ep != nil,
 			Show: domain.Show{
 				Title:  item.Show.Title,
-				ImdbID: item.Show.Ids.Imdb,
+				TmdbID: item.Show.Ids.Tmdb,
 			},
 			Episode: domain.Episode{
-				ImdbID:     item.Episode.Ids.Imdb,
+				TmdbID:     item.Episode.Ids.Tmdb,
 				Title:      item.Episode.Title,
 				Number:     item.Episode.Number,
 				Season:     item.Episode.Season,
