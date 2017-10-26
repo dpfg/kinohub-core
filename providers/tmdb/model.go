@@ -1,8 +1,5 @@
 package tmdb
 
-import "encoding/json"
-import "github.com/dpfg/kinohub-core/providers"
-
 type TVShow struct {
 	BackdropPath string `json:"backdrop_path"`
 	CreatedBy    []struct {
@@ -39,17 +36,11 @@ type TVShow struct {
 		Name string `json:"name"`
 		ID   int    `json:"id"`
 	} `json:"production_companies"`
-	Seasons []struct {
-		AirDate      string `json:"air_date"`
-		EpisodeCount int    `json:"episode_count"`
-		ID           int    `json:"id"`
-		PosterPath   string `json:"poster_path"`
-		SeasonNumber int    `json:"season_number"`
-	} `json:"seasons"`
-	Status      string  `json:"status"`
-	Type        string  `json:"type"`
-	VoteAverage float64 `json:"vote_average"`
-	VoteCount   int     `json:"vote_count"`
+	Seasons     []TVSeason `json:"seasons"`
+	Status      string     `json:"status"`
+	Type        string     `json:"type"`
+	VoteAverage float64    `json:"vote_average"`
+	VoteCount   int        `json:"vote_count"`
 }
 
 type TVSeason struct {
@@ -124,20 +115,4 @@ type ShowBackdrops struct {
 		VoteCount   int     `json:"vote_count"`
 		Width       int     `json:"width"`
 	} `json:"posters"`
-}
-
-type cacheable struct {
-	entry interface{}
-}
-
-func (c cacheable) MarshalBinary() (data []byte, err error) {
-	return json.Marshal(c.entry)
-}
-
-func (c cacheable) UnmarshalBinary(data []byte) error {
-	return json.Unmarshal(data, &c.entry)
-}
-
-func Cacheable(m interface{}) providers.CacheableEntry {
-	return &cacheable{entry: &m}
 }

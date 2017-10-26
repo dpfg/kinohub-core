@@ -3,6 +3,7 @@ package providers
 import (
 	"bytes"
 	"encoding"
+	"encoding/json"
 	"fmt"
 	"time"
 
@@ -37,9 +38,25 @@ type Cache interface {
 	Load(key string, value encoding.BinaryUnmarshaler) bool
 }
 
-type CacheableEntry interface {
+type CacheEntry interface {
 	MarshalBinary() (data []byte, err error)
 	UnmarshalBinary(data []byte) error
+}
+
+type cacheable struct {
+	entry interface{}
+}
+
+func (c cacheable) MarshalBinary() (data []byte, err error) {
+	return json.Marshal(c.entry)
+}
+
+func (c cacheable) UnmarshalBinary(data []byte) error {
+	return json.Unmarshal(data, &c.entry)
+}
+
+func Cacheable(m interface{}) CacheEntry {
+	return &cacheable{entry: &m}
 }
 
 type StandardCacheManager struct {

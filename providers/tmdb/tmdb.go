@@ -33,7 +33,9 @@ type Client interface {
 
 const (
 	// BaseURL is the TMDB API base url
-	BaseURL    = "https://api.themoviedb.org/3"
+	BaseURL = "https://api.themoviedb.org/3"
+
+	// ImgBaseURL is the base path to images
 	ImgBaseURL = "https://image.tmdb.org/t/p/"
 )
 
@@ -45,7 +47,7 @@ type ClientImpl struct {
 	preferenceStorage providers.PreferenceStorage
 }
 
-func (cl ClientImpl) doGet(url string, body providers.CacheableEntry) error {
+func (cl ClientImpl) doGet(url string, body providers.CacheEntry) error {
 	cache := cl.cache.Get("TMDB_ENTITIES", time.Hour*24)
 
 	if cache.Load(url, body) {
@@ -86,7 +88,7 @@ func (cl ClientImpl) GetTVShowByID(id int) (*TVShow, error) {
 	cl.logger.Debugf("Getting TMDB show by ID=[%d]", id)
 
 	show := &TVShow{}
-	err := cl.doGet(util.JoinURL(BaseURL, "tv", strconv.Itoa(id)), Cacheable(show))
+	err := cl.doGet(util.JoinURL(BaseURL, "tv", strconv.Itoa(id)), providers.Cacheable(show))
 	if err != nil {
 		return nil, err
 	}
@@ -104,7 +106,7 @@ func (cl ClientImpl) GetTVShowExternalIDS(id int) {
 // GetTVShowImages returns the images that belong to a TV show.
 func (cl ClientImpl) GetTVShowImages(id int) (*ShowBackdrops, error) {
 	backdrops := &ShowBackdrops{}
-	err := cl.doGet(util.JoinURL(BaseURL, "tv", id, "images"), Cacheable(backdrops))
+	err := cl.doGet(util.JoinURL(BaseURL, "tv", id, "images"), providers.Cacheable(backdrops))
 	if err != nil {
 		return nil, err
 	}
@@ -115,12 +117,12 @@ func (cl ClientImpl) GetTVShowImages(id int) (*ShowBackdrops, error) {
 // GetTVSeason return the detailed information about the season
 func (cl ClientImpl) GetTVSeason(id, seasonNum int) (*TVSeason, error) {
 	season := &TVSeason{}
-	err := cl.doGet(util.JoinURL(BaseURL, "tv", id, "season", seasonNum), Cacheable(season))
+	err := cl.doGet(util.JoinURL(BaseURL, "tv", id, "season", seasonNum), providers.Cacheable(season))
 	if err != nil {
 		return nil, err
 	}
 
-	season.PosterPath = FullImagePath(-1, season.PosterPath)
+	season.PosterPath = ImagePath(season.PosterPath, OriginalSize)
 
 	return season, nil
 }
@@ -130,7 +132,7 @@ func (cl ClientImpl) GetTVEpisode(tvID int, seasonNum int, episodeNum int) (*TVE
 	url := util.JoinURL(BaseURL, "tv", tvID, "season", seasonNum, "episode", episodeNum)
 
 	episode := &TVEpisode{}
-	err := cl.doGet(url, Cacheable(episode))
+	err := cl.doGet(url, providers.Cacheable(episode))
 
 	if err != nil {
 		return nil, err
@@ -144,7 +146,7 @@ func (cl ClientImpl) GetTVEpisodeImages(tvID int, seasonNum int, episodeNum int)
 	url := util.JoinURL(BaseURL, "tv", tvID, "season", seasonNum, "episode", episodeNum, "images")
 
 	stills := &TVEpisodeStills{}
-	err := cl.doGet(url, Cacheable(stills))
+	err := cl.doGet(url, providers.Cacheable(stills))
 
 	if err != nil {
 		return nil, err
@@ -153,17 +155,21 @@ func (cl ClientImpl) GetTVEpisodeImages(tvID int, seasonNum int, episodeNum int)
 	return stills, nil
 }
 
-func FullImagePath(w int, path string) string {
+// OriginalSize is a parameter to ImagePath to get url to image in original size
+const OriginalSize = -1
+
+// ImagePath returns absolute URL to the image with specified width
+func ImagePath(tmdbPath string, w int) string {
 	if w > 600 {
 		panic("unsupported image size")
 	}
 
 	size := strconv.Itoa(w)
-	if w < 0 {
+	if w == OriginalSize {
 		size = "original"
 	}
 
-	return ImgBaseURL + "/" + size + path
+	return ImgBaseURL + "/" + size + tmdbPath
 }
 
 // New returns new TMDB API client
