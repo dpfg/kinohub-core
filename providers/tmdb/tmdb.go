@@ -53,7 +53,7 @@ type ClientImpl struct {
 }
 
 func (cl ClientImpl) doGet(uri string, qp url.Values, body providers.CacheEntry) error {
-	cache := cl.cache.Get("TMDB_ENTITIES", time.Hour*24)
+	cache := cl.cache.Get("TMDB_ENTITIES", 24*time.Hour)
 
 	if cache.Load(uri, body) {
 		return nil
@@ -62,7 +62,8 @@ func (cl ClientImpl) doGet(uri string, qp url.Values, body providers.CacheEntry)
 	if qp == nil {
 		qp = url.Values{}
 	}
-	qp["api_key"] = []string{cl.apiKey}
+
+	qp.Add("api_key", cl.apiKey)
 
 	resp, err := goreq.Request{
 		Method:      "GET",

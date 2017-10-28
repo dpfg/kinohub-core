@@ -4,4 +4,3 @@ clean:
 
 build:
 	go build
-
