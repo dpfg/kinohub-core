@@ -23,3 +23,12 @@ func append(p1, p2 string) string {
 	}
 	return p1 + "/" + p2
 }
+
+func PadLeft(str, pad string, lenght int) string {
+	for {
+		if len(str) >= lenght {
+			return str
+		}
+		str = pad + str
+	}
+}

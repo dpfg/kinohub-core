@@ -1,7 +1,12 @@
 package kinopub
 
-import "encoding/json"
-import "github.com/dpfg/kinohub-core/domain"
+import (
+	"encoding/json"
+	"strconv"
+
+	"github.com/dpfg/kinohub-core/domain"
+	"github.com/dpfg/kinohub-core/util"
+)
 
 type Item struct {
 	ID       int64  `json:"id"`
@@ -112,4 +117,12 @@ func (item *Item) DomainType() string {
 	default:
 		return domain.TypeUnknown
 	}
+}
+
+func (item *Item) ImdbID() string {
+	sid := strconv.Itoa(item.Imdb)
+	if len(sid) < 7 {
+		sid = util.PadLeft(sid, "0", 7)
+	}
+	return "tt" + sid
 }

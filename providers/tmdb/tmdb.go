@@ -2,6 +2,7 @@ package tmdb
 
 import (
 	"net/http"
+	"net/url"
 	"os"
 	"strconv"
 	"time"
@@ -30,7 +31,9 @@ type Client interface {
 	// Get the images that belong to a TV episode.
 	GetTVEpisodeImages(tvID int, seasonNum int, episodeNum int) (*TVEpisodeStills, error)
 
-	// FindByID(id string) (*SearchResult, error)
+	FindByExternalID(id string) (*SearchResult, error)
+
+	FindTVShowByExternalID(id string) (*TVShow, error)
 }
 
 const (
@@ -49,22 +52,25 @@ type ClientImpl struct {
 	preferenceStorage providers.PreferenceStorage
 }
 
-func (cl ClientImpl) doGet(url string, body providers.CacheEntry) error {
+func (cl ClientImpl) doGet(uri string, qp url.Values, body providers.CacheEntry) error {
 	cache := cl.cache.Get("TMDB_ENTITIES", time.Hour*24)
 
-	if cache.Load(url, body) {
+	if cache.Load(uri, body) {
 		return nil
 	}
 
+	if qp == nil {
+		qp = url.Values{}
+	}
+	qp["api_key"] = []string{cl.apiKey}
+
 	resp, err := goreq.Request{
-		Method: "GET",
-		Uri:    url,
-		QueryString: struct {
-			APIKey string `url:"api_key,omitempty"`
-		}{
-			APIKey: cl.apiKey,
-		},
+		Method:      "GET",
+		Uri:         uri,
+		QueryString: qp,
 	}.Do()
+
+	cl.logger.Debug(resp)
 
 	if resp.StatusCode != http.StatusOK {
 		return errors.Errorf("Network error - %s", resp.Status)
@@ -80,7 +86,7 @@ func (cl ClientImpl) doGet(url string, body providers.CacheEntry) error {
 		return errors.WithMessage(err, "cannot unmarshal response")
 	}
 
-	cache.Save(url, body)
+	cache.Save(uri, body)
 
 	return nil
 }
@@ -90,7 +96,7 @@ func (cl ClientImpl) GetTVShowByID(id int) (*TVShow, error) {
 	cl.logger.Debugf("Getting TMDB show by ID=[%d]", id)
 
 	show := &TVShow{}
-	err := cl.doGet(util.JoinURL(BaseURL, "tv", strconv.Itoa(id)), providers.Cacheable(show))
+	err := cl.doGet(util.JoinURL(BaseURL, "tv", strconv.Itoa(id)), nil, providers.Cacheable(show))
 	if err != nil {
 		return nil, err
 	}
@@ -108,7 +114,7 @@ func (cl ClientImpl) GetTVShowExternalIDS(id int) {
 // GetTVShowImages returns the images that belong to a TV show.
 func (cl ClientImpl) GetTVShowImages(id int) (*ShowBackdrops, error) {
 	backdrops := &ShowBackdrops{}
-	err := cl.doGet(util.JoinURL(BaseURL, "tv", id, "images"), providers.Cacheable(backdrops))
+	err := cl.doGet(util.JoinURL(BaseURL, "tv", id, "images"), nil, providers.Cacheable(backdrops))
 	if err != nil {
 		return nil, err
 	}
@@ -119,7 +125,7 @@ func (cl ClientImpl) GetTVShowImages(id int) (*ShowBackdrops, error) {
 // GetTVSeason return the detailed information about the season
 func (cl ClientImpl) GetTVSeason(id, seasonNum int) (*TVSeason, error) {
 	season := &TVSeason{}
-	err := cl.doGet(util.JoinURL(BaseURL, "tv", id, "season", seasonNum), providers.Cacheable(season))
+	err := cl.doGet(util.JoinURL(BaseURL, "tv", id, "season", seasonNum), nil, providers.Cacheable(season))
 	if err != nil {
 		return nil, err
 	}
@@ -134,7 +140,7 @@ func (cl ClientImpl) GetTVEpisode(tvID int, seasonNum int, episodeNum int) (*TVE
 	url := util.JoinURL(BaseURL, "tv", tvID, "season", seasonNum, "episode", episodeNum)
 
 	episode := &TVEpisode{}
-	err := cl.doGet(url, providers.Cacheable(episode))
+	err := cl.doGet(url, nil, providers.Cacheable(episode))
 
 	if err != nil {
 		return nil, err
@@ -148,13 +154,44 @@ func (cl ClientImpl) GetTVEpisodeImages(tvID int, seasonNum int, episodeNum int)
 	url := util.JoinURL(BaseURL, "tv", tvID, "season", seasonNum, "episode", episodeNum, "images")
 
 	stills := &TVEpisodeStills{}
-	err := cl.doGet(url, providers.Cacheable(stills))
+	err := cl.doGet(url, nil, providers.Cacheable(stills))
 
 	if err != nil {
 		return nil, err
 	}
 
 	return stills, nil
+}
+
+// FindByExternalID search TMDB entry by IMDB id
+func (cl ClientImpl) FindByExternalID(id string) (*SearchResult, error) {
+	uri := util.JoinURL(BaseURL, "find", id)
+	result := &SearchResult{}
+
+	err := cl.doGet(
+		uri,
+		map[string][]string{"external_source": []string{"imdb_id"}},
+		providers.Cacheable(result),
+	)
+	if err != nil {
+		return nil, err
+	}
+	cl.logger.Debugf("Search by external id: tv=%d", len(result.TVResults))
+
+	return result, nil
+}
+
+func (cl ClientImpl) FindTVShowByExternalID(id string) (*TVShow, error) {
+	result, err := cl.FindByExternalID(id)
+	if err != nil {
+		return nil, err
+	}
+
+	if len(result.TVResults) > 0 {
+		return &result.TVResults[0], nil
+	}
+
+	return nil, nil
 }
 
 // OriginalSize is a parameter to ImagePath to get url to image in original size

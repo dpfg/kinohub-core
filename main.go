@@ -126,7 +126,7 @@ func main() {
 	})
 
 	r.GET("/search2", func(c *gin.Context) {
-		search := services.ContentSearchImpl{Kinopub: kpc}
+		search := services.ContentSearchImpl{Kinopub: kpc, TMDB: tmdb, Logger: logger.WithField("prefix", "search")}
 		result, err := search.Search(c.Query("q"))
 		if err != nil {
 			httpError(c, http.StatusBadGateway, err.Error())

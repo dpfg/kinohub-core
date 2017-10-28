@@ -98,4 +98,5 @@ type ShowBackdrops struct {
 }
 
 type SearchResult struct {
+	TVResults []TVShow `json:"tv_results"`
 }
