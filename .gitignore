@@ -12,6 +12,8 @@
 debug
 kinohub-core
 
+.idea
+
 # VSCode
 .vscode
 
