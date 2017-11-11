@@ -34,6 +34,8 @@ func (tc *TraktClient) GetAuthCodeURL() string {
 }
 
 func (tc *TraktClient) Exchange(ctx context.Context, code string) (*oauth2.Token, error) {
+	// for some reason trakt tv wants to see json body instead of urlencoded body
+	// TODO: replace with manual request
 	return tc.Config.Exchange(ctx, code)
 }
 
@@ -187,7 +189,7 @@ func NewTraktClient(logger *logrus.Logger) *TraktClient {
 				AuthURL:  "https://api.trakt.tv/oauth/authorize",
 				TokenURL: "https://api.trakt.tv/oauth/token",
 			},
-			RedirectURL: "http://localhost:1323/callback/trakt",
+			RedirectURL: "http://localhost:8081/trakt/exchange",
 		},
 		PreferenceStorage: providers.JSONPreferenceStorage{
 			Path: ".data/",

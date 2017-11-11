@@ -43,7 +43,8 @@ const (
 )
 
 type SearchResult struct {
-	Type   string `json:"type,omitempty"`
-	TmdbID int    `json:"tmdb_id,omitempty"`
-	Title  string `json:"title,omitempty"`
+	Type       string `json:"type,omitempty"`
+	TmdbID     int    `json:"tmdb_id,omitempty"`
+	Title      string `json:"title,omitempty"`
+	PosterPath string `json:"poster_path,omitempty"`
 }

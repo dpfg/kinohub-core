@@ -1,6 +1,7 @@
 package main
 
 import (
+	"context"
 	"fmt"
 	"net/http"
 	"strconv"
@@ -48,14 +49,16 @@ func main() {
 	}
 	defer server.Shutdown()
 
-	r := gin.New()
-	r.Use(gin.Recovery())
+	router := gin.New()
+	router.Use(gin.Recovery())
+
+	router.LoadHTMLGlob("templates/*")
 
 	config := cors.DefaultConfig()
 	config.AllowAllOrigins = true
-	r.Use(cors.New(config))
+	router.Use(cors.New(config))
 
-	r.Use(util.HTTPLogger(logger))
+	router.Use(util.HTTPLogger(logger))
 
 	// Initialize common cache manager that will be used by API clients
 	cacheFactory, err := providers.NewCacheFactory(logger)
@@ -74,7 +77,7 @@ func main() {
 	feed := services.NewFeed(tc, kpc, logger)
 	tmdb := tmdb.New(logger, cacheFactory, ps)
 
-	r.GET("/show/:show-id", func(c *gin.Context) {
+	router.GET("/show/:show-id", func(c *gin.Context) {
 		id, err := strconv.Atoi(c.Param("show-id"))
 		if err != nil {
 			httpError(c, http.StatusBadRequest, err.Error())
@@ -90,7 +93,7 @@ func main() {
 		c.JSON(http.StatusOK, show)
 	})
 
-	r.GET("/show/:show-id/seasons/:season-num", func(c *gin.Context) {
+	router.GET("/show/:show-id/seasons/:season-num", func(c *gin.Context) {
 		show, err := strconv.Atoi(c.Param("show-id"))
 		if err != nil {
 			httpError(c, http.StatusBadRequest, err.Error())
@@ -112,7 +115,7 @@ func main() {
 		c.JSON(http.StatusOK, season)
 	})
 
-	r.GET("/search", func(c *gin.Context) {
+	router.GET("/search", func(c *gin.Context) {
 		r, err := kpc.SearchItemBy(kinopub.ItemsFilter{
 			Title: c.Query("q"),
 		})
@@ -125,7 +128,7 @@ func main() {
 		c.JSON(200, r)
 	})
 
-	r.GET("/search2", func(c *gin.Context) {
+	router.GET("/search2", func(c *gin.Context) {
 		search := services.ContentSearchImpl{Kinopub: kpc, TMDB: tmdb, Logger: logger.WithField("prefix", "search")}
 		result, err := search.Search(c.Query("q"))
 		if err != nil {
@@ -136,7 +139,7 @@ func main() {
 		c.JSON(200, result)
 	})
 
-	r.GET("/items/:item-id", func(c *gin.Context) {
+	router.GET("/items/:item-id", func(c *gin.Context) {
 		id, err := strconv.Atoi(c.Param("item-id"))
 		if err != nil {
 			httpError(c, http.StatusBadRequest, err.Error())
@@ -152,7 +155,7 @@ func main() {
 		c.JSON(200, item)
 	})
 
-	r.GET("/tv/releases", func(c *gin.Context) {
+	router.GET("/tv/releases", func(c *gin.Context) {
 		from, _ := time.Parse("2006-01-02", c.Query("from"))
 		to, _ := time.Parse("2006-01-02", c.Query("to"))
 
@@ -165,7 +168,7 @@ func main() {
 		c.JSON(http.StatusOK, releases)
 	})
 
-	r.POST("/scrobble/:tmdb-id", func(c *gin.Context) {
+	router.POST("/scrobble/:tmdb-id", func(c *gin.Context) {
 		id, err := strconv.Atoi(c.Param("tmdb-id"))
 		if err != nil {
 			httpError(c, http.StatusBadRequest, err.Error())
@@ -179,7 +182,7 @@ func main() {
 		}
 	})
 
-	r.GET("/trakt/trending", func(c *gin.Context) {
+	router.GET("/trakt/trending", func(c *gin.Context) {
 		shows, err := tc.GetTrendingShows()
 		if err != nil {
 			httpError(c, http.StatusInternalServerError, err.Error())
@@ -189,26 +192,65 @@ func main() {
 		c.JSON(http.StatusOK, shows)
 	})
 
-	// r.GET("/trakt/signin", func(c *gin.Context) {
-	// 	cl := trakt.NewTraktClient()
-	// 	// f0429b45753645dae219dcf44d673e4eda082dd1dc0f808e925c5e78b6184019
-	// 	c.JSON(http.StatusOK, cl.GetAuthCodeURL())
-	// })
+	router.GET("/ui/show/:show-id", func(c *gin.Context) {
+		id, err := strconv.Atoi(c.Param("show-id"))
+		if err != nil {
+			httpError(c, http.StatusBadRequest, err.Error())
+			return
+		}
 
-	// r.GET("/trakt/exchange", func(c *gin.Context) {
-	// 	cl := trakt.NewTraktClient()
-	// 	t, err := cl.Exchange(context.Background(), "f0429b45753645dae219dcf44d673e4eda082dd1dc0f808e925c5e78b6184019")
-	// 	if err != nil {
-	// 		c.JSON(http.StatusInternalServerError, err.Error())
-	// 		return
-	// 	}
+		show, err := tmdb.GetTVShowByID(id)
+		if err != nil {
+			httpError(c, http.StatusBadGateway, err.Error())
+			return
+		}
 
-	// 	c.JSON(http.StatusOK, t)
-	// })
+		c.HTML(http.StatusOK, "show.html", gin.H{
+			"show": *show,
+		})
+	})
 
-	r.Run(fmt.Sprintf("0.0.0.0:%d", defaultPort)) // listen and serve on 0.0.0.0:8080
+	router.GET("/ui/show/:show-id/seasons/:season-num", func(c *gin.Context) {
+		show, err := strconv.Atoi(c.Param("show-id"))
+		if err != nil {
+			httpError(c, http.StatusBadRequest, err.Error())
+			return
+		}
+
+		seasonNum, err := strconv.Atoi(c.Param("season-num"))
+		if err != nil {
+			httpError(c, http.StatusBadRequest, err.Error())
+			return
+		}
+
+		season, err := tmdb.GetTVSeason(show, seasonNum)
+		if err != nil {
+			httpError(c, http.StatusBadGateway, err.Error())
+			return
+		}
+
+		c.HTML(http.StatusOK, "season.html", gin.H{
+			"season": season,
+		})
+	})
+
+	router.GET("/trakt/signin", func(c *gin.Context) {
+		c.JSON(http.StatusOK, tc.GetAuthCodeURL())
+	})
+
+	router.GET("/trakt/exchange", func(c *gin.Context) {
+		t, err := tc.Exchange(context.Background(), c.Param("code"))
+		if err != nil {
+			c.JSON(http.StatusInternalServerError, err.Error())
+			return
+		}
+
+		c.JSON(http.StatusOK, t)
+	})
+
+	router.Run(fmt.Sprintf("0.0.0.0:%d", defaultPort)) // listen and serve on 0.0.0.0:8080
 }
 
 func httpError(c *gin.Context, code int, msg string) {
-	c.JSON(http.StatusInternalServerError, struct{ Msg string }{Msg: msg})
+	c.JSON(code, struct{ Msg string }{Msg: msg})
 }

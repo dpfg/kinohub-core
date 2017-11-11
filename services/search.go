@@ -4,7 +4,6 @@ import (
 	"github.com/dpfg/kinohub-core/domain"
 	"github.com/dpfg/kinohub-core/providers/kinopub"
 	"github.com/dpfg/kinohub-core/providers/tmdb"
-	"github.com/pkg/errors"
 	"github.com/sirupsen/logrus"
 )
 
@@ -30,21 +29,22 @@ func (cs ContentSearchImpl) Search(q string) ([]domain.SearchResult, error) {
 
 	result := make([]domain.SearchResult, 0)
 	for _, item := range r {
-		tmdbItem, err := cs.TMDB.FindTVShowByExternalID(item.ImdbID())
-		if err != nil {
-			cs.Logger.Error(errors.WithMessage(err, "cannot load TMDB entry by IMDB id").Error())
-			continue
-		}
+		// tmdbItem, err := cs.TMDB.FindTVShowByExternalID(item.ImdbID())
+		// if err != nil {
+		// 	cs.Logger.Error(errors.WithMessage(err, "cannot load TMDB entry by IMDB id").Error())
+		// 	continue
+		// }
 
-		if tmdbItem == nil {
-			cs.Logger.Debugf("Skip search result item [%d]", item.ID)
-			continue
-		}
+		// if tmdbItem == nil {
+		// 	cs.Logger.Debugf("Skip search result item [%d]", item.ID)
+		// 	continue
+		// }
 
 		result = append(result, domain.SearchResult{
-			Type:   item.DomainType(),
-			Title:  item.Title,
-			TmdbID: tmdbItem.ID,
+			Type:       item.DomainType(),
+			Title:      item.Title,
+			PosterPath: item.Posters.Big,
+			// TmdbID: i.ID,
 		})
 	}
 

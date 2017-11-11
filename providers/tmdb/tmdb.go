@@ -73,7 +73,7 @@ func (cl ClientImpl) doGet(uri string, qp url.Values, body providers.CacheEntry)
 
 	cl.logger.Debug(resp)
 
-	if resp.StatusCode != http.StatusOK {
+	if resp == nil || resp.StatusCode != http.StatusOK {
 		return errors.Errorf("Network error - %s", resp.Status)
 	}
 

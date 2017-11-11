@@ -1,0 +1,15 @@
+<section>
+    <h1>{{ .season.SeasonNumber }}</h1>
+    <img src="{{ .season.PosterPath }} " alt="poster">
+
+    <ul>
+        {{ range $index, $episode := .season.Episodes }}
+        <li>
+            <div>
+                <h2>E{{ $episode.EpisodeNumber }}</h2>
+                <p>{{ $episode.Overview }}</p>
+            </div>
+        </li>
+        {{ end }}
+    </ul>
+</section>
