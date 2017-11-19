@@ -97,6 +97,15 @@ type ShowBackdrops struct {
 	} `json:"posters"`
 }
 
+type Ids struct {
+	ImdbID      string `json:"imdb_id"`
+	FreebaseMid string `json:"freebase_mid"`
+	FreebaseID  string `json:"freebase_id"`
+	TvdbID      int    `json:"tvdb_id"`
+	TvrageID    int    `json:"tvrage_id"`
+	ID          int    `json:"id"`
+}
+
 type SearchResult struct {
 	TVResults []TVShow `json:"tv_results"`
 }

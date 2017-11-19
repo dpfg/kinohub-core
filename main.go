@@ -52,8 +52,6 @@ func main() {
 	router := gin.New()
 	router.Use(gin.Recovery())
 
-	router.LoadHTMLGlob("templates/*")
-
 	config := cors.DefaultConfig()
 	config.AllowAllOrigins = true
 	router.Use(cors.New(config))
@@ -75,7 +73,8 @@ func main() {
 	kpc := kinopub.NewKinoPubClient(logger, cacheFactory)
 	tc := trakt.NewTraktClient(logger)
 	feed := services.NewFeed(tc, kpc, logger)
-	tmdb := tmdb.New(logger, cacheFactory, ps)
+	tmdbc := tmdb.New(logger, cacheFactory, ps)
+	browser := services.NewContentBrowser(kpc, tmdbc)
 
 	router.GET("/show/:show-id", func(c *gin.Context) {
 		id, err := strconv.Atoi(c.Param("show-id"))
@@ -84,7 +83,7 @@ func main() {
 			return
 		}
 
-		show, err := tmdb.GetTVShowByID(id)
+		show, err := tmdbc.GetTVShowByID(id)
 		if err != nil {
 			httpError(c, http.StatusBadGateway, err.Error())
 			return
@@ -94,7 +93,7 @@ func main() {
 	})
 
 	router.GET("/show/:show-id/seasons/:season-num", func(c *gin.Context) {
-		show, err := strconv.Atoi(c.Param("show-id"))
+		showId, err := strconv.Atoi(c.Param("show-id"))
 		if err != nil {
 			httpError(c, http.StatusBadRequest, err.Error())
 			return
@@ -106,7 +105,7 @@ func main() {
 			return
 		}
 
-		season, err := tmdb.GetTVSeason(show, seasonNum)
+		season, err := browser.GetSeason(showId, seasonNum)
 		if err != nil {
 			httpError(c, http.StatusBadGateway, err.Error())
 			return
@@ -129,7 +128,7 @@ func main() {
 	})
 
 	router.GET("/search2", func(c *gin.Context) {
-		search := services.ContentSearchImpl{Kinopub: kpc, TMDB: tmdb, Logger: logger.WithField("prefix", "search")}
+		search := services.ContentSearchImpl{Kinopub: kpc, TMDB: tmdbc, Logger: logger.WithField("prefix", "search")}
 		result, err := search.Search(c.Query("q"))
 		if err != nil {
 			httpError(c, http.StatusBadGateway, err.Error())
@@ -168,8 +167,8 @@ func main() {
 		c.JSON(http.StatusOK, releases)
 	})
 
-	router.POST("/scrobble/:tmdb-id", func(c *gin.Context) {
-		id, err := strconv.Atoi(c.Param("tmdb-id"))
+	router.POST("/scrobble/:tmdbc-id", func(c *gin.Context) {
+		id, err := strconv.Atoi(c.Param("tmdbc-id"))
 		if err != nil {
 			httpError(c, http.StatusBadRequest, err.Error())
 			return
@@ -190,48 +189,6 @@ func main() {
 		}
 
 		c.JSON(http.StatusOK, shows)
-	})
-
-	router.GET("/ui/show/:show-id", func(c *gin.Context) {
-		id, err := strconv.Atoi(c.Param("show-id"))
-		if err != nil {
-			httpError(c, http.StatusBadRequest, err.Error())
-			return
-		}
-
-		show, err := tmdb.GetTVShowByID(id)
-		if err != nil {
-			httpError(c, http.StatusBadGateway, err.Error())
-			return
-		}
-
-		c.HTML(http.StatusOK, "show.html", gin.H{
-			"show": *show,
-		})
-	})
-
-	router.GET("/ui/show/:show-id/seasons/:season-num", func(c *gin.Context) {
-		show, err := strconv.Atoi(c.Param("show-id"))
-		if err != nil {
-			httpError(c, http.StatusBadRequest, err.Error())
-			return
-		}
-
-		seasonNum, err := strconv.Atoi(c.Param("season-num"))
-		if err != nil {
-			httpError(c, http.StatusBadRequest, err.Error())
-			return
-		}
-
-		season, err := tmdb.GetTVSeason(show, seasonNum)
-		if err != nil {
-			httpError(c, http.StatusBadGateway, err.Error())
-			return
-		}
-
-		c.HTML(http.StatusOK, "season.html", gin.H{
-			"season": season,
-		})
 	})
 
 	router.GET("/trakt/signin", func(c *gin.Context) {

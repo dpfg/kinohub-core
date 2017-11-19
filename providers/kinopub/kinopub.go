@@ -7,6 +7,8 @@ import (
 	"strconv"
 	"time"
 
+	"strings"
+
 	"github.com/dpfg/kinohub-core/providers"
 	"github.com/dpfg/kinohub-core/util"
 	"github.com/franela/goreq"
@@ -34,6 +36,8 @@ type KinoPubClient interface {
 	GetItemById(id int) (*Item, error)
 
 	GetEpisode(imdbID int, title string, seasonNum int, episodeNum int) (interface{}, error)
+
+	FindItemByIMDB(imdbID int, title string) (*Item, error)
 }
 
 type ItemsFilter struct {
@@ -210,7 +214,7 @@ func (cl KinoPubClientImpl) GetItemById(id int) (*Item, error) {
 		return nil, errors.WithStack(err)
 	}
 
-	cache.Save(cacheKey, m.Item)
+	cache.Save(cacheKey, &m.Item)
 
 	return &m.Item, nil
 }
@@ -276,6 +280,11 @@ func (cl KinoPubClientImpl) GetEpisode(imdbID int, title string, seasonNum int, 
 		}
 	}
 	return nil, nil
+}
+
+func StripImdbID(id string) int {
+	i, _ := strconv.Atoi(strings.Replace(id, "t", "", -1))
+	return i
 }
 
 // NewKinoPubClient returns new kinopub client

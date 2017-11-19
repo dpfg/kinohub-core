@@ -33,10 +33,12 @@ type FeedImpl struct {
 }
 
 func (f FeedImpl) Releases(from time.Time, to time.Time) ([]FeedItem, error) {
+	start := time.Now()
 	m, err := f.tc.GetMyShows(from, to)
 	if err != nil {
 		return nil, err
 	}
+	f.logger.Debugf("Loaded recent shows in %s", time.Now().Sub(start).String())
 
 	r := make([]FeedItem, 0)
 	for _, item := range m {
@@ -69,6 +71,6 @@ func NewFeed(tc *trakt.TraktClient, kpc kinopub.KinoPubClient, logger *logrus.Lo
 	return FeedImpl{
 		tc:     tc,
 		kpc:    kpc,
-		logger: logger.WithFields(logrus.Fields{"prefix": "kinpub"}),
+		logger: logger.WithFields(logrus.Fields{"prefix": "feed"}),
 	}
 }

@@ -19,13 +19,11 @@ type Client interface {
 	// Get the primary TV show details by id.
 	GetTVShowByID(id int) (*TVShow, error)
 	// Get the external ids for a TV show
-	GetTVShowExternalIDS(id int)
+	GetTVShowExternalIDS(id int) (*Ids, error)
 	// Get the images that belong to a TV show.
 	GetTVShowImages(id int) (*ShowBackdrops, error)
-
 	//
 	GetTVSeason(id, seasonNum int) (*TVSeason, error)
-
 	// Get the TV episode details by id.
 	GetTVEpisode(tvID int, seasonNum int, episodeNum int) (*TVEpisode, error)
 	// Get the images that belong to a TV episode.
@@ -108,8 +106,14 @@ func (cl ClientImpl) GetTVShowByID(id int) (*TVShow, error) {
 }
 
 // GetTVShowExternalIDS returns the external ids for a TV show
-func (cl ClientImpl) GetTVShowExternalIDS(id int) {
-	panic("not implemented")
+func (cl ClientImpl) GetTVShowExternalIDS(id int) (*Ids, error) {
+	ids := &Ids{}
+	err := cl.doGet(util.JoinURL(BaseURL, "tv", id, "external_ids"), nil, providers.Cacheable(ids))
+	if err != nil {
+		return nil, err
+	}
+
+	return ids, err
 }
 
 // GetTVShowImages returns the images that belong to a TV show.
@@ -124,9 +128,9 @@ func (cl ClientImpl) GetTVShowImages(id int) (*ShowBackdrops, error) {
 }
 
 // GetTVSeason return the detailed information about the season
-func (cl ClientImpl) GetTVSeason(id, seasonNum int) (*TVSeason, error) {
+func (cl ClientImpl) GetTVSeason(seriesID, seasonNum int) (*TVSeason, error) {
 	season := &TVSeason{}
-	err := cl.doGet(util.JoinURL(BaseURL, "tv", id, "season", seasonNum), nil, providers.Cacheable(season))
+	err := cl.doGet(util.JoinURL(BaseURL, "tv", seriesID, "season", seasonNum), nil, providers.Cacheable(season))
 	if err != nil {
 		return nil, err
 	}

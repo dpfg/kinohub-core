@@ -86,18 +86,20 @@ type Item struct {
 				Embed bool   `json:"embed"`
 				URL   string `json:"url"`
 			} `json:"subtitles"`
-			Files []struct {
-				W       int    `json:"w"`
-				H       int    `json:"h"`
-				Quality string `json:"quality"`
-				URL     struct {
-					HTTP string `json:"http"`
-					Hls  string `json:"hls"`
-					Hls4 string `json:"hls4"`
-				} `json:"url"`
-			} `json:"files"`
+			Files []File `json:"files"`
 		} `json:"episodes"`
 	} `json:"seasons"`
+}
+
+type File struct {
+	W       int    `json:"w"`
+	H       int    `json:"h"`
+	Quality string `json:"quality"`
+	URL     struct {
+		HTTP string `json:"http"`
+		Hls  string `json:"hls"`
+		Hls4 string `json:"hls4"`
+	} `json:"url"`
 }
 
 func (item Item) MarshalBinary() (data []byte, err error) {
