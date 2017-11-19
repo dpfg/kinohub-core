@@ -41,10 +41,10 @@ func (cs ContentSearchImpl) Search(q string) ([]domain.SearchResult, error) {
 		// }
 
 		result = append(result, domain.SearchResult{
+			UID:        kinopub.ToUID(item.ID),
 			Type:       item.DomainType(),
 			Title:      item.Title,
 			PosterPath: item.Posters.Big,
-			// TmdbID: i.ID,
 		})
 	}
 

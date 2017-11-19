@@ -52,11 +52,11 @@ func (f FeedImpl) Releases(from time.Time, to time.Time) ([]FeedItem, error) {
 		r = append(r, FeedItem{
 			ContentAvailable: ep != nil,
 			Show: domain.Show{
-				Title:  item.Show.Title,
-				TmdbID: item.Show.Ids.Tmdb,
+				Title: item.Show.Title,
+				UID:   tmdb.ToUID(item.Show.Ids.Tmdb),
 			},
 			Episode: domain.Episode{
-				TmdbID:     item.Episode.Ids.Tmdb,
+				UID:        tmdb.ToUID(item.Episode.Ids.Tmdb),
 				Title:      item.Episode.Title,
 				Number:     item.Episode.Number,
 				Season:     item.Episode.Season,

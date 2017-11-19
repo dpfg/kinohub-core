@@ -37,7 +37,7 @@ func (b ContentBrowserImpl) GetSeason(id, seasonNum int) (*domain.Season, error)
 	kpi, err := b.Kinopub.FindItemByIMDB(kinopub.StripImdbID(ids.ImdbID), show.Name)
 
 	return &domain.Season{
-		TmdbID:     season.ID,
+		UID:        tmdb.ToUID(season.ID),
 		Name:       season.Name,
 		AirDate:    season.AirDate,
 		Number:     season.SeasonNumber,
@@ -48,14 +48,13 @@ func (b ContentBrowserImpl) GetSeason(id, seasonNum int) (*domain.Season, error)
 
 func toDomain(season *tmdb.TVSeason, kpi *kinopub.Item) []domain.Episode {
 	r := make([]domain.Episode, 0)
-
 	for _, episode := range season.Episodes {
 		de := domain.Episode{
 			Number: episode.EpisodeNumber,
 			// FirstAired: episode.AirDate, // TODO:
 			Overview: episode.Overview,
 			Title:    episode.Name,
-			TmdbID:   episode.ID,
+			UID:      tmdb.ToUID(episode.ID),
 		}
 
 		if kpi != nil {

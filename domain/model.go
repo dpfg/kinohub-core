@@ -5,14 +5,14 @@ import (
 )
 
 type Movie struct {
-	TmdbID   int    `json:"tmdb_id,omitempty"`
+	UID      string `json:"uid,omitempty"`
 	Title    string `json:"title,omitempty"`
 	Year     int    `json:"year,omitempty"`
 	Overview string `json:"overview,omitempty"`
 }
 
 type Show struct {
-	TmdbID   int      `json:"tmdb_id,omitempty"`
+	UID      string   `json:"uid,omitempty"`
 	Title    string   `json:"title,omitempty"`
 	Year     int      `json:"year,omitempty"`
 	Overview string   `json:"overview,omitempty"`
@@ -20,7 +20,7 @@ type Show struct {
 }
 
 type Season struct {
-	TmdbID     int       `json:"tmdb_id,omitempty"`
+	UID        string    `json:"uid,omitempty"`
 	Name       string    `json:"name,omitempty"`
 	Number     int       `json:"number,omitempty"`
 	AirDate    string    `json:"air_date"`
@@ -29,7 +29,7 @@ type Season struct {
 }
 
 type Episode struct {
-	TmdbID     int       `json:"tmdb_id,omitempty"`
+	UID        string    `json:"uid,omitempty"`
 	Season     int       `json:"season,omitempty"`
 	Number     int       `json:"number,omitempty"`
 	Title      string    `json:"title,omitempty"`
@@ -55,7 +55,7 @@ const (
 
 type SearchResult struct {
 	Type       string `json:"type,omitempty"`
-	TmdbID     int    `json:"tmdb_id,omitempty"`
+	UID        string `json:"uid,omitempty"`
 	Title      string `json:"title,omitempty"`
 	PosterPath string `json:"poster_path,omitempty"`
 }

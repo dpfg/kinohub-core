@@ -1,6 +1,7 @@
 package tmdb
 
 import (
+	"fmt"
 	"net/http"
 	"net/url"
 	"os"
@@ -224,4 +225,8 @@ func New(logger *logrus.Logger, cf providers.CacheFactory, ps providers.Preferen
 		cache:             cf,
 		logger:            logger.WithField("prefix", "tmdb"),
 	}
+}
+
+func ToUID(id int) string {
+	return fmt.Sprintf("%s%d", providers.ID_TYPE_TMDB, id)
 }

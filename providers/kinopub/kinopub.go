@@ -282,11 +282,6 @@ func (cl KinoPubClientImpl) GetEpisode(imdbID int, title string, seasonNum int, 
 	return nil, nil
 }
 
-func StripImdbID(id string) int {
-	i, _ := strconv.Atoi(strings.Replace(id, "t", "", -1))
-	return i
-}
-
 // NewKinoPubClient returns new kinopub client
 func NewKinoPubClient(logger *logrus.Logger, cf providers.CacheFactory) KinoPubClient {
 	return KinoPubClientImpl{
@@ -298,4 +293,13 @@ func NewKinoPubClient(logger *logrus.Logger, cf providers.CacheFactory) KinoPubC
 		CacheFactory: cf,
 		Logger:       logger.WithFields(logrus.Fields{"prefix": "kinpub"}),
 	}
+}
+
+func StripImdbID(id string) int {
+	i, _ := strconv.Atoi(strings.Replace(id, "t", "", -1))
+	return i
+}
+
+func ToUID(id int64) string {
+	return fmt.Sprintf("%s%d", providers.ID_TYPE_KINOHUB, id)
 }
