@@ -209,12 +209,12 @@ func ImagePath(tmdbPath string, w int) string {
 		panic("unsupported image size")
 	}
 
-	size := strconv.Itoa(w)
+	size := "w" + strconv.Itoa(w)
 	if w == OriginalSize {
 		size = "original"
 	}
 
-	return ImgBaseURL + "/" + size + tmdbPath
+	return ImgBaseURL + size + tmdbPath
 }
 
 // New returns new TMDB API client

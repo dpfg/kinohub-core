@@ -36,33 +36,51 @@ func (b ContentBrowserImpl) GetSeason(id, seasonNum int) (*domain.Season, error)
 
 	kpi, err := b.Kinopub.FindItemByIMDB(kinopub.StripImdbID(ids.ImdbID), show.Name)
 
-	return &domain.Season{
-		UID:        tmdb.ToUID(season.ID),
-		Name:       season.Name,
-		AirDate:    season.AirDate,
-		Number:     season.SeasonNumber,
-		PosterPath: season.PosterPath,
-		Episodes:   toDomain(season, kpi),
-	}, nil
+	if err != nil {
+		return nil, err
+	}
+
+	if kpi, err = b.Kinopub.GetItemById(kpi.ID); kpi != nil {
+		return &domain.Season{
+			UID:        tmdb.ToUID(season.ID),
+			Name:       season.Name,
+			AirDate:    season.AirDate,
+			Number:     season.SeasonNumber,
+			PosterPath: season.PosterPath,
+			Episodes:   toDomain(season, kpi),
+		}, nil
+	}
+
+	return nil, err
+}
+
+func (b ContentBrowserImpl) GetShow(uid string) (*domain.Series, error) {
+	return nil, nil
+	// if providers.CheckUIDType(uid, providers.ID_TYPE_KINOHUB) {
+
+	// }
 }
 
 func toDomain(season *tmdb.TVSeason, kpi *kinopub.Item) []domain.Episode {
 	r := make([]domain.Episode, 0)
+
 	for _, episode := range season.Episodes {
 		de := domain.Episode{
 			Number: episode.EpisodeNumber,
 			// FirstAired: episode.AirDate, // TODO:
-			Overview: episode.Overview,
-			Title:    episode.Name,
-			UID:      tmdb.ToUID(episode.ID),
+			Overview:  episode.Overview,
+			Title:     episode.Name,
+			UID:       tmdb.ToUID(episode.ID),
+			StillPath: tmdb.ImagePath(episode.StillPath, tmdb.OriginalSize),
 		}
 
 		if kpi != nil {
+
 			if len(kpi.Seasons) >= season.SeasonNumber {
-				kps := kpi.Seasons[season.SeasonNumber]
+				kps := kpi.Seasons[season.SeasonNumber-1]
 
 				if len(kps.Episodes) >= episode.EpisodeNumber {
-					de.Files = toDomainFiles(kps.Episodes[episode.EpisodeNumber].Files)
+					de.Files = kinopub.ToDomainFiles(kps.Episodes[episode.EpisodeNumber-1].Files)
 				}
 			}
 		}
@@ -70,17 +88,6 @@ func toDomain(season *tmdb.TVSeason, kpi *kinopub.Item) []domain.Episode {
 		r = append(r, de)
 	}
 
-	return r
-}
-
-func toDomainFiles(files []kinopub.File) []domain.File {
-	r := make([]domain.File, 0)
-	for _, f := range files {
-		r = append(r, domain.File{
-			Quality: f.Quality,
-			URL:     f.URL,
-		})
-	}
 	return r
 }
 

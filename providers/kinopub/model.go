@@ -9,7 +9,7 @@ import (
 )
 
 type Item struct {
-	ID       int64  `json:"id"`
+	ID       int    `json:"id"`
 	Type     string `json:"type"`
 	Subtype  string `json:"subtype"`
 	Title    string `json:"title"`
@@ -100,6 +100,17 @@ type File struct {
 		Hls  string `json:"hls"`
 		Hls4 string `json:"hls4"`
 	} `json:"url"`
+}
+
+func ToDomainFiles(files []File) []domain.File {
+	r := make([]domain.File, 0)
+	for _, f := range files {
+		r = append(r, domain.File{
+			Quality: f.Quality,
+			URL:     f.URL,
+		})
+	}
+	return r
 }
 
 func (item Item) MarshalBinary() (data []byte, err error) {

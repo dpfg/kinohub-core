@@ -76,24 +76,20 @@ func main() {
 	tmdbc := tmdb.New(logger, cacheFactory, ps)
 	browser := services.NewContentBrowser(kpc, tmdbc)
 
-	router.GET("/show/:show-id", func(c *gin.Context) {
-		id, err := strconv.Atoi(c.Param("show-id"))
-		if err != nil {
-			httpError(c, http.StatusBadRequest, err.Error())
-			return
-		}
+	router.GET("/series/:series-id", func(c *gin.Context) {
+		uid := c.Param("series-id")
+		// show, err := browser.GetShow(uid)
 
-		show, err := tmdbc.GetTVShowByID(id)
-		if err != nil {
-			httpError(c, http.StatusBadGateway, err.Error())
-			return
-		}
+		// if err != nil {
+		// 	httpError(c, http.StatusBadGateway, err.Error())
+		// 	return
+		// }
 
-		c.JSON(http.StatusOK, show)
+		c.JSON(http.StatusOK, uid)
 	})
 
-	router.GET("/show/:show-id/seasons/:season-num", func(c *gin.Context) {
-		showId, err := strconv.Atoi(c.Param("show-id"))
+	router.GET("/series/:series-id/seasons/:season-num", func(c *gin.Context) {
+		seriesUID, err := strconv.Atoi(c.Param("series-id"))
 		if err != nil {
 			httpError(c, http.StatusBadRequest, err.Error())
 			return
@@ -105,7 +101,7 @@ func main() {
 			return
 		}
 
-		season, err := browser.GetSeason(showId, seasonNum)
+		season, err := browser.GetSeason(seriesUID, seasonNum)
 		if err != nil {
 			httpError(c, http.StatusBadGateway, err.Error())
 			return

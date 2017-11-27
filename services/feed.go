@@ -20,7 +20,7 @@ type Feed interface {
 }
 
 type FeedItem struct {
-	Show             domain.Show    `json:"show,omitempty"`
+	Show             domain.Series  `json:"show,omitempty"`
 	Episode          domain.Episode `json:"episode,omitempty"`
 	ContentAvailable bool           `json:"content_available,omitempty"`
 }
@@ -33,15 +33,15 @@ type FeedImpl struct {
 }
 
 func (f FeedImpl) Releases(from time.Time, to time.Time) ([]FeedItem, error) {
-	start := time.Now()
+
 	m, err := f.tc.GetMyShows(from, to)
 	if err != nil {
 		return nil, err
 	}
-	f.logger.Debugf("Loaded recent shows in %s", time.Now().Sub(start).String())
 
 	r := make([]FeedItem, 0)
 	for _, item := range m {
+
 		imdbID, _ := strconv.Atoi(strings.TrimLeft(item.Show.Ids.Imdb, "tt"))
 		ep, err := f.kpc.GetEpisode(imdbID, item.Show.Title, item.Episode.Season, item.Episode.Number)
 		if err != nil {
@@ -51,7 +51,7 @@ func (f FeedImpl) Releases(from time.Time, to time.Time) ([]FeedItem, error) {
 
 		r = append(r, FeedItem{
 			ContentAvailable: ep != nil,
-			Show: domain.Show{
+			Show: domain.Series{
 				Title: item.Show.Title,
 				UID:   tmdb.ToUID(item.Show.Ids.Tmdb),
 			},

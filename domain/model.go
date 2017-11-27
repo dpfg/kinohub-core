@@ -5,18 +5,20 @@ import (
 )
 
 type Movie struct {
-	UID      string `json:"uid,omitempty"`
-	Title    string `json:"title,omitempty"`
-	Year     int    `json:"year,omitempty"`
-	Overview string `json:"overview,omitempty"`
+	UID        string `json:"uid,omitempty"`
+	Title      string `json:"title,omitempty"`
+	Year       int    `json:"year,omitempty"`
+	Overview   string `json:"overview,omitempty"`
+	PosterPath string `json:"poster_path,omitempty"`
 }
 
-type Show struct {
-	UID      string   `json:"uid,omitempty"`
-	Title    string   `json:"title,omitempty"`
-	Year     int      `json:"year,omitempty"`
-	Overview string   `json:"overview,omitempty"`
-	Seasons  []Season `json:"seasons,omitempty"`
+type Series struct {
+	UID        string   `json:"uid,omitempty"`
+	Title      string   `json:"title,omitempty"`
+	Year       int      `json:"year,omitempty"`
+	Overview   string   `json:"overview,omitempty"`
+	PosterPath string   `json:"poster_path,omitempty"`
+	Seasons    []Season `json:"seasons,omitempty"`
 }
 
 type Season struct {
@@ -36,6 +38,7 @@ type Episode struct {
 	Overview   string    `json:"overview,omitempty"`
 	FirstAired time.Time `json:"first_aired,omitempty"`
 	Files      []File    `json:"files,omitempty"`
+	StillPath  string    `json:"still_path,omitempty"`
 }
 
 type File struct {
