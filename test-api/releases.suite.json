@@ -1,0 +1,26 @@
+[
+    {
+        "name": "TV Releases",
+        "calls": [
+            {
+                "on": {
+                    "method": "GET",
+                    "url": "/tv/releases",
+                    "params": {
+                        "from": "2017-11-20",
+                        "to": "2017-11-22"
+                    }
+                },
+                "expect": {
+                    "statusCode": 200,
+                    "contentType": "application/json",
+                    "body": {
+                        ".3.show.title": "Good Behavior",
+                        ".3.show.uid": "TM64836",
+                        ".3.content_available": true
+                    }
+                }
+            }
+        ]
+    }
+]

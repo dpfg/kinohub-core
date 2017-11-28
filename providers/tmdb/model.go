@@ -1,5 +1,9 @@
 package tmdb
 
+import (
+	"github.com/dpfg/kinohub-core/domain"
+)
+
 type TVShow struct {
 	BackdropPath string `json:"backdrop_path"`
 	CreatedBy    []struct {
@@ -39,6 +43,21 @@ type TVShow struct {
 	VoteCount   int        `json:"vote_count"`
 }
 
+func (show TVShow) ToDomain() *domain.Series {
+	seasons := make([]domain.Season, 0)
+	for _, season := range show.Seasons {
+		seasons = append(seasons, season.ToDomain())
+	}
+
+	return &domain.Series{
+		UID:        ToUID(show.ID),
+		Overview:   show.Overview,
+		PosterPath: ImagePath(show.PosterPath, OriginalSize),
+		Title:      show.Name,
+		Seasons:    seasons,
+	}
+}
+
 type TVSeason struct {
 	ID           int         `json:"id"`
 	AirDate      string      `json:"air_date"`
@@ -47,6 +66,21 @@ type TVSeason struct {
 	Overview     string      `json:"overview"`
 	PosterPath   string      `json:"poster_path"`
 	SeasonNumber int         `json:"season_number"`
+}
+
+func (season TVSeason) ToDomain() domain.Season {
+	episodes := make([]domain.Episode, 0)
+	for _, episode := range season.Episodes {
+		episodes = append(episodes, episode.ToDomain())
+	}
+
+	return domain.Season{
+		Number:     season.SeasonNumber,
+		UID:        ToUID(season.ID),
+		Name:       season.Name,
+		PosterPath: ImagePath(season.PosterPath, OriginalSize),
+		Episodes:   episodes,
+	}
 }
 
 type TVEpisode struct {
@@ -60,6 +94,17 @@ type TVEpisode struct {
 	StillPath      string  `json:"still_path"`
 	VoteAverage    float64 `json:"vote_average"`
 	VoteCount      int     `json:"vote_count"`
+}
+
+func (episode TVEpisode) ToDomain() domain.Episode {
+	return domain.Episode{
+		UID:       ToUID(episode.ID),
+		Title:     episode.Name,
+		Number:    episode.EpisodeNumber,
+		Overview:  episode.Overview,
+		StillPath: ImagePath(episode.StillPath, OriginalSize),
+		Season:    episode.SeasonNumber,
+	}
 }
 
 type TVEpisodeStills struct {

@@ -78,14 +78,14 @@ func main() {
 
 	router.GET("/series/:series-id", func(c *gin.Context) {
 		uid := c.Param("series-id")
-		// show, err := browser.GetShow(uid)
+		show, err := browser.GetShow(uid)
 
-		// if err != nil {
-		// 	httpError(c, http.StatusBadGateway, err.Error())
-		// 	return
-		// }
+		if err != nil {
+			httpError(c, http.StatusBadGateway, err.Error())
+			return
+		}
 
-		c.JSON(http.StatusOK, uid)
+		c.JSON(http.StatusOK, show)
 	})
 
 	router.GET("/series/:series-id/seasons/:season-num", func(c *gin.Context) {

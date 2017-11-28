@@ -6,6 +6,7 @@ import (
 	"net/url"
 	"os"
 	"strconv"
+	"strings"
 	"time"
 
 	"github.com/dpfg/kinohub-core/providers"
@@ -69,8 +70,6 @@ func (cl ClientImpl) doGet(uri string, qp url.Values, body providers.CacheEntry)
 		Uri:         uri,
 		QueryString: qp,
 	}.Do()
-
-	cl.logger.Debug(resp)
 
 	if resp == nil || resp.StatusCode != http.StatusOK {
 		return errors.Errorf("Network error - %s", resp.Status)
@@ -229,4 +228,12 @@ func New(logger *logrus.Logger, cf providers.CacheFactory, ps providers.Preferen
 
 func ToUID(id int) string {
 	return fmt.Sprintf("%s%d", providers.ID_TYPE_TMDB, id)
+}
+
+func ParseUID(uid string) (int, error) {
+	if !strings.HasPrefix(uid, providers.ID_TYPE_TMDB) {
+		return -1, errors.New("Invalid UID type")
+	}
+
+	return strconv.Atoi(strings.TrimLeft(uid, providers.ID_TYPE_TMDB))
 }

@@ -1,0 +1,25 @@
+[
+    {
+        "name": "Search based on kinopub provider",
+        "calls": [
+            {
+                "on": {
+                    "method": "GET",
+                    "url": "/search2",
+                    "params": {
+                        "q": "Big Ban"
+                    }
+                },
+                "expect": {
+                    "statusCode": 200,
+                    "contentType": "application/json",
+                    "body": {
+                        "~title": "Теория Большого Взрыва / The Big Bang Theory",
+                        "~type": "SERIAL",
+                        "~uid": "KH8930"
+                    }
+                }
+            }
+        ]
+    }
+]
