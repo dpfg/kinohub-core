@@ -10,7 +10,7 @@ type Movie struct {
 	Year         int    `json:"year,omitempty"`
 	Overview     string `json:"overview,omitempty"`
 	PosterPath   string `json:"poster_path,omitempty"`
-	BackdropPath string `json:"backdrop_path"`
+	BackdropPath string `json:"backdrop_path,omitempty"`
 }
 
 type Series struct {

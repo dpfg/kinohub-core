@@ -37,6 +37,10 @@ func (b ContentBrowserImpl) GetSeason(id, seasonNum int) (*domain.Season, error)
 		return nil, err
 	}
 
+	if season == nil || show == nil || ids == nil {
+		return nil, errors.New("Could not load TMDB data")
+	}
+
 	kpi, err := b.Kinopub.FindItemByIMDB(kinopub.StripImdbID(ids.ImdbID), show.OriginalName)
 
 	if err != nil {
