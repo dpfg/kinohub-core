@@ -230,7 +230,7 @@ func (cl KinoPubClientImpl) FindItemByIMDB(imdbID int, title string) (*Item, err
 		return item, nil
 	}
 
-	cl.Logger.Debugln("Searching item by IMDB Id on remote host.")
+	cl.Logger.Debugf("Searching item by IMDB Id [%d, %s] on remote host.", imdbID, title)
 	items, err := cl.SearchItemBy(ItemsFilter{
 		Title: title,
 	})

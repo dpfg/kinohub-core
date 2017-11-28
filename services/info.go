@@ -37,10 +37,14 @@ func (b ContentBrowserImpl) GetSeason(id, seasonNum int) (*domain.Season, error)
 		return nil, err
 	}
 
-	kpi, err := b.Kinopub.FindItemByIMDB(kinopub.StripImdbID(ids.ImdbID), show.Name)
+	kpi, err := b.Kinopub.FindItemByIMDB(kinopub.StripImdbID(ids.ImdbID), show.OriginalName)
 
 	if err != nil {
 		return nil, err
+	}
+
+	if kpi == nil {
+		return nil, errors.New("Could not find kinopub item")
 	}
 
 	if kpi, err = b.Kinopub.GetItemById(kpi.ID); kpi != nil {
@@ -72,12 +76,18 @@ func (b ContentBrowserImpl) GetShow(uid string) (*domain.Series, error) {
 			return nil, err
 		}
 
-		show, err = b.TMDB.GetTVShowByID(show.ID)
-		if err != nil {
-			return nil, err
+		if show != nil {
+			show, err = b.TMDB.GetTVShowByID(show.ID)
+			if err != nil {
+				return nil, err
+			}
+
+			if show != nil {
+				return show.ToDomain(), nil
+			}
 		}
 
-		return show.ToDomain(), nil
+		return item.ToDomain(), nil
 	}
 
 	if providers.MatchUIDType(uid, providers.ID_TYPE_TMDB) {

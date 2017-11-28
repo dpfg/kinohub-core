@@ -91,6 +91,15 @@ type Item struct {
 	} `json:"seasons"`
 }
 
+func (item Item) ToDomain() *domain.Series {
+	return &domain.Series{
+		UID:        ToUID(item.ID),
+		Overview:   item.Plot,
+		PosterPath: item.Posters.Big,
+		Title:      item.Title,
+	}
+}
+
 type File struct {
 	W       int    `json:"w"`
 	H       int    `json:"h"`

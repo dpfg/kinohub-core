@@ -50,11 +50,12 @@ func (show TVShow) ToDomain() *domain.Series {
 	}
 
 	return &domain.Series{
-		UID:        ToUID(show.ID),
-		Overview:   show.Overview,
-		PosterPath: ImagePath(show.PosterPath, OriginalSize),
-		Title:      show.Name,
-		Seasons:    seasons,
+		UID:          ToUID(show.ID),
+		Overview:     show.Overview,
+		PosterPath:   ImagePath(show.PosterPath, OriginalSize),
+		Title:        show.Name,
+		Seasons:      seasons,
+		BackdropPath: ImagePath(show.BackdropPath, OriginalSize),
 	}
 }
 

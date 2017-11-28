@@ -5,20 +5,22 @@ import (
 )
 
 type Movie struct {
-	UID        string `json:"uid,omitempty"`
-	Title      string `json:"title,omitempty"`
-	Year       int    `json:"year,omitempty"`
-	Overview   string `json:"overview,omitempty"`
-	PosterPath string `json:"poster_path,omitempty"`
+	UID          string `json:"uid,omitempty"`
+	Title        string `json:"title,omitempty"`
+	Year         int    `json:"year,omitempty"`
+	Overview     string `json:"overview,omitempty"`
+	PosterPath   string `json:"poster_path,omitempty"`
+	BackdropPath string `json:"backdrop_path"`
 }
 
 type Series struct {
-	UID        string   `json:"uid,omitempty"`
-	Title      string   `json:"title,omitempty"`
-	Year       int      `json:"year,omitempty"`
-	Overview   string   `json:"overview,omitempty"`
-	PosterPath string   `json:"poster_path,omitempty"`
-	Seasons    []Season `json:"seasons,omitempty"`
+	UID          string   `json:"uid,omitempty"`
+	Title        string   `json:"title,omitempty"`
+	Year         int      `json:"year,omitempty"`
+	Overview     string   `json:"overview,omitempty"`
+	PosterPath   string   `json:"poster_path,omitempty"`
+	Seasons      []Season `json:"seasons,omitempty"`
+	BackdropPath string   `json:"backdrop_path"`
 }
 
 type Season struct {
