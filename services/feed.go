@@ -1,6 +1,7 @@
 package services
 
 import (
+	"sort"
 	"strconv"
 	"strings"
 	"time"
@@ -39,6 +40,8 @@ func (f FeedImpl) Releases(from time.Time, to time.Time) ([]FeedItem, error) {
 		return nil, err
 	}
 
+	sort.Slice(m, func(i, j int) bool { return m[i].FirstAired.After(m[j].FirstAired) })
+
 	r := make([]FeedItem, 0)
 	for _, item := range m {
 
@@ -64,6 +67,7 @@ func (f FeedImpl) Releases(from time.Time, to time.Time) ([]FeedItem, error) {
 			},
 		})
 	}
+
 	return r, nil
 }
 
