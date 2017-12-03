@@ -12,7 +12,7 @@ import (
 // ContentSearch provides a way to find available media streams
 type ContentBrowser interface {
 	GetShow(uid string) (*domain.Series, error)
-	GetSeason(id, seasonNum int) (*domain.Season, error)
+	GetSeason(uid string, seasonNum int) (*domain.Season, error)
 }
 
 type ContentBrowserImpl struct {
@@ -21,7 +21,16 @@ type ContentBrowserImpl struct {
 	TMDB    tmdb.Client
 }
 
-func (b ContentBrowserImpl) GetSeason(id, seasonNum int) (*domain.Season, error) {
+func (b ContentBrowserImpl) GetSeason(uid string, seasonNum int) (*domain.Season, error) {
+	if !providers.MatchUIDType(uid, providers.ID_TYPE_TMDB) {
+		return nil, errors.New("Not implemented")
+	}
+
+	id, err := tmdb.ParseUID(uid)
+	if err != nil {
+		return nil, err
+	}
+
 	season, err := b.TMDB.GetTVSeason(id, seasonNum)
 	if err != nil {
 		return nil, err

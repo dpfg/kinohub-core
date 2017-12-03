@@ -204,6 +204,10 @@ const OriginalSize = -1
 
 // ImagePath returns absolute URL to the image with specified width
 func ImagePath(tmdbPath string, w int) string {
+	if len(tmdbPath) == 0 {
+		return ""
+	}
+
 	if w > 600 {
 		panic("unsupported image size")
 	}

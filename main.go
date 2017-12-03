@@ -89,11 +89,7 @@ func main() {
 	})
 
 	router.GET("/series/:series-id/seasons/:season-num", func(c *gin.Context) {
-		seriesUID, err := strconv.Atoi(c.Param("series-id"))
-		if err != nil {
-			httpError(c, http.StatusBadRequest, err.Error())
-			return
-		}
+		uid := c.Param("series-id")
 
 		seasonNum, err := strconv.Atoi(c.Param("season-num"))
 		if err != nil {
@@ -101,7 +97,7 @@ func main() {
 			return
 		}
 
-		season, err := browser.GetSeason(seriesUID, seasonNum)
+		season, err := browser.GetSeason(uid, seasonNum)
 		if err != nil {
 			httpError(c, http.StatusBadGateway, err.Error())
 			return
