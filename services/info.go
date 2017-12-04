@@ -121,14 +121,7 @@ func toDomainEpisodes(seasonNumber int, episodes []tmdb.TVEpisode, kpi *kinopub.
 	r := make([]domain.Episode, 0)
 
 	for _, episode := range episodes {
-		de := domain.Episode{
-			Number: episode.EpisodeNumber,
-			// FirstAired: episode.AirDate, // TODO:
-			Overview:  episode.Overview,
-			Title:     episode.Name,
-			UID:       tmdb.ToUID(episode.ID),
-			StillPath: tmdb.ImagePath(episode.StillPath, tmdb.OriginalSize),
-		}
+		de := episode.ToDomain()
 
 		if kpi != nil {
 

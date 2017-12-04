@@ -103,7 +103,7 @@ func (episode TVEpisode) ToDomain() domain.Episode {
 		Title:     episode.Name,
 		Number:    episode.EpisodeNumber,
 		Overview:  episode.Overview,
-		StillPath: ImagePath(episode.StillPath, OriginalSize),
+		StillPath: ImagePath(episode.StillPath, 320),
 		Season:    episode.SeasonNumber,
 	}
 }
