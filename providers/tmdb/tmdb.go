@@ -71,7 +71,11 @@ func (cl ClientImpl) doGet(uri string, qp url.Values, body providers.CacheEntry)
 		QueryString: qp,
 	}.Do()
 
-	if resp == nil || resp.StatusCode != http.StatusOK {
+	if resp == nil {
+		return errors.New("Network error: response is null")
+	}
+
+	if resp.StatusCode != http.StatusOK {
 		return errors.Errorf("Network error - %s", resp.Status)
 	}
 

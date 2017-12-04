@@ -230,6 +230,7 @@ func (cl KinoPubClientImpl) FindItemByIMDB(imdbID int, title string) (*Item, err
 		return item, nil
 	}
 
+	title = truncateProblematicTitle(title)
 	cl.Logger.Debugf("Searching item by IMDB Id [%d, %s] on remote host.", imdbID, title)
 	items, err := cl.SearchItemBy(ItemsFilter{
 		Title: title,
@@ -314,4 +315,11 @@ func ParseUID(uid string) (int, error) {
 	}
 
 	return strconv.Atoi(strings.TrimLeft(uid, providers.ID_TYPE_KINOHUB))
+}
+
+func truncateProblematicTitle(title string) string {
+	if strings.HasPrefix(title, "Marvel's") {
+		return strings.TrimPrefix(title, "Marvel's")
+	}
+	return title
 }
