@@ -52,6 +52,12 @@ func (f FeedImpl) Releases(from time.Time, to time.Time) ([]FeedItem, error) {
 			continue
 		}
 
+		images, _ := f.tmdbCli.GetTVEpisodeImages(item.Show.Ids.Tmdb, item.Episode.Season, item.Episode.Number)
+		episodeStill := ""
+		if len(images.Stills) > 0 {
+			episodeStill = tmdb.ImagePath(images.Stills[0].FilePath, 320)
+		}
+
 		r = append(r, FeedItem{
 			ContentAvailable: ep != nil,
 			Show: domain.Series{
@@ -64,6 +70,7 @@ func (f FeedImpl) Releases(from time.Time, to time.Time) ([]FeedItem, error) {
 				Number:     item.Episode.Number,
 				Season:     item.Episode.Season,
 				FirstAired: item.FirstAired,
+				StillPath:  episodeStill,
 			},
 		})
 	}
@@ -71,10 +78,11 @@ func (f FeedImpl) Releases(from time.Time, to time.Time) ([]FeedItem, error) {
 	return r, nil
 }
 
-func NewFeed(tc *trakt.TraktClient, kpc kinopub.KinoPubClient, logger *logrus.Logger) Feed {
+func NewFeed(tc *trakt.TraktClient, kpc kinopub.KinoPubClient, tmdb tmdb.Client, logger *logrus.Logger) Feed {
 	return FeedImpl{
-		tc:     tc,
-		kpc:    kpc,
-		logger: logger.WithFields(logrus.Fields{"prefix": "feed"}),
+		tc:      tc,
+		kpc:     kpc,
+		tmdbCli: tmdb,
+		logger:  logger.WithFields(logrus.Fields{"prefix": "feed"}),
 	}
 }

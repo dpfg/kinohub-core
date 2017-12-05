@@ -29,7 +29,7 @@ type Client interface {
 	// Get the TV episode details by id.
 	GetTVEpisode(tvID int, seasonNum int, episodeNum int) (*TVEpisode, error)
 	// Get the images that belong to a TV episode.
-	GetTVEpisodeImages(tvID int, seasonNum int, episodeNum int) (*TVEpisodeStills, error)
+	GetTVEpisodeImages(tvID int, seasonNum int, episodeNum int) (TVEpisodeStills, error)
 
 	FindByExternalID(id string) (*SearchResult, error)
 
@@ -159,14 +159,14 @@ func (cl ClientImpl) GetTVEpisode(tvID int, seasonNum int, episodeNum int) (*TVE
 }
 
 // GetTVEpisodeImages returnes the images that belong to a TV episode.
-func (cl ClientImpl) GetTVEpisodeImages(tvID int, seasonNum int, episodeNum int) (*TVEpisodeStills, error) {
+func (cl ClientImpl) GetTVEpisodeImages(tvID int, seasonNum int, episodeNum int) (TVEpisodeStills, error) {
 	url := util.JoinURL(BaseURL, "tv", tvID, "season", seasonNum, "episode", episodeNum, "images")
 
-	stills := &TVEpisodeStills{}
-	err := cl.doGet(url, nil, providers.Cacheable(stills))
+	stills := TVEpisodeStills{}
+	err := cl.doGet(url, nil, providers.Cacheable(&stills))
 
 	if err != nil {
-		return nil, err
+		return stills, err
 	}
 
 	return stills, nil

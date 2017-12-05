@@ -72,8 +72,8 @@ func main() {
 
 	kpc := kinopub.NewKinoPubClient(logger, cacheFactory)
 	tc := trakt.NewTraktClient(logger)
-	feed := services.NewFeed(tc, kpc, logger)
 	tmdbc := tmdb.New(logger, cacheFactory, ps)
+	feed := services.NewFeed(tc, kpc, tmdbc, logger)
 	browser := services.NewContentBrowser(kpc, tmdbc)
 
 	router.GET("/series/:series-id", func(c *gin.Context) {
