@@ -55,7 +55,7 @@ func (f FeedImpl) Releases(from time.Time, to time.Time) ([]FeedItem, error) {
 		images, _ := f.tmdbCli.GetTVEpisodeImages(item.Show.Ids.Tmdb, item.Episode.Season, item.Episode.Number)
 		episodeStill := ""
 		if len(images.Stills) > 0 {
-			episodeStill = tmdb.ImagePath(images.Stills[0].FilePath, 320)
+			episodeStill = tmdb.ImagePath(images.Stills[0].FilePath, 300)
 		}
 
 		r = append(r, FeedItem{
