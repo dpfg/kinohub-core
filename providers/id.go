@@ -6,9 +6,10 @@ import (
 )
 
 const (
-	ID_TYPE_KINOHUB = "KH"
-	ID_TYPE_TMDB    = "TM"
-	ID_TYPE_TRAKT   = "TK"
+	ID_TYPE_KINOHUB   = "KH"
+	ID_TYPE_TMDB      = "TM"
+	ID_TYPE_TRAKT     = "TK"
+	ID_TYPE_SEASONVAR = "SV"
 )
 
 func MatchUIDType(uid, idType string) bool {
