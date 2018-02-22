@@ -7,10 +7,11 @@ import (
 	"strconv"
 	"time"
 
-	cors "gopkg.in/gin-contrib/cors.v1"
+	cors "github.com/gin-contrib/cors"
 
 	"github.com/dpfg/kinohub-core/providers"
 	"github.com/dpfg/kinohub-core/providers/kinopub"
+	"github.com/dpfg/kinohub-core/providers/seasonvar"
 	"github.com/dpfg/kinohub-core/providers/tmdb"
 	"github.com/dpfg/kinohub-core/providers/trakt"
 	"github.com/dpfg/kinohub-core/services"
@@ -195,6 +196,17 @@ func main() {
 		}
 
 		c.JSON(http.StatusOK, t)
+	})
+
+	router.GET("/seasonvar/search", func(c *gin.Context) {
+		client := seasonvar.NewClient()
+		dat, err := client.Search("castle")
+		if err != nil {
+			c.JSON(http.StatusBadGateway, err.Error())
+			return
+		}
+
+		c.JSON(http.StatusOK, dat)
 	})
 
 	router.Run(fmt.Sprintf("0.0.0.0:%d", defaultPort)) // listen and serve on 0.0.0.0:8080
