@@ -6,12 +6,17 @@ import (
 )
 
 const (
-	ID_TYPE_KINOHUB   = "KH"
-	ID_TYPE_TMDB      = "TM"
-	ID_TYPE_TRAKT     = "TK"
-	ID_TYPE_SEASONVAR = "SV"
+	// IDTypeKinoHub - kino.pub
+	IDTypeKinoHub = "KH"
+	// IDTypeTMDB - tmdb.com
+	IDTypeTMDB = "TM"
+	// IDTypeTrakt - trakt.tv
+	IDTypeTrakt = "TK"
+	// IDTypeSeasonvar - seasonvar.ru
+	IDTypeSeasonvar = "SV"
 )
 
+// MatchUIDType check is the uid matches to provided id type
 func MatchUIDType(uid, idType string) bool {
 	ni := strings.IndexFunc(strings.ToUpper(uid), func(r rune) bool {
 		return unicode.IsNumber(r)

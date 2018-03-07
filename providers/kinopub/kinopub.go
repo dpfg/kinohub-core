@@ -306,15 +306,15 @@ func ToImdbID(id int) string {
 }
 
 func ToUID(id int) string {
-	return fmt.Sprintf("%s%d", providers.ID_TYPE_KINOHUB, id)
+	return fmt.Sprintf("%s%d", providers.IDTypeKinoHub, id)
 }
 
 func ParseUID(uid string) (int, error) {
-	if !strings.HasPrefix(uid, providers.ID_TYPE_KINOHUB) {
+	if !strings.HasPrefix(uid, providers.IDTypeKinoHub) {
 		return -1, errors.New("Invalid UID type")
 	}
 
-	return strconv.Atoi(strings.TrimLeft(uid, providers.ID_TYPE_KINOHUB))
+	return strconv.Atoi(strings.TrimLeft(uid, providers.IDTypeKinoHub))
 }
 
 func truncateProblematicTitle(title string) string {

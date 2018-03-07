@@ -22,7 +22,7 @@ type ContentBrowserImpl struct {
 }
 
 func (b ContentBrowserImpl) GetSeason(uid string, seasonNum int) (*domain.Season, error) {
-	if !providers.MatchUIDType(uid, providers.ID_TYPE_TMDB) {
+	if !providers.MatchUIDType(uid, providers.IDTypeTMDB) {
 		return nil, errors.New("Not implemented")
 	}
 
@@ -75,7 +75,7 @@ func (b ContentBrowserImpl) GetSeason(uid string, seasonNum int) (*domain.Season
 }
 
 func (b ContentBrowserImpl) GetShow(uid string) (*domain.Series, error) {
-	if providers.MatchUIDType(uid, providers.ID_TYPE_KINOHUB) {
+	if providers.MatchUIDType(uid, providers.IDTypeKinoHub) {
 		id, _ := kinopub.ParseUID(uid)
 
 		item, err := b.Kinopub.GetItemById(id)
@@ -103,7 +103,7 @@ func (b ContentBrowserImpl) GetShow(uid string) (*domain.Series, error) {
 		return item.ToDomain(), nil
 	}
 
-	if providers.MatchUIDType(uid, providers.ID_TYPE_TMDB) {
+	if providers.MatchUIDType(uid, providers.IDTypeTMDB) {
 		id, _ := tmdb.ParseUID(uid)
 		show, err := b.TMDB.GetTVShowByID(id)
 

@@ -235,13 +235,13 @@ func New(logger *logrus.Logger, cf providers.CacheFactory, ps providers.Preferen
 }
 
 func ToUID(id int) string {
-	return fmt.Sprintf("%s%d", providers.ID_TYPE_TMDB, id)
+	return fmt.Sprintf("%s%d", providers.IDTypeTMDB, id)
 }
 
 func ParseUID(uid string) (int, error) {
-	if !strings.HasPrefix(uid, providers.ID_TYPE_TMDB) {
+	if !strings.HasPrefix(uid, providers.IDTypeTMDB) {
 		return -1, errors.New("Invalid UID type")
 	}
 
-	return strconv.Atoi(strings.TrimLeft(uid, providers.ID_TYPE_TMDB))
+	return strconv.Atoi(strings.TrimLeft(uid, providers.IDTypeTMDB))
 }
