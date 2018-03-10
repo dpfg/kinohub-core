@@ -152,6 +152,32 @@ type Ids struct {
 	ID          int    `json:"id"`
 }
 
+type Movie struct {
+	Adult            bool        `json:"adult"`
+	BackdropPath     interface{} `json:"backdrop_path"`
+	GenreIds         []int       `json:"genre_ids"`
+	ID               int         `json:"id"`
+	OriginalLanguage string      `json:"original_language"`
+	OriginalTitle    string      `json:"original_title"`
+	Overview         string      `json:"overview"`
+	ReleaseDate      string      `json:"release_date"`
+	PosterPath       string      `json:"poster_path"`
+	Popularity       float64     `json:"popularity"`
+	Title            string      `json:"title"`
+	Video            bool        `json:"video"`
+	VoteAverage      float64     `json:"vote_average"`
+	VoteCount        int         `json:"vote_count"`
+}
+
+func (m *Movie) ToDomain() *domain.Movie {
+	return &domain.Movie{
+		Title:      m.Title,
+		Overview:   m.Overview,
+		PosterPath: ImagePath(m.PosterPath, OriginalSize),
+	}
+}
+
 type SearchResult struct {
-	TVResults []TVShow `json:"tv_results"`
+	TVResults    []TVShow `json:"tv_results"`
+	MovieResults []Movie  `json:"movie_results"`
 }

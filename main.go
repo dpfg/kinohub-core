@@ -78,7 +78,7 @@ func main() {
 
 	router.GET("/series/:series-id", func(c *gin.Context) {
 		uid := c.Param("series-id")
-		show, err := browser.GetShow(uid)
+		show, err := browser.Show(uid)
 
 		if err != nil {
 			httpError(c, http.StatusBadGateway, err.Error())
@@ -97,13 +97,24 @@ func main() {
 			return
 		}
 
-		season, err := browser.GetSeason(uid, seasonNum)
+		season, err := browser.Season(uid, seasonNum)
 		if err != nil {
 			httpError(c, http.StatusBadGateway, err.Error())
 			return
 		}
 
 		c.JSON(http.StatusOK, season)
+	})
+
+	router.GET("/movies/:movie-id", func(c *gin.Context) {
+		uid := c.Param("movie-id")
+		m, err := browser.Movie(uid)
+		if err != nil {
+			httpError(c, http.StatusInternalServerError, err.Error())
+			return
+		}
+
+		c.JSON(http.StatusOK, m)
 	})
 
 	router.GET("/search", func(c *gin.Context) {

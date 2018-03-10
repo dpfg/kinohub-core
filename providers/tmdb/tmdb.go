@@ -34,6 +34,10 @@ type Client interface {
 	FindByExternalID(id string) (*SearchResult, error)
 
 	FindTVShowByExternalID(id string) (*TVShow, error)
+
+	FindMovieByExternalID(id string) (*Movie, error)
+
+	Movie(id int) (*Movie, error)
 }
 
 const (
@@ -201,6 +205,32 @@ func (cl ClientImpl) FindTVShowByExternalID(id string) (*TVShow, error) {
 	}
 
 	return nil, nil
+}
+
+func (cl ClientImpl) FindMovieByExternalID(id string) (*Movie, error) {
+	result, err := cl.FindByExternalID(id)
+	if err != nil {
+		return nil, err
+	}
+
+	if len(result.MovieResults) > 0 {
+		return &result.MovieResults[0], nil
+	}
+
+	return nil, nil
+}
+
+func (cl ClientImpl) Movie(id int) (*Movie, error) {
+	url := util.JoinURL(BaseURL, "movie", id)
+
+	movie := &Movie{}
+	err := cl.doGet(url, nil, providers.Cacheable(movie))
+
+	if err != nil {
+		return nil, err
+	}
+
+	return movie, nil
 }
 
 // OriginalSize is a parameter to ImagePath to get url to image in original size

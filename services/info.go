@@ -11,8 +11,9 @@ import (
 
 // ContentSearch provides a way to find available media streams
 type ContentBrowser interface {
-	GetShow(uid string) (*domain.Series, error)
-	GetSeason(uid string, seasonNum int) (*domain.Season, error)
+	Show(uid string) (*domain.Series, error)
+	Season(uid string, seasonNum int) (*domain.Season, error)
+	Movie(uid string) (*domain.Movie, error)
 }
 
 type ContentBrowserImpl struct {
@@ -21,7 +22,7 @@ type ContentBrowserImpl struct {
 	TMDB    tmdb.Client
 }
 
-func (b ContentBrowserImpl) GetSeason(uid string, seasonNum int) (*domain.Season, error) {
+func (b ContentBrowserImpl) Season(uid string, seasonNum int) (*domain.Season, error) {
 	if !providers.MatchUIDType(uid, providers.IDTypeTMDB) {
 		return nil, errors.New("Not implemented")
 	}
@@ -74,7 +75,7 @@ func (b ContentBrowserImpl) GetSeason(uid string, seasonNum int) (*domain.Season
 	return nil, err
 }
 
-func (b ContentBrowserImpl) GetShow(uid string) (*domain.Series, error) {
+func (b ContentBrowserImpl) Show(uid string) (*domain.Series, error) {
 	if providers.MatchUIDType(uid, providers.IDTypeKinoHub) {
 		id, _ := kinopub.ParseUID(uid)
 
@@ -138,6 +139,41 @@ func toDomainEpisodes(seasonNumber int, episodes []tmdb.TVEpisode, kpi *kinopub.
 	}
 
 	return r
+}
+
+func (b ContentBrowserImpl) Movie(uid string) (*domain.Movie, error) {
+
+	var imdbID string
+
+	if providers.MatchUIDType(uid, providers.IDTypeKinoHub) {
+		id, _ := kinopub.ParseUID(uid)
+
+		item, err := b.Kinopub.GetItemById(id)
+		if err != nil {
+			return nil, err
+		}
+
+		imdbID = item.ImdbID()
+	}
+
+	movie, err := b.TMDB.FindMovieByExternalID(imdbID)
+
+	if err != nil {
+		return nil, err
+	}
+
+	if movie != nil {
+		movie, err = b.TMDB.Movie(movie.ID)
+		if err != nil {
+			return nil, err
+		}
+
+		if movie != nil {
+			return movie.ToDomain(), nil
+		}
+	}
+
+	return nil, errors.New("Not supported UID type")
 }
 
 func NewContentBrowser(kpc kinopub.KinoPubClient, tmdb tmdb.Client) ContentBrowser {
