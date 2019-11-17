@@ -12,7 +12,7 @@ import (
 	"strconv"
 	"time"
 
-	provider "github.com/dpfg/kinohub-core/provider"
+	provider"github.com/dpfg/kinohub-core/provider"
 	"github.com/dpfg/kinohub-core/util"
 	"github.com/pkg/errors"
 	"github.com/sirupsen/logrus"
