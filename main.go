@@ -1,6 +1,7 @@
 package main
 
 import (
+	"context"
 	"fmt"
 	"net/http"
 	"strconv"
@@ -199,13 +200,13 @@ func main() {
 	})
 
 	router.GET("/trakt/exchange", func(c *gin.Context) {
-		// t, err := tc.Exchange(context.Background(), c.Param("code"))
-		// if err != nil {
-		// 	c.JSON(http.StatusInternalServerError, err.Error())
-		// 	return
-		// }
+		t, err := tc.Exchange(context.Background(), c.Query("code"))
+		if err != nil {
+			c.JSON(http.StatusInternalServerError, err.Error())
+			return
+		}
 
-		c.JSON(http.StatusOK, c.Param("code"))
+		c.JSON(http.StatusOK, t)
 	})
 
 	router.GET("/seasonvar/search", func(c *gin.Context) {

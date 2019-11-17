@@ -30,13 +30,21 @@ const (
 )
 
 func (tc *TraktClient) GetAuthCodeURL() string {
-	return tc.Config.AuthCodeURL("", oauth2.AccessTypeOffline)
+	return tc.Config.AuthCodeURL("")
 }
 
 func (tc *TraktClient) Exchange(ctx context.Context, code string) (*oauth2.Token, error) {
-	// for some reason trakt tv wants to see json body instead of urlencoded body
-	// TODO: replace with manual request
-	return tc.Config.Exchange(ctx, code)
+	token, err := tc.Config.Exchange(ctx, code)
+	if err != nil {
+		return nil, err
+	}
+
+	err = tc.PreferenceStorage.Save("trakt", token)
+	if err != nil {
+		return nil, err
+	}
+
+	return token, nil
 }
 
 func (tc *TraktClient) get(url string, m interface{}) error {
