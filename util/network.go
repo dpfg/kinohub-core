@@ -1,7 +1,10 @@
 package util
 
 import (
+	"net/http"
 	"strconv"
+
+	"github.com/go-chi/render"
 )
 
 func JoinURL(parts ...interface{}) string {
@@ -31,4 +34,9 @@ func PadLeft(str, pad string, lenght int) string {
 		}
 		str = pad + str
 	}
+}
+
+func InternalError(w http.ResponseWriter, r *http.Request, err error) {
+	render.Status(r, http.StatusInternalServerError)
+	render.JSON(w, r, struct{ Msg string }{Msg: err.Error()})
 }

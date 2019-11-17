@@ -50,6 +50,7 @@ type KinoPubClientImpl struct {
 	PreferenceStorage providers.PreferenceStorage
 	CacheFactory      providers.CacheFactory
 	Logger            *logrus.Entry
+	fixer             *fixer
 }
 
 const (
@@ -178,6 +179,7 @@ func (cl KinoPubClientImpl) GetItemById(id int) (*Item, error) {
 	item := &Item{}
 
 	if cache.Load(cacheKey, item) {
+		// cl.fixer.fixID(item)
 		return item, nil
 	}
 
@@ -213,6 +215,8 @@ func (cl KinoPubClientImpl) GetItemById(id int) (*Item, error) {
 	if err != nil {
 		return nil, errors.WithStack(err)
 	}
+
+	// cl.fixer.fixID(&m.Item)
 
 	cache.Save(cacheKey, &m.Item)
 
@@ -293,6 +297,7 @@ func NewKinoPubClient(logger *logrus.Logger, cf providers.CacheFactory) KinoPubC
 		},
 		CacheFactory: cf,
 		Logger:       logger.WithFields(logrus.Fields{"prefix": "kinpub"}),
+		fixer:        &fixer{logger: logger.WithFields(logrus.Fields{"prefix": "id-fixer"})},
 	}
 }
 

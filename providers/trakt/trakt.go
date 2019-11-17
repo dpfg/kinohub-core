@@ -7,7 +7,6 @@ import (
 	"io/ioutil"
 	"net/http"
 	"net/http/httputil"
-	"os"
 	"strconv"
 	"time"
 
@@ -19,21 +18,21 @@ import (
 	"golang.org/x/oauth2"
 )
 
-type TraktClient struct {
+type Client struct {
 	Config            oauth2.Config
 	PreferenceStorage providers.PreferenceStorage
-	logger            *logrus.Entry
+	Logger            *logrus.Entry
 }
 
 const (
 	BaseURL = "https://api.trakt.tv"
 )
 
-func (tc *TraktClient) GetAuthCodeURL() string {
+func (tc *Client) GetAuthCodeURL() string {
 	return tc.Config.AuthCodeURL("")
 }
 
-func (tc *TraktClient) Exchange(ctx context.Context, code string) (*oauth2.Token, error) {
+func (tc *Client) Exchange(ctx context.Context, code string) (*oauth2.Token, error) {
 	token, err := tc.Config.Exchange(ctx, code)
 	if err != nil {
 		return nil, err
@@ -47,7 +46,7 @@ func (tc *TraktClient) Exchange(ctx context.Context, code string) (*oauth2.Token
 	return token, nil
 }
 
-func (tc *TraktClient) get(url string, m interface{}) error {
+func (tc *Client) get(url string, m interface{}) error {
 	t := &oauth2.Token{}
 	err := tc.PreferenceStorage.Load("trakt", t)
 	if err != nil {
@@ -74,9 +73,9 @@ func (tc *TraktClient) get(url string, m interface{}) error {
 
 	if resp.StatusCode != http.StatusOK {
 		rd, _ := httputil.DumpRequest(req, false)
-		tc.logger.Errorln(string(rd))
-		tc.logger.Errorln(resp.Status)
-		tc.logger.Error(string(body))
+		tc.Logger.Errorln(string(rd))
+		tc.Logger.Errorln(resp.Status)
+		tc.Logger.Error(string(body))
 		return nil
 	}
 
@@ -88,8 +87,8 @@ func (tc *TraktClient) get(url string, m interface{}) error {
 	return nil
 }
 
-func (tc *TraktClient) post(url string, body interface{}, response interface{}) error {
-	tc.logger.Debugf("POST to URL: %s", url)
+func (tc *Client) post(url string, body interface{}, response interface{}) error {
+	tc.Logger.Debugf("POST to URL: %s", url)
 
 	t := &oauth2.Token{}
 	err := tc.PreferenceStorage.Load("trakt", t)
@@ -104,7 +103,7 @@ func (tc *TraktClient) post(url string, body interface{}, response interface{}) 
 		return err
 	}
 
-	tc.logger.Debugf("%s", bodyBytes)
+	tc.Logger.Debugf("%s", bodyBytes)
 
 	req, _ := http.NewRequest("POST", url, bytes.NewBuffer(bodyBytes))
 
@@ -125,9 +124,9 @@ func (tc *TraktClient) post(url string, body interface{}, response interface{}) 
 
 	if resp.StatusCode != http.StatusOK {
 		rd, _ := httputil.DumpRequest(req, false)
-		tc.logger.Errorln(string(rd))
-		tc.logger.Errorln(resp.Status)
-		tc.logger.Errorln(string(respBytes))
+		tc.Logger.Errorln(string(rd))
+		tc.Logger.Errorln(resp.Status)
+		tc.Logger.Errorln(string(respBytes))
 		return nil
 	}
 
@@ -141,7 +140,7 @@ func (tc *TraktClient) post(url string, body interface{}, response interface{}) 
 	return nil
 }
 
-func (tc *TraktClient) GetTrendingShows() ([]interface{}, error) {
+func (tc *Client) GetTrendingShows() ([]interface{}, error) {
 	m := make([]interface{}, 0)
 	err := tc.get(util.JoinURL(BaseURL, "shows", "trending"), &m)
 	if err != nil {
@@ -151,8 +150,8 @@ func (tc *TraktClient) GetTrendingShows() ([]interface{}, error) {
 	return m, nil
 }
 
-func (tc *TraktClient) GetMyShows(from time.Time, to time.Time) ([]MyShow, error) {
-	tc.logger.Debugf("Loading My Shows: %v, %v", from, to)
+func (tc *Client) GetMyShows(from time.Time, to time.Time) ([]MyShow, error) {
+	tc.Logger.Debugf("Loading My Shows: %v, %v", from, to)
 
 	m := make([]MyShow, 0)
 
@@ -161,7 +160,7 @@ func (tc *TraktClient) GetMyShows(from time.Time, to time.Time) ([]MyShow, error
 
 	err := tc.get(util.JoinURL(BaseURL, "calendars", "my", "shows", fromDate, strconv.Itoa(numDays)), &m)
 	if err != nil {
-		tc.logger.Error(err.Error())
+		tc.Logger.Error(err.Error())
 		return nil, errors.WithStack(err)
 	}
 
@@ -169,8 +168,8 @@ func (tc *TraktClient) GetMyShows(from time.Time, to time.Time) ([]MyShow, error
 }
 
 // Scrobble starts scrobbling new item.
-func (tc *TraktClient) Scrobble(tmdbId int) error {
-	tc.logger.Debugf("Scrobbling %d", tmdbId)
+func (tc *Client) Scrobble(tmdbID int) error {
+	tc.Logger.Debugf("Scrobbling %d", tmdbID)
 
 	body := struct {
 		Episode  Episode `json:"episode"`
@@ -178,30 +177,11 @@ func (tc *TraktClient) Scrobble(tmdbId int) error {
 	}{
 		Episode: Episode{
 			Ids: EpisodeIds{
-				Tmdb: tmdbId,
+				Tmdb: tmdbID,
 			},
 		},
 		Progress: 0,
 	}
 
 	return tc.post(util.JoinURL(BaseURL, "scrobble", "start"), body, nil)
-}
-
-func NewTraktClient(logger *logrus.Logger) *TraktClient {
-	return &TraktClient{
-		Config: oauth2.Config{
-			ClientID:     os.Getenv("TRAKT_CLIENT_ID"),
-			ClientSecret: os.Getenv("TRAKT_CLIENT_SECRET"),
-			Scopes:       []string{},
-			Endpoint: oauth2.Endpoint{
-				AuthURL:  "https://api.trakt.tv/oauth/authorize",
-				TokenURL: "https://api.trakt.tv/oauth/token",
-			},
-			RedirectURL: "http://localhost:8081/trakt/exchange",
-		},
-		PreferenceStorage: providers.JSONPreferenceStorage{
-			Path: ".data/",
-		},
-		logger: logger.WithFields(logrus.Fields{"prefix": "trakt"}),
-	}
 }

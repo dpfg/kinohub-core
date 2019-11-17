@@ -4,11 +4,13 @@ import (
 	"context"
 	"fmt"
 	"net/http"
+	"os"
 	"strconv"
 	"time"
 
 	cors "github.com/gin-contrib/cors"
 
+	"github.com/dpfg/kinohub-core/cmd"
 	"github.com/dpfg/kinohub-core/providers"
 	"github.com/dpfg/kinohub-core/providers/kinopub"
 	"github.com/dpfg/kinohub-core/providers/seasonvar"
@@ -18,6 +20,7 @@ import (
 	"github.com/dpfg/kinohub-core/util"
 	"github.com/gin-gonic/gin"
 	"github.com/grandcat/zeroconf"
+	"github.com/jessevdk/go-flags"
 	"github.com/sirupsen/logrus"
 	prefixed "github.com/x-cray/logrus-prefixed-formatter"
 )
@@ -30,7 +33,25 @@ const (
 	zeroConfDomain  = "local."
 )
 
+type Opts struct {
+	ServerCmd cmd.ServerCommand `command:"server"`
+}
+
 func main() {
+
+	var opts Opts
+	p := flags.NewParser(&opts, flags.Default)
+
+	if _, err := p.Parse(); err != nil {
+		if flagsErr, ok := err.(*flags.Error); ok && flagsErr.Type == flags.ErrHelp {
+			os.Exit(0)
+		} else {
+			os.Exit(1)
+		}
+	}
+}
+
+func main2() {
 
 	// Setup logger
 	logger := logrus.StandardLogger()
