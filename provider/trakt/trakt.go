@@ -4,7 +4,6 @@ import (
 	"bytes"
 	"context"
 	"encoding/json"
-	"fmt"
 	"io/ioutil"
 	"net/http"
 	"net/http/httputil"
@@ -12,7 +11,7 @@ import (
 	"strconv"
 	"time"
 
-	provider"github.com/dpfg/kinohub-core/provider"
+	provider "github.com/dpfg/kinohub-core/provider"
 	"github.com/dpfg/kinohub-core/util"
 	"github.com/pkg/errors"
 	"github.com/sirupsen/logrus"
@@ -30,7 +29,7 @@ const (
 	BaseURL = "https://api.trakt.tv"
 )
 
-func (tc *Client) GetAuthCodeURL() string {
+func (tc *Client) AuthCodeURL() string {
 	return tc.Config.AuthCodeURL("")
 }
 
@@ -46,17 +45,6 @@ func (tc *Client) Exchange(ctx context.Context, code string) (*oauth2.Token, err
 	}
 
 	return token, nil
-}
-
-// Status returns textual representation of client health
-func (tc *Client) Status() string {
-	t := &oauth2.Token{}
-	tc.PreferenceStorage.Load("trakt", t)
-
-	if t.Valid() {
-		return fmt.Sprintf("Status: Connected; Access Token: %s", t.AccessToken)
-	}
-	return fmt.Sprintf("Status: Disconnected;")
 }
 
 func (tc *Client) get(url string, m interface{}) error {
@@ -85,11 +73,7 @@ func (tc *Client) get(url string, m interface{}) error {
 	}
 
 	if resp.StatusCode != http.StatusOK {
-		rd, _ := httputil.DumpRequest(req, false)
-		tc.Logger.Errorln(string(rd))
-		tc.Logger.Errorln(resp.Status)
-		tc.Logger.Error(string(body))
-		return nil
+		return errors.Errorf("Unexcpected response status: %s %s", resp.Status, string(body))
 	}
 
 	err = json.Unmarshal(body, m)
@@ -153,7 +137,7 @@ func (tc *Client) post(url string, body interface{}, response interface{}) error
 	return nil
 }
 
-func (tc *Client) GetTrendingShows() ([]interface{}, error) {
+func (tc *Client) TrendingShows() ([]interface{}, error) {
 	m := make([]interface{}, 0)
 	err := tc.get(util.JoinURL(BaseURL, "shows", "trending"), &m)
 	if err != nil {
@@ -163,7 +147,17 @@ func (tc *Client) GetTrendingShows() ([]interface{}, error) {
 	return m, nil
 }
 
-func (tc *Client) GetMyShows(from time.Time, to time.Time) ([]MyShow, error) {
+// Settings - https://trakt.docs.apiary.io/#reference/users/settings/retrieve-settings
+func (tc *Client) Settings() (interface{}, error) {
+	m := make([]interface{}, 0)
+	err := tc.get(util.JoinURL(BaseURL, "users", "settings", "retrieve-settings"), &m)
+	if err != nil {
+		return nil, err
+	}
+	return m, nil
+}
+
+func (tc *Client) MyShows(from time.Time, to time.Time) ([]MyShow, error) {
 	tc.Logger.Debugf("Loading My Shows: %v, %v", from, to)
 
 	m := make([]MyShow, 0)

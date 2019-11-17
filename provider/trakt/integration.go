@@ -19,7 +19,7 @@ func (trakt *Integration) Handler() http.Handler {
 	router := chi.NewRouter()
 
 	router.Get("/trending", func(w http.ResponseWriter, req *http.Request) {
-		shows, err := trakt.Client.GetTrendingShows()
+		shows, err := trakt.Client.TrendingShows()
 		if err != nil {
 			util.InternalError(w, req, err)
 			return
@@ -29,7 +29,7 @@ func (trakt *Integration) Handler() http.Handler {
 	})
 
 	router.Get("/signin", func(w http.ResponseWriter, req *http.Request) {
-		http.Redirect(w, req, trakt.Client.GetAuthCodeURL(), http.StatusTemporaryRedirect)
+		http.Redirect(w, req, trakt.Client.AuthCodeURL(), http.StatusTemporaryRedirect)
 	})
 
 	router.Get("/exchange", func(w http.ResponseWriter, req *http.Request) {
@@ -43,7 +43,12 @@ func (trakt *Integration) Handler() http.Handler {
 	})
 
 	router.Get("/status", func(w http.ResponseWriter, req *http.Request) {
-		render.PlainText(w, req, trakt.Client.Status())
+		s, err := trakt.Client.Settings()
+		if err != nil {
+			util.InternalError(w, req, err)
+			return
+		}
+		render.JSON(w, req, s)
 	})
 
 	return router

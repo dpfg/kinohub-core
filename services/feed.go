@@ -35,7 +35,7 @@ type FeedImpl struct {
 
 func (f FeedImpl) Releases(from time.Time, to time.Time) ([]FeedItem, error) {
 
-	m, err := f.tc.GetMyShows(from, to)
+	m, err := f.tc.MyShows(from, to)
 	if err != nil {
 		return nil, err
 	}

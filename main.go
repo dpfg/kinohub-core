@@ -207,7 +207,7 @@ func main2() {
 	})
 
 	router.GET("/trakt/trending", func(c *gin.Context) {
-		shows, err := tc.GetTrendingShows()
+		shows, err := tc.TrendingShows()
 		if err != nil {
 			httpError(c, http.StatusInternalServerError, err.Error())
 			return
@@ -217,7 +217,7 @@ func main2() {
 	})
 
 	router.GET("/trakt/signin", func(c *gin.Context) {
-		c.JSON(http.StatusOK, tc.GetAuthCodeURL())
+		c.JSON(http.StatusOK, tc.AuthCodeURL())
 	})
 
 	router.GET("/trakt/exchange", func(c *gin.Context) {

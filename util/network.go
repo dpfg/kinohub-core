@@ -38,5 +38,7 @@ func PadLeft(str, pad string, lenght int) string {
 
 func InternalError(w http.ResponseWriter, r *http.Request, err error) {
 	render.Status(r, http.StatusInternalServerError)
-	render.JSON(w, r, struct{ Msg string }{Msg: err.Error()})
+	render.JSON(w, r, struct {
+		Msg string `json:"message"`
+	}{Msg: err.Error()})
 }
