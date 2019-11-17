@@ -11,11 +11,11 @@ import (
 	cors "github.com/gin-contrib/cors"
 
 	"github.com/dpfg/kinohub-core/cmd"
-	"github.com/dpfg/kinohub-core/providers"
-	"github.com/dpfg/kinohub-core/providers/kinopub"
-	"github.com/dpfg/kinohub-core/providers/seasonvar"
-	"github.com/dpfg/kinohub-core/providers/tmdb"
-	"github.com/dpfg/kinohub-core/providers/trakt"
+	provider "github.com/dpfg/kinohub-core/provider"
+	"github.com/dpfg/kinohub-core/provider/kinopub"
+	"github.com/dpfg/kinohub-core/provider/seasonvar"
+	"github.com/dpfg/kinohub-core/provider/tmdb"
+	"github.com/dpfg/kinohub-core/provider/trakt"
 	"github.com/dpfg/kinohub-core/services"
 	"github.com/dpfg/kinohub-core/util"
 	"github.com/gin-gonic/gin"
@@ -81,14 +81,14 @@ func main2() {
 	router.Use(util.HTTPLogger(logger))
 
 	// Initialize common cache manager that will be used by API clients
-	cacheFactory, err := providers.NewCacheFactory(logger)
+	cacheFactory, err := provider.NewCacheFactory(logger)
 	if err != nil {
 		logrus.Errorf("Cannot initialize cache factory. %s", err.Error())
 		return
 	}
 
 	// Initialize common preference storage
-	ps := providers.JSONPreferenceStorage{
+	ps := provider.JSONPreferenceStorage{
 		Path: ".data/",
 	}
 

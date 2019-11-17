@@ -4,8 +4,8 @@ import (
 	"fmt"
 	"net/http"
 
-	"github.com/dpfg/kinohub-core/providers"
-	"github.com/dpfg/kinohub-core/providers/trakt"
+	provider "github.com/dpfg/kinohub-core/provider"
+	"github.com/dpfg/kinohub-core/provider/trakt"
 	"github.com/go-chi/chi"
 	"github.com/sirupsen/logrus"
 	prefixed "github.com/x-cray/logrus-prefixed-formatter"
@@ -58,7 +58,7 @@ func (cmd *ServerCommand) makeTraktIntegration(logger *logrus.Logger) *trakt.Int
 			},
 			RedirectURL: fmt.Sprintf("http://%s:%d/trakt/exchange", cmd.SiteName, cmd.Port),
 		},
-		PreferenceStorage: providers.JSONPreferenceStorage{
+		PreferenceStorage: provider.JSONPreferenceStorage{
 			Path: cmd.DataLocation,
 		},
 		Logger: logger.WithFields(logrus.Fields{"prefix": "trakt"}),

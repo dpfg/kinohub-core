@@ -9,7 +9,7 @@ import (
 
 	"strings"
 
-	"github.com/dpfg/kinohub-core/providers"
+	provider "github.com/dpfg/kinohub-core/provider"
 	"github.com/dpfg/kinohub-core/util"
 	"github.com/franela/goreq"
 	"github.com/pkg/errors"
@@ -47,8 +47,8 @@ type ItemsFilter struct {
 type KinoPubClientImpl struct {
 	ClientID          string
 	ClientSecret      string
-	PreferenceStorage providers.PreferenceStorage
-	CacheFactory      providers.CacheFactory
+	PreferenceStorage provider.PreferenceStorage
+	CacheFactory      provider.CacheFactory
 	Logger            *logrus.Entry
 	fixer             *fixer
 }
@@ -288,11 +288,11 @@ func (cl KinoPubClientImpl) GetEpisode(imdbID int, title string, seasonNum int, 
 }
 
 // NewKinoPubClient returns new kinopub client
-func NewKinoPubClient(logger *logrus.Logger, cf providers.CacheFactory) KinoPubClient {
+func NewKinoPubClient(logger *logrus.Logger, cf provider.CacheFactory) KinoPubClient {
 	return KinoPubClientImpl{
 		ClientID:     os.Getenv("KINOPUB_CLIENT_ID"),
 		ClientSecret: os.Getenv("KINOPUB_CLIENT_SECRET"),
-		PreferenceStorage: providers.JSONPreferenceStorage{
+		PreferenceStorage: provider.JSONPreferenceStorage{
 			Path: ".data/",
 		},
 		CacheFactory: cf,
@@ -311,15 +311,15 @@ func ToImdbID(id int) string {
 }
 
 func ToUID(id int) string {
-	return fmt.Sprintf("%s%d", providers.IDTypeKinoHub, id)
+	return fmt.Sprintf("%s%d", provider.IDTypeKinoHub, id)
 }
 
 func ParseUID(uid string) (int, error) {
-	if !strings.HasPrefix(uid, providers.IDTypeKinoHub) {
+	if !strings.HasPrefix(uid, provider.IDTypeKinoHub) {
 		return -1, errors.New("Invalid UID type")
 	}
 
-	return strconv.Atoi(strings.TrimLeft(uid, providers.IDTypeKinoHub))
+	return strconv.Atoi(strings.TrimLeft(uid, provider.IDTypeKinoHub))
 }
 
 func truncateProblematicTitle(title string) string {

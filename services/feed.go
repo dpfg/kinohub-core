@@ -9,9 +9,9 @@ import (
 	"github.com/pkg/errors"
 	"github.com/sirupsen/logrus"
 
-	"github.com/dpfg/kinohub-core/providers/kinopub"
-	"github.com/dpfg/kinohub-core/providers/tmdb"
-	"github.com/dpfg/kinohub-core/providers/trakt"
+	"github.com/dpfg/kinohub-core/provider/kinopub"
+	"github.com/dpfg/kinohub-core/provider/tmdb"
+	"github.com/dpfg/kinohub-core/provider/trakt"
 
 	"github.com/dpfg/kinohub-core/domain"
 )

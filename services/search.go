@@ -2,8 +2,8 @@ package services
 
 import (
 	"github.com/dpfg/kinohub-core/domain"
-	"github.com/dpfg/kinohub-core/providers/kinopub"
-	"github.com/dpfg/kinohub-core/providers/tmdb"
+	"github.com/dpfg/kinohub-core/provider/kinopub"
+	"github.com/dpfg/kinohub-core/provider/tmdb"
 	"github.com/sirupsen/logrus"
 )
 

@@ -2,9 +2,9 @@ package services
 
 import (
 	"github.com/dpfg/kinohub-core/domain"
-	"github.com/dpfg/kinohub-core/providers"
-	"github.com/dpfg/kinohub-core/providers/kinopub"
-	"github.com/dpfg/kinohub-core/providers/tmdb"
+	provider "github.com/dpfg/kinohub-core/provider"
+	"github.com/dpfg/kinohub-core/provider/kinopub"
+	"github.com/dpfg/kinohub-core/provider/tmdb"
 	"github.com/pkg/errors"
 	"github.com/sirupsen/logrus"
 )
@@ -23,7 +23,7 @@ type ContentBrowserImpl struct {
 }
 
 func (b ContentBrowserImpl) Season(uid string, seasonNum int) (*domain.Season, error) {
-	if !providers.MatchUIDType(uid, providers.IDTypeTMDB) {
+	if !provider.MatchUIDType(uid, provider.IDTypeTMDB) {
 		return nil, errors.New("Not implemented")
 	}
 
@@ -76,7 +76,7 @@ func (b ContentBrowserImpl) Season(uid string, seasonNum int) (*domain.Season, e
 }
 
 func (b ContentBrowserImpl) Show(uid string) (*domain.Series, error) {
-	if providers.MatchUIDType(uid, providers.IDTypeKinoHub) {
+	if provider.MatchUIDType(uid, provider.IDTypeKinoHub) {
 		id, _ := kinopub.ParseUID(uid)
 
 		item, err := b.Kinopub.GetItemById(id)
@@ -104,7 +104,7 @@ func (b ContentBrowserImpl) Show(uid string) (*domain.Series, error) {
 		return item.ToDomain(), nil
 	}
 
-	if providers.MatchUIDType(uid, providers.IDTypeTMDB) {
+	if provider.MatchUIDType(uid, provider.IDTypeTMDB) {
 		id, _ := tmdb.ParseUID(uid)
 		show, err := b.TMDB.GetTVShowByID(id)
 
@@ -145,7 +145,7 @@ func (b ContentBrowserImpl) Movie(uid string) (*domain.Movie, error) {
 
 	var imdbID string
 
-	if providers.MatchUIDType(uid, providers.IDTypeKinoHub) {
+	if provider.MatchUIDType(uid, provider.IDTypeKinoHub) {
 		id, _ := kinopub.ParseUID(uid)
 
 		item, err := b.Kinopub.GetItemById(id)

@@ -12,7 +12,7 @@ import (
 	"strconv"
 	"time"
 
-	"github.com/dpfg/kinohub-core/providers"
+	provider "github.com/dpfg/kinohub-core/provider"
 	"github.com/dpfg/kinohub-core/util"
 	"github.com/pkg/errors"
 	"github.com/sirupsen/logrus"
@@ -22,7 +22,7 @@ import (
 
 type Client struct {
 	Config            oauth2.Config
-	PreferenceStorage providers.PreferenceStorage
+	PreferenceStorage provider.PreferenceStorage
 	Logger            *logrus.Entry
 }
 
@@ -199,6 +199,8 @@ func (tc *Client) Scrobble(tmdbID int) error {
 	return tc.post(util.JoinURL(BaseURL, "scrobble", "start"), body, nil)
 }
 
+// NewTraktClient creates new client
+// TODO: Remove after restruct
 func NewTraktClient(logger *logrus.Logger) *Client {
 	return &Client{
 		Config: oauth2.Config{
@@ -211,7 +213,7 @@ func NewTraktClient(logger *logrus.Logger) *Client {
 			},
 			RedirectURL: "http://localhost:8081/trakt/exchange",
 		},
-		PreferenceStorage: providers.JSONPreferenceStorage{
+		PreferenceStorage: provider.JSONPreferenceStorage{
 			Path: ".data/",
 		},
 		Logger: logger.WithFields(logrus.Fields{"prefix": "trakt"}),
