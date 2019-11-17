@@ -50,7 +50,7 @@ type Item struct {
 		Big    string `json:"big"`
 	} `json:"posters"`
 	Trailer struct {
-		ID  string `json:"id"`
+		ID  int    `json:"id"`
 		URL string `json:"url"`
 	} `json:"trailer"`
 	Finished    bool          `json:"finished"`
@@ -72,7 +72,7 @@ type Item struct {
 			Title     string `json:"title"`
 			Thumbnail string `json:"thumbnail"`
 			Duration  int    `json:"duration"`
-			Tracks    string `json:"tracks"`
+			Tracks    int    `json:"tracks"`
 			Number    int    `json:"number"`
 			Ac3       int    `json:"ac3"`
 			Watched   int    `json:"watched"`
