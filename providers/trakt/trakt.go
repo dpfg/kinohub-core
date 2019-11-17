@@ -8,6 +8,7 @@ import (
 	"io/ioutil"
 	"net/http"
 	"net/http/httputil"
+	"os"
 	"strconv"
 	"time"
 
@@ -53,9 +54,9 @@ func (tc *Client) Status() string {
 	tc.PreferenceStorage.Load("trakt", t)
 
 	if t.Valid() {
-		return fmt.Sprintf("Status: OK; Access Token: %s", t.AccessToken)
+		return fmt.Sprintf("Status: Connected; Access Token: %s", t.AccessToken)
 	}
-	return fmt.Sprintf("Status: Unauthorized;")
+	return fmt.Sprintf("Status: Disconnected;")
 }
 
 func (tc *Client) get(url string, m interface{}) error {
@@ -196,4 +197,23 @@ func (tc *Client) Scrobble(tmdbID int) error {
 	}
 
 	return tc.post(util.JoinURL(BaseURL, "scrobble", "start"), body, nil)
+}
+
+func NewTraktClient(logger *logrus.Logger) *Client {
+	return &Client{
+		Config: oauth2.Config{
+			ClientID:     os.Getenv("TRAKT_CLIENT_ID"),
+			ClientSecret: os.Getenv("TRAKT_CLIENT_SECRET"),
+			Scopes:       []string{},
+			Endpoint: oauth2.Endpoint{
+				AuthURL:  "https://api.trakt.tv/oauth/authorize",
+				TokenURL: "https://api.trakt.tv/oauth/token",
+			},
+			RedirectURL: "http://localhost:8081/trakt/exchange",
+		},
+		PreferenceStorage: providers.JSONPreferenceStorage{
+			Path: ".data/",
+		},
+		Logger: logger.WithFields(logrus.Fields{"prefix": "trakt"}),
+	}
 }

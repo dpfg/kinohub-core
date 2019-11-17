@@ -14,7 +14,7 @@ import (
 
 // ServerCommand with available flags and env. variables
 type ServerCommand struct {
-	Port         int    `long:"port" env:"KINOHUB_PORT" default:"8081" description:"port"`
+	Port         int    `long:"port" env:"KINOHUB_PORT" default:"8090" description:"port"`
 	SiteName     string `long:"site-name" default:"localhost" description:"Site name used by 3rd parties"`
 	DataLocation string `long:"data-location" env:"KINOHUB_DATA_LOCATION" default:".data/" description:"path to folder to store application data"`
 	Auth         struct {
