@@ -4,6 +4,7 @@ import (
 	"bytes"
 	"context"
 	"encoding/json"
+	"fmt"
 	"io/ioutil"
 	"net/http"
 	"net/http/httputil"
@@ -44,6 +45,17 @@ func (tc *Client) Exchange(ctx context.Context, code string) (*oauth2.Token, err
 	}
 
 	return token, nil
+}
+
+// Status returns textual representation of client health
+func (tc *Client) Status() string {
+	t := &oauth2.Token{}
+	tc.PreferenceStorage.Load("trakt", t)
+
+	if t.Valid() {
+		return fmt.Sprintf("Status: OK; Access Token: %s", t.AccessToken)
+	}
+	return fmt.Sprintf("Status: Unauthorized;")
 }
 
 func (tc *Client) get(url string, m interface{}) error {

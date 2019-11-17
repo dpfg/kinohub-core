@@ -9,10 +9,12 @@ import (
 	"github.com/go-chi/render"
 )
 
+// Integration with Trakt.tv
 type Integration struct {
 	Client *Client
 }
 
+// Handler with defined routes for Trakt integration
 func (trakt *Integration) Handler() http.Handler {
 	router := chi.NewRouter()
 
@@ -41,8 +43,7 @@ func (trakt *Integration) Handler() http.Handler {
 	})
 
 	router.Get("/status", func(w http.ResponseWriter, req *http.Request) {
-
-		render.PlainText(w, req, "")
+		render.PlainText(w, req, trakt.Client.Status())
 	})
 
 	return router

@@ -11,9 +11,9 @@ import (
 
 	"github.com/dpfg/kinohub-core/providers/kinopub"
 	"github.com/dpfg/kinohub-core/providers/tmdb"
+	"github.com/dpfg/kinohub-core/providers/trakt"
 
 	"github.com/dpfg/kinohub-core/domain"
-	"github.com/dpfg/kinohub-core/providers/trakt"
 )
 
 type Feed interface {
@@ -27,7 +27,7 @@ type FeedItem struct {
 }
 
 type FeedImpl struct {
-	tc      *trakt.TraktClient
+	tc      *trakt.Client
 	kpc     kinopub.KinoPubClient
 	tmdbCli tmdb.Client
 	logger  *logrus.Entry
@@ -78,7 +78,7 @@ func (f FeedImpl) Releases(from time.Time, to time.Time) ([]FeedItem, error) {
 	return r, nil
 }
 
-func NewFeed(tc *trakt.TraktClient, kpc kinopub.KinoPubClient, tmdb tmdb.Client, logger *logrus.Logger) Feed {
+func NewFeed(tc *trakt.Client, kpc kinopub.KinoPubClient, tmdb tmdb.Client, logger *logrus.Logger) Feed {
 	return FeedImpl{
 		tc:      tc,
 		kpc:     kpc,
