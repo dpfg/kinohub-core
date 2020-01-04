@@ -50,14 +50,14 @@ const (
 
 // ClientImpl is a default implementation of TMDB API consumer
 type ClientImpl struct {
-	apiKey            string
-	logger            *logrus.Entry
-	cache             provider.CacheFactory
-	preferenceStorage provider.PreferenceStorage
+	APIKey            string
+	Logger            *logrus.Entry
+	Cache             provider.CacheFactory
+	PreferenceStorage provider.PreferenceStorage
 }
 
 func (cl ClientImpl) doGet(uri string, qp url.Values, body provider.CacheEntry) error {
-	cache := cl.cache.Get("TMDB_ENTITIES", 24*time.Hour)
+	cache := cl.Cache.Get("TMDB_ENTITIES", 24*time.Hour)
 
 	if cache.Load(uri, body) {
 		return nil
@@ -67,7 +67,7 @@ func (cl ClientImpl) doGet(uri string, qp url.Values, body provider.CacheEntry) 
 		qp = url.Values{}
 	}
 
-	qp.Add("api_key", cl.apiKey)
+	qp.Add("api_key", cl.APIKey)
 
 	resp, err := goreq.Request{
 		Method:      "GET",
@@ -100,7 +100,7 @@ func (cl ClientImpl) doGet(uri string, qp url.Values, body provider.CacheEntry) 
 
 // GetTVShowByID returns the primary TV show details by id.
 func (cl ClientImpl) GetTVShowByID(id int) (*TVShow, error) {
-	cl.logger.Debugf("Getting TMDB show by ID=[%d]", id)
+	cl.Logger.Debugf("Getting TMDB show by ID=[%d]", id)
 
 	show := &TVShow{}
 	err := cl.doGet(util.JoinURL(BaseURL, "tv", strconv.Itoa(id)), nil, provider.Cacheable(show))
@@ -108,7 +108,7 @@ func (cl ClientImpl) GetTVShowByID(id int) (*TVShow, error) {
 		return nil, err
 	}
 
-	cl.logger.Debugf("TMDB show ID=[%d] has been loaded", id)
+	cl.Logger.Debugf("TMDB show ID=[%d] has been loaded", id)
 
 	return show, nil
 }
@@ -140,7 +140,8 @@ func (cl ClientImpl) GetTVSeason(seriesID, seasonNum int) (*TVSeason, error) {
 	season := &TVSeason{}
 	err := cl.doGet(util.JoinURL(BaseURL, "tv", seriesID, "season", seasonNum), nil, provider.Cacheable(season))
 	if err != nil {
-		return nil, err
+		cl.Logger.Error(err)
+		return nil, errors.Wrap(err, "Unable to get season")
 	}
 
 	season.PosterPath = ImagePath(season.PosterPath, OriginalSize)
@@ -189,7 +190,7 @@ func (cl ClientImpl) FindByExternalID(id string) (*SearchResult, error) {
 	if err != nil {
 		return nil, err
 	}
-	cl.logger.Debugf("Search by external id: tv=%d", len(result.TVResults))
+	cl.Logger.Debugf("Search by external id: tv=%d", len(result.TVResults))
 
 	return result, nil
 }
@@ -257,10 +258,10 @@ func ImagePath(tmdbPath string, w int) string {
 // New returns new TMDB API client
 func New(logger *logrus.Logger, cf provider.CacheFactory, ps provider.PreferenceStorage) Client {
 	return ClientImpl{
-		apiKey:            os.Getenv("TMDB_API_KEY"),
-		preferenceStorage: ps,
-		cache:             cf,
-		logger:            logger.WithField("prefix", "tmdb"),
+		APIKey:            os.Getenv("TMDB_API_KEY"),
+		PreferenceStorage: ps,
+		Cache:             cf,
+		Logger:            logger.WithField("prefix", "tmdb"),
 	}
 }
 

@@ -1,25 +1,79 @@
 package services
 
 import (
+	"net/http"
+	"strconv"
+
 	"github.com/dpfg/kinohub-core/domain"
 	provider "github.com/dpfg/kinohub-core/provider"
 	"github.com/dpfg/kinohub-core/provider/kinopub"
 	"github.com/dpfg/kinohub-core/provider/tmdb"
+	"github.com/dpfg/kinohub-core/util"
+	"github.com/go-chi/chi"
+	"github.com/go-chi/render"
 	"github.com/pkg/errors"
 	"github.com/sirupsen/logrus"
 )
 
-// ContentSearch provides a way to find available media streams
+// ContentBrowser provides a way to find available media streams
 type ContentBrowser interface {
 	Show(uid string) (*domain.Series, error)
 	Season(uid string, seasonNum int) (*domain.Season, error)
 	Movie(uid string) (*domain.Movie, error)
+
+	Handler() func(r chi.Router)
 }
 
 type ContentBrowserImpl struct {
 	Logger  *logrus.Entry
 	Kinopub kinopub.KinoPubClient
 	TMDB    tmdb.Client
+}
+
+func (browser ContentBrowserImpl) Handler() func(r chi.Router) {
+
+	return func(router chi.Router) {
+
+		router.Get("/series/{series-id}", func(w http.ResponseWriter, req *http.Request) {
+			uid := chi.URLParam(req, "series-id")
+			show, err := browser.Show(uid)
+
+			if err != nil {
+				util.BadGateway(w, req, err)
+				return
+			}
+			render.JSON(w, req, show)
+		})
+
+		router.Get("/series/{series-id}/seasons/{season-num}", func(w http.ResponseWriter, req *http.Request) {
+			uid := chi.URLParam(req, "series-id")
+
+			seasonNum, err := strconv.Atoi(chi.URLParam(req, "season-num"))
+			if err != nil {
+				util.BadRequest(w, req, err)
+				return
+			}
+
+			season, err := browser.Season(uid, seasonNum)
+			if err != nil {
+				util.BadRequest(w, req, err)
+				return
+			}
+
+			render.JSON(w, req, season)
+		})
+
+		router.Get("/movies/{movie-id}", func(w http.ResponseWriter, req *http.Request) {
+			uid := chi.URLParam(req, "movie-id")
+			m, err := browser.Movie(uid)
+			if err != nil {
+				util.BadGateway(w, req, err)
+				return
+			}
+
+			render.JSON(w, req, m)
+		})
+	}
 }
 
 func (b ContentBrowserImpl) Season(uid string, seasonNum int) (*domain.Season, error) {

@@ -36,7 +36,7 @@ func (tc *Client) AuthCodeURL() string {
 func (tc *Client) Exchange(ctx context.Context, code string) (*oauth2.Token, error) {
 	token, err := tc.Config.Exchange(ctx, code)
 	if err != nil {
-		return nil, err
+		return nil, errors.Wrap(err, "Unable to exchange code to token")
 	}
 
 	err = tc.PreferenceStorage.Save("trakt", token)
@@ -51,7 +51,7 @@ func (tc *Client) get(url string, m interface{}) error {
 	t := &oauth2.Token{}
 	err := tc.PreferenceStorage.Load("trakt", t)
 	if err != nil {
-		return err
+		return errors.Wrap(err, "Unable ot load preferences")
 	}
 
 	cl := tc.Config.Client(context.TODO(), t)

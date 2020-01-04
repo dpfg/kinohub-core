@@ -81,7 +81,7 @@ func main2() {
 	router.Use(util.HTTPLogger(logger))
 
 	// Initialize common cache manager that will be used by API clients
-	cacheFactory, err := provider.NewCacheFactory(logger)
+	cacheFactory, err := provider.NewCacheFactory(".data/", logger)
 	if err != nil {
 		logrus.Errorf("Cannot initialize cache factory. %s", err.Error())
 		return
@@ -95,7 +95,7 @@ func main2() {
 	kpc := kinopub.NewKinoPubClient(logger, cacheFactory)
 	tc := trakt.NewTraktClient(logger)
 	tmdbc := tmdb.New(logger, cacheFactory, ps)
-	feed := services.NewFeed(tc, kpc, tmdbc, logger)
+	feed := services.NewFeed(tc, kpc, tmdbc, logger.WithField("prefix", "feed"))
 	browser := services.NewContentBrowser(kpc, tmdbc)
 
 	router.GET("/series/:series-id", func(c *gin.Context) {
@@ -153,7 +153,7 @@ func main2() {
 	})
 
 	router.GET("/search2", func(c *gin.Context) {
-		search := services.ContentSearchImpl{Kinopub: kpc, TMDB: tmdbc, Logger: logger.WithField("prefix", "search")}
+		search := services.ContentSearch{Kinopub: kpc, TMDB: tmdbc, Logger: logger.WithField("prefix", "search")}
 		result, err := search.Search(c.Query("q"))
 		if err != nil {
 			httpError(c, http.StatusBadGateway, err.Error())

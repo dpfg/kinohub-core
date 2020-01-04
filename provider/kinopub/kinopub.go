@@ -68,16 +68,16 @@ func (cl KinoPubClientImpl) getToken() (*Token, error) {
 	t := &Token{}
 	err := cl.PreferenceStorage.Load(KinoPubPrefKey, t)
 	if err != nil {
-		return nil, err
+		return nil, errors.Wrap(err, "Unable to load preferences")
 	}
 
 	if !t.IsValid() {
 		if err = cl.refreshToken(t); err != nil {
-			return nil, err
+			return nil, errors.Wrap(err, "Unable to refresh access token")
 		}
 
 		if err = cl.PreferenceStorage.Load(KinoPubPrefKey, t); err != nil {
-			return nil, err
+			return nil, errors.Wrap(err, "Unable to load preferences")
 		}
 	}
 

@@ -38,6 +38,20 @@ func PadLeft(str, pad string, lenght int) string {
 
 func InternalError(w http.ResponseWriter, r *http.Request, err error) {
 	render.Status(r, http.StatusInternalServerError)
+	renderError(w, r, err)
+}
+
+func BadRequest(w http.ResponseWriter, r *http.Request, err error) {
+	render.Status(r, http.StatusBadRequest)
+	renderError(w, r, err)
+}
+
+func BadGateway(w http.ResponseWriter, r *http.Request, err error) {
+	render.Status(r, http.StatusBadGateway)
+	renderError(w, r, err)
+}
+
+func renderError(w http.ResponseWriter, r *http.Request, err error) {
 	render.JSON(w, r, struct {
 		Msg string `json:"message"`
 	}{Msg: err.Error()})

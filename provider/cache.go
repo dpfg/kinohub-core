@@ -11,13 +11,13 @@ import (
 	"github.com/sirupsen/logrus"
 )
 
-func NewCacheFactory(logger *logrus.Logger) (CacheFactory, error) {
-	err := ensureFileExists(".data/cache.db")
+func NewCacheFactory(path string, logger *logrus.Logger) (CacheFactory, error) {
+	err := ensureFileExists(path + "cache.db")
 	if err != nil {
 		return nil, err
 	}
 
-	db, err := bolt.Open(".data/cache.db", 0600, &bolt.Options{Timeout: 10 * time.Second})
+	db, err := bolt.Open(path+"cache.db", 0600, &bolt.Options{Timeout: 10 * time.Second})
 	if err != nil {
 		return nil, errors.WithMessage(err, "Can't open cache")
 	}

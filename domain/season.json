@@ -1,0 +1,779 @@
+{
+  "uid": "TM88500",
+  "name": "Season 1",
+  "number": 1,
+  "air_date": "2017-09-27",
+  "episodes": [
+    {
+      "uid": "TM1357459",
+      "season": 1,
+      "number": 1,
+      "title": "Tip of the Spear",
+      "overview": "The most elite unit of Navy SEALs must navigate their professional and personal lives as they train, plan and execute the most dangerous, high stakes missions our country can ask of them.",
+      "first_aired": "0001-01-01T00:00:00Z",
+      "files": [
+        {
+          "quality": "480p",
+          "url": {
+            "http": "https://cdn.streambox.in/pd/kinopub/aWQ9NzkyODk7Mjk5NDY5MjY0Njs0MjMwMzE2OzE1NzQwOTg1NTMmaD12c2c2eEc1ZURGZWMzd05MQURzczVRJmU9MTU3NDE4NDk1Mw/9/1d/L8GhW5bGPm8LU8ZHT.mp4?loc=ru",
+            "hls": "https://cdn.streambox.in/hls/kinopub/aWQ9NzkyODk7Mjk5NDY5MjY0Njs0MjMwMzE2OzE1NzQwOTg1NTMmaD12c2c2eEc1ZURGZWMzd05MQURzczVRJmU9MTU3NDE4NDk1Mw/9/1d/L8GhW5bGPm8LU8ZHT.mp4/master-v1a1.m3u8?loc=ru",
+            "hls4": "https://cdn.streambox.in/hls4/kinopub/aWQ9NzkyODk7Mjk5NDY5MjY0Njs0MjMwMzE2OzE1NzQwOTg1NTMmaD12c2c2eEc1ZURGZWMzd05MQURzczVRJmU9MTU3NDE4NDk1Mw/435058.m3u8?loc=ru"
+          }
+        },
+        {
+          "quality": "720p",
+          "url": {
+            "http": "https://cdn.streambox.in/pd/kinopub/aWQ9NzkyODk7Mjk5NDY5MjY0Njs0MjMwMzE2OzE1NzQwOTg1NTMmaD12c2c2eEc1ZURGZWMzd05MQURzczVRJmU9MTU3NDE4NDk1Mw/0/3a/oUJKarVy1dNMD7NvS.mp4?loc=ru",
+            "hls": "https://cdn.streambox.in/hls/kinopub/aWQ9NzkyODk7Mjk5NDY5MjY0Njs0MjMwMzE2OzE1NzQwOTg1NTMmaD12c2c2eEc1ZURGZWMzd05MQURzczVRJmU9MTU3NDE4NDk1Mw/0/3a/oUJKarVy1dNMD7NvS.mp4/master-v1a1.m3u8?loc=ru",
+            "hls4": "https://cdn.streambox.in/hls4/kinopub/aWQ9NzkyODk7Mjk5NDY5MjY0Njs0MjMwMzE2OzE1NzQwOTg1NTMmaD12c2c2eEc1ZURGZWMzd05MQURzczVRJmU9MTU3NDE4NDk1Mw/435058.m3u8?loc=ru"
+          }
+        },
+        {
+          "quality": "1080p",
+          "url": {
+            "http": "https://cdn.streambox.in/pd/kinopub/aWQ9NzkyODk7Mjk5NDY5MjY0Njs0MjMwMzE2OzE1NzQwOTg1NTMmaD12c2c2eEc1ZURGZWMzd05MQURzczVRJmU9MTU3NDE4NDk1Mw/8/84/2RMzdHPSPuPj4GXvP.mp4?loc=ru",
+            "hls": "https://cdn.streambox.in/hls/kinopub/aWQ9NzkyODk7Mjk5NDY5MjY0Njs0MjMwMzE2OzE1NzQwOTg1NTMmaD12c2c2eEc1ZURGZWMzd05MQURzczVRJmU9MTU3NDE4NDk1Mw/8/84/2RMzdHPSPuPj4GXvP.mp4/master-v1a1.m3u8?loc=ru",
+            "hls4": "https://cdn.streambox.in/hls4/kinopub/aWQ9NzkyODk7Mjk5NDY5MjY0Njs0MjMwMzE2OzE1NzQwOTg1NTMmaD12c2c2eEc1ZURGZWMzd05MQURzczVRJmU9MTU3NDE4NDk1Mw/435058.m3u8?loc=ru"
+          }
+        }
+      ],
+      "still_path": "https://image.tmdb.org/t/p/w300/v8VzyiIRCOslX94rFPhkNuJPjl3.jpg"
+    },
+    {
+      "uid": "TM1367798",
+      "season": 1,
+      "number": 2,
+      "title": "Other Lives",
+      "overview": "While on an evidence-collecting mission in Syria, Jason and the SEAL Team find innocent civilians in desperate need of rescue just as enemy forces close in on them. Also, while on the mission, the team debates whether or not to tell Ray that his wife has gone into labor.",
+      "first_aired": "0001-01-01T00:00:00Z",
+      "files": [
+        {
+          "quality": "480p",
+          "url": {
+            "http": "https://cdn.streambox.in/pd/kinopub/aWQ9NzkyODk7Mjk5NDY5MjY0Njs0MjMwMzE2OzE1NzQwOTg1NTMmaD12c2c2eEc1ZURGZWMzd05MQURzczVRJmU9MTU3NDE4NDk1Mw/0/89/ZDTKWavDJzV3GSOHc.mp4?loc=ru",
+            "hls": "https://cdn.streambox.in/hls/kinopub/aWQ9NzkyODk7Mjk5NDY5MjY0Njs0MjMwMzE2OzE1NzQwOTg1NTMmaD12c2c2eEc1ZURGZWMzd05MQURzczVRJmU9MTU3NDE4NDk1Mw/0/89/ZDTKWavDJzV3GSOHc.mp4/master-v1a1.m3u8?loc=ru",
+            "hls4": "https://cdn.streambox.in/hls4/kinopub/aWQ9NzkyODk7Mjk5NDY5MjY0Njs0MjMwMzE2OzE1NzQwOTg1NTMmaD12c2c2eEc1ZURGZWMzd05MQURzczVRJmU9MTU3NDE4NDk1Mw/435061.m3u8?loc=ru"
+          }
+        },
+        {
+          "quality": "720p",
+          "url": {
+            "http": "https://cdn.streambox.in/pd/kinopub/aWQ9NzkyODk7Mjk5NDY5MjY0Njs0MjMwMzE2OzE1NzQwOTg1NTMmaD12c2c2eEc1ZURGZWMzd05MQURzczVRJmU9MTU3NDE4NDk1Mw/3/15/gKHz5ii7WM2k3FsQb.mp4?loc=ru",
+            "hls": "https://cdn.streambox.in/hls/kinopub/aWQ9NzkyODk7Mjk5NDY5MjY0Njs0MjMwMzE2OzE1NzQwOTg1NTMmaD12c2c2eEc1ZURGZWMzd05MQURzczVRJmU9MTU3NDE4NDk1Mw/3/15/gKHz5ii7WM2k3FsQb.mp4/master-v1a1.m3u8?loc=ru",
+            "hls4": "https://cdn.streambox.in/hls4/kinopub/aWQ9NzkyODk7Mjk5NDY5MjY0Njs0MjMwMzE2OzE1NzQwOTg1NTMmaD12c2c2eEc1ZURGZWMzd05MQURzczVRJmU9MTU3NDE4NDk1Mw/435061.m3u8?loc=ru"
+          }
+        },
+        {
+          "quality": "1080p",
+          "url": {
+            "http": "https://cdn.streambox.in/pd/kinopub/aWQ9NzkyODk7Mjk5NDY5MjY0Njs0MjMwMzE2OzE1NzQwOTg1NTMmaD12c2c2eEc1ZURGZWMzd05MQURzczVRJmU9MTU3NDE4NDk1Mw/d/72/9OvoDZsloH9GYGDLi.mp4?loc=ru",
+            "hls": "https://cdn.streambox.in/hls/kinopub/aWQ9NzkyODk7Mjk5NDY5MjY0Njs0MjMwMzE2OzE1NzQwOTg1NTMmaD12c2c2eEc1ZURGZWMzd05MQURzczVRJmU9MTU3NDE4NDk1Mw/d/72/9OvoDZsloH9GYGDLi.mp4/master-v1a1.m3u8?loc=ru",
+            "hls4": "https://cdn.streambox.in/hls4/kinopub/aWQ9NzkyODk7Mjk5NDY5MjY0Njs0MjMwMzE2OzE1NzQwOTg1NTMmaD12c2c2eEc1ZURGZWMzd05MQURzczVRJmU9MTU3NDE4NDk1Mw/435061.m3u8?loc=ru"
+          }
+        }
+      ],
+      "still_path": "https://image.tmdb.org/t/p/w300/t6bWaoeCiNwcN5OyGEQFPixHi6l.jpg"
+    },
+    {
+      "uid": "TM1367799",
+      "season": 1,
+      "number": 3,
+      "title": "Boarding Party",
+      "overview": "Jason and the SEAL team must rescue a group of researchers being held hostage on a ship in the South China Sea. Also, Clay is ranked in the “bottom five” of his class, jeopardizing his future as a SEAL",
+      "first_aired": "0001-01-01T00:00:00Z",
+      "files": [
+        {
+          "quality": "480p",
+          "url": {
+            "http": "https://cdn.streambox.in/pd/kinopub/aWQ9NzkyODk7Mjk5NDY5MjY0Njs0MjMwMzE2OzE1NzQwOTg1NTMmaD12c2c2eEc1ZURGZWMzd05MQURzczVRJmU9MTU3NDE4NDk1Mw/7/2d/pJn230zEVuaZBvz4Z.mp4?loc=ru",
+            "hls": "https://cdn.streambox.in/hls/kinopub/aWQ9NzkyODk7Mjk5NDY5MjY0Njs0MjMwMzE2OzE1NzQwOTg1NTMmaD12c2c2eEc1ZURGZWMzd05MQURzczVRJmU9MTU3NDE4NDk1Mw/7/2d/pJn230zEVuaZBvz4Z.mp4/master-v1a1.m3u8?loc=ru",
+            "hls4": "https://cdn.streambox.in/hls4/kinopub/aWQ9NzkyODk7Mjk5NDY5MjY0Njs0MjMwMzE2OzE1NzQwOTg1NTMmaD12c2c2eEc1ZURGZWMzd05MQURzczVRJmU9MTU3NDE4NDk1Mw/435064.m3u8?loc=ru"
+          }
+        },
+        {
+          "quality": "720p",
+          "url": {
+            "http": "https://cdn.streambox.in/pd/kinopub/aWQ9NzkyODk7Mjk5NDY5MjY0Njs0MjMwMzE2OzE1NzQwOTg1NTMmaD12c2c2eEc1ZURGZWMzd05MQURzczVRJmU9MTU3NDE4NDk1Mw/1/f4/LxBLVw47kAsuw2OJB.mp4?loc=ru",
+            "hls": "https://cdn.streambox.in/hls/kinopub/aWQ9NzkyODk7Mjk5NDY5MjY0Njs0MjMwMzE2OzE1NzQwOTg1NTMmaD12c2c2eEc1ZURGZWMzd05MQURzczVRJmU9MTU3NDE4NDk1Mw/1/f4/LxBLVw47kAsuw2OJB.mp4/master-v1a1.m3u8?loc=ru",
+            "hls4": "https://cdn.streambox.in/hls4/kinopub/aWQ9NzkyODk7Mjk5NDY5MjY0Njs0MjMwMzE2OzE1NzQwOTg1NTMmaD12c2c2eEc1ZURGZWMzd05MQURzczVRJmU9MTU3NDE4NDk1Mw/435064.m3u8?loc=ru"
+          }
+        },
+        {
+          "quality": "1080p",
+          "url": {
+            "http": "https://cdn.streambox.in/pd/kinopub/aWQ9NzkyODk7Mjk5NDY5MjY0Njs0MjMwMzE2OzE1NzQwOTg1NTMmaD12c2c2eEc1ZURGZWMzd05MQURzczVRJmU9MTU3NDE4NDk1Mw/c/95/kczRxLLa204uOevCi.mp4?loc=ru",
+            "hls": "https://cdn.streambox.in/hls/kinopub/aWQ9NzkyODk7Mjk5NDY5MjY0Njs0MjMwMzE2OzE1NzQwOTg1NTMmaD12c2c2eEc1ZURGZWMzd05MQURzczVRJmU9MTU3NDE4NDk1Mw/c/95/kczRxLLa204uOevCi.mp4/master-v1a1.m3u8?loc=ru",
+            "hls4": "https://cdn.streambox.in/hls4/kinopub/aWQ9NzkyODk7Mjk5NDY5MjY0Njs0MjMwMzE2OzE1NzQwOTg1NTMmaD12c2c2eEc1ZURGZWMzd05MQURzczVRJmU9MTU3NDE4NDk1Mw/435064.m3u8?loc=ru"
+          }
+        }
+      ],
+      "still_path": "https://image.tmdb.org/t/p/w300/avKmJd7EmTwR1HFPmacBjnI0R0q.jpg"
+    },
+    {
+      "uid": "TM1374425",
+      "season": 1,
+      "number": 4,
+      "title": "Ghosts of Christmas Future",
+      "overview": "Jason and the SEAL Team refuse to abort a mission to capture a dangerous war criminal after it goes sideways. Also, Clay’s controversial father, Ash Spenser, comes to town on his book tour.",
+      "first_aired": "0001-01-01T00:00:00Z",
+      "files": [
+        {
+          "quality": "480p",
+          "url": {
+            "http": "https://cdn.streambox.in/pd/kinopub/aWQ9NzkyODk7Mjk5NDY5MjY0Njs0MjMwMzE2OzE1NzQwOTg1NTMmaD12c2c2eEc1ZURGZWMzd05MQURzczVRJmU9MTU3NDE4NDk1Mw/8/cc/6g3rp7Y09Ry33M2Kb.mp4?loc=ru",
+            "hls": "https://cdn.streambox.in/hls/kinopub/aWQ9NzkyODk7Mjk5NDY5MjY0Njs0MjMwMzE2OzE1NzQwOTg1NTMmaD12c2c2eEc1ZURGZWMzd05MQURzczVRJmU9MTU3NDE4NDk1Mw/8/cc/6g3rp7Y09Ry33M2Kb.mp4/master-v1a1.m3u8?loc=ru",
+            "hls4": "https://cdn.streambox.in/hls4/kinopub/aWQ9NzkyODk7Mjk5NDY5MjY0Njs0MjMwMzE2OzE1NzQwOTg1NTMmaD12c2c2eEc1ZURGZWMzd05MQURzczVRJmU9MTU3NDE4NDk1Mw/435067.m3u8?loc=ru"
+          }
+        },
+        {
+          "quality": "720p",
+          "url": {
+            "http": "https://cdn.streambox.in/pd/kinopub/aWQ9NzkyODk7Mjk5NDY5MjY0Njs0MjMwMzE2OzE1NzQwOTg1NTMmaD12c2c2eEc1ZURGZWMzd05MQURzczVRJmU9MTU3NDE4NDk1Mw/5/11/4xJ3TpUbeYHo4m3s9.mp4?loc=ru",
+            "hls": "https://cdn.streambox.in/hls/kinopub/aWQ9NzkyODk7Mjk5NDY5MjY0Njs0MjMwMzE2OzE1NzQwOTg1NTMmaD12c2c2eEc1ZURGZWMzd05MQURzczVRJmU9MTU3NDE4NDk1Mw/5/11/4xJ3TpUbeYHo4m3s9.mp4/master-v1a1.m3u8?loc=ru",
+            "hls4": "https://cdn.streambox.in/hls4/kinopub/aWQ9NzkyODk7Mjk5NDY5MjY0Njs0MjMwMzE2OzE1NzQwOTg1NTMmaD12c2c2eEc1ZURGZWMzd05MQURzczVRJmU9MTU3NDE4NDk1Mw/435067.m3u8?loc=ru"
+          }
+        },
+        {
+          "quality": "1080p",
+          "url": {
+            "http": "https://cdn.streambox.in/pd/kinopub/aWQ9NzkyODk7Mjk5NDY5MjY0Njs0MjMwMzE2OzE1NzQwOTg1NTMmaD12c2c2eEc1ZURGZWMzd05MQURzczVRJmU9MTU3NDE4NDk1Mw/3/64/DoMBIQuRrj1GEdVl9.mp4?loc=ru",
+            "hls": "https://cdn.streambox.in/hls/kinopub/aWQ9NzkyODk7Mjk5NDY5MjY0Njs0MjMwMzE2OzE1NzQwOTg1NTMmaD12c2c2eEc1ZURGZWMzd05MQURzczVRJmU9MTU3NDE4NDk1Mw/3/64/DoMBIQuRrj1GEdVl9.mp4/master-v1a1.m3u8?loc=ru",
+            "hls4": "https://cdn.streambox.in/hls4/kinopub/aWQ9NzkyODk7Mjk5NDY5MjY0Njs0MjMwMzE2OzE1NzQwOTg1NTMmaD12c2c2eEc1ZURGZWMzd05MQURzczVRJmU9MTU3NDE4NDk1Mw/435067.m3u8?loc=ru"
+          }
+        }
+      ],
+      "still_path": "https://image.tmdb.org/t/p/w300/jvQucdxtMM43bXMoGF6lPIBTKk2.jpg"
+    },
+    {
+      "uid": "TM1384111",
+      "season": 1,
+      "number": 5,
+      "title": "Collapse",
+      "overview": "Jason and the SEAL Team must protect the American Embassy in South Sudan when the ambassador refuses to evacuate as the country becomes increasingly unstable. Also, Clay and Stella take their relationship to the next level.",
+      "first_aired": "0001-01-01T00:00:00Z",
+      "files": [
+        {
+          "quality": "480p",
+          "url": {
+            "http": "https://cdn.streambox.in/pd/kinopub/aWQ9NzkyODk7Mjk5NDY5MjY0Njs0MjMwMzE2OzE1NzQwOTg1NTMmaD12c2c2eEc1ZURGZWMzd05MQURzczVRJmU9MTU3NDE4NDk1Mw/5/0d/2yK7zHgNkfn52RWM4.mp4?loc=ru",
+            "hls": "https://cdn.streambox.in/hls/kinopub/aWQ9NzkyODk7Mjk5NDY5MjY0Njs0MjMwMzE2OzE1NzQwOTg1NTMmaD12c2c2eEc1ZURGZWMzd05MQURzczVRJmU9MTU3NDE4NDk1Mw/5/0d/2yK7zHgNkfn52RWM4.mp4/master-v1a1.m3u8?loc=ru",
+            "hls4": "https://cdn.streambox.in/hls4/kinopub/aWQ9NzkyODk7Mjk5NDY5MjY0Njs0MjMwMzE2OzE1NzQwOTg1NTMmaD12c2c2eEc1ZURGZWMzd05MQURzczVRJmU9MTU3NDE4NDk1Mw/435070.m3u8?loc=ru"
+          }
+        },
+        {
+          "quality": "720p",
+          "url": {
+            "http": "https://cdn.streambox.in/pd/kinopub/aWQ9NzkyODk7Mjk5NDY5MjY0Njs0MjMwMzE2OzE1NzQwOTg1NTMmaD12c2c2eEc1ZURGZWMzd05MQURzczVRJmU9MTU3NDE4NDk1Mw/f/22/W0dDZzKLtRKbKoZsx.mp4?loc=ru",
+            "hls": "https://cdn.streambox.in/hls/kinopub/aWQ9NzkyODk7Mjk5NDY5MjY0Njs0MjMwMzE2OzE1NzQwOTg1NTMmaD12c2c2eEc1ZURGZWMzd05MQURzczVRJmU9MTU3NDE4NDk1Mw/f/22/W0dDZzKLtRKbKoZsx.mp4/master-v1a1.m3u8?loc=ru",
+            "hls4": "https://cdn.streambox.in/hls4/kinopub/aWQ9NzkyODk7Mjk5NDY5MjY0Njs0MjMwMzE2OzE1NzQwOTg1NTMmaD12c2c2eEc1ZURGZWMzd05MQURzczVRJmU9MTU3NDE4NDk1Mw/435070.m3u8?loc=ru"
+          }
+        },
+        {
+          "quality": "1080p",
+          "url": {
+            "http": "https://cdn.streambox.in/pd/kinopub/aWQ9NzkyODk7Mjk5NDY5MjY0Njs0MjMwMzE2OzE1NzQwOTg1NTMmaD12c2c2eEc1ZURGZWMzd05MQURzczVRJmU9MTU3NDE4NDk1Mw/e/93/OH9G5RghsFZToK152.mp4?loc=ru",
+            "hls": "https://cdn.streambox.in/hls/kinopub/aWQ9NzkyODk7Mjk5NDY5MjY0Njs0MjMwMzE2OzE1NzQwOTg1NTMmaD12c2c2eEc1ZURGZWMzd05MQURzczVRJmU9MTU3NDE4NDk1Mw/e/93/OH9G5RghsFZToK152.mp4/master-v1a1.m3u8?loc=ru",
+            "hls4": "https://cdn.streambox.in/hls4/kinopub/aWQ9NzkyODk7Mjk5NDY5MjY0Njs0MjMwMzE2OzE1NzQwOTg1NTMmaD12c2c2eEc1ZURGZWMzd05MQURzczVRJmU9MTU3NDE4NDk1Mw/435070.m3u8?loc=ru"
+          }
+        }
+      ],
+      "still_path": "https://image.tmdb.org/t/p/w300/5VBJ5yi1ltfYdl1HSP38WSdWnWt.jpg"
+    },
+    {
+      "uid": "TM1384112",
+      "season": 1,
+      "number": 6,
+      "title": "The Spinning Wheel",
+      "overview": "The SEAL Team must work with Jason’s longtime rival, Beau Fuller, and his team to plan and perfect a raid under the watchful eye of top military brass. Also, Clay delivers solemn news to a teammate’s next of kin.",
+      "first_aired": "0001-01-01T00:00:00Z",
+      "files": [
+        {
+          "quality": "480p",
+          "url": {
+            "http": "https://cdn.streambox.in/pd/kinopub/aWQ9NzkyODk7Mjk5NDY5MjY0Njs0MjMwMzE2OzE1NzQwOTg1NTMmaD12c2c2eEc1ZURGZWMzd05MQURzczVRJmU9MTU3NDE4NDk1Mw/6/01/xWtZw1BCcWgjjBjvE.mp4?loc=ru",
+            "hls": "https://cdn.streambox.in/hls/kinopub/aWQ9NzkyODk7Mjk5NDY5MjY0Njs0MjMwMzE2OzE1NzQwOTg1NTMmaD12c2c2eEc1ZURGZWMzd05MQURzczVRJmU9MTU3NDE4NDk1Mw/6/01/xWtZw1BCcWgjjBjvE.mp4/master-v1a1.m3u8?loc=ru",
+            "hls4": "https://cdn.streambox.in/hls4/kinopub/aWQ9NzkyODk7Mjk5NDY5MjY0Njs0MjMwMzE2OzE1NzQwOTg1NTMmaD12c2c2eEc1ZURGZWMzd05MQURzczVRJmU9MTU3NDE4NDk1Mw/435073.m3u8?loc=ru"
+          }
+        },
+        {
+          "quality": "720p",
+          "url": {
+            "http": "https://cdn.streambox.in/pd/kinopub/aWQ9NzkyODk7Mjk5NDY5MjY0Njs0MjMwMzE2OzE1NzQwOTg1NTMmaD12c2c2eEc1ZURGZWMzd05MQURzczVRJmU9MTU3NDE4NDk1Mw/6/ce/xB6blE8nlZb3c3pSJ.mp4?loc=ru",
+            "hls": "https://cdn.streambox.in/hls/kinopub/aWQ9NzkyODk7Mjk5NDY5MjY0Njs0MjMwMzE2OzE1NzQwOTg1NTMmaD12c2c2eEc1ZURGZWMzd05MQURzczVRJmU9MTU3NDE4NDk1Mw/6/ce/xB6blE8nlZb3c3pSJ.mp4/master-v1a1.m3u8?loc=ru",
+            "hls4": "https://cdn.streambox.in/hls4/kinopub/aWQ9NzkyODk7Mjk5NDY5MjY0Njs0MjMwMzE2OzE1NzQwOTg1NTMmaD12c2c2eEc1ZURGZWMzd05MQURzczVRJmU9MTU3NDE4NDk1Mw/435073.m3u8?loc=ru"
+          }
+        },
+        {
+          "quality": "1080p",
+          "url": {
+            "http": "https://cdn.streambox.in/pd/kinopub/aWQ9NzkyODk7Mjk5NDY5MjY0Njs0MjMwMzE2OzE1NzQwOTg1NTMmaD12c2c2eEc1ZURGZWMzd05MQURzczVRJmU9MTU3NDE4NDk1Mw/8/13/nFHywbJQ1iQXyPBrA.mp4?loc=ru",
+            "hls": "https://cdn.streambox.in/hls/kinopub/aWQ9NzkyODk7Mjk5NDY5MjY0Njs0MjMwMzE2OzE1NzQwOTg1NTMmaD12c2c2eEc1ZURGZWMzd05MQURzczVRJmU9MTU3NDE4NDk1Mw/8/13/nFHywbJQ1iQXyPBrA.mp4/master-v1a1.m3u8?loc=ru",
+            "hls4": "https://cdn.streambox.in/hls4/kinopub/aWQ9NzkyODk7Mjk5NDY5MjY0Njs0MjMwMzE2OzE1NzQwOTg1NTMmaD12c2c2eEc1ZURGZWMzd05MQURzczVRJmU9MTU3NDE4NDk1Mw/435073.m3u8?loc=ru"
+          }
+        }
+      ],
+      "still_path": "https://image.tmdb.org/t/p/w300/frNXhRhluriWb4DwqEELvCBhSTX.jpg"
+    },
+    {
+      "uid": "TM1387714",
+      "season": 1,
+      "number": 7,
+      "title": "Borderlines",
+      "overview": "Jason and the SEAL Team must rescue an undercover CIA operative after she is captured by radical terrorists to be used as a bargaining chip. Also, Clay undergoes the final harrowing exercise for his candidacy into Tier One.",
+      "first_aired": "0001-01-01T00:00:00Z",
+      "files": [
+        {
+          "quality": "480p",
+          "url": {
+            "http": "https://cdn.streambox.in/pd/kinopub/aWQ9NzkyODk7Mjk5NDY5MjY0Njs0MjMwMzE2OzE1NzQwOTg1NTMmaD12c2c2eEc1ZURGZWMzd05MQURzczVRJmU9MTU3NDE4NDk1Mw/f/6e/gMQXJHNfczgRkS3Fy.mp4?loc=ru",
+            "hls": "https://cdn.streambox.in/hls/kinopub/aWQ9NzkyODk7Mjk5NDY5MjY0Njs0MjMwMzE2OzE1NzQwOTg1NTMmaD12c2c2eEc1ZURGZWMzd05MQURzczVRJmU9MTU3NDE4NDk1Mw/f/6e/gMQXJHNfczgRkS3Fy.mp4/master-v1a1.m3u8?loc=ru",
+            "hls4": "https://cdn.streambox.in/hls4/kinopub/aWQ9NzkyODk7Mjk5NDY5MjY0Njs0MjMwMzE2OzE1NzQwOTg1NTMmaD12c2c2eEc1ZURGZWMzd05MQURzczVRJmU9MTU3NDE4NDk1Mw/435076.m3u8?loc=ru"
+          }
+        },
+        {
+          "quality": "720p",
+          "url": {
+            "http": "https://cdn.streambox.in/pd/kinopub/aWQ9NzkyODk7Mjk5NDY5MjY0Njs0MjMwMzE2OzE1NzQwOTg1NTMmaD12c2c2eEc1ZURGZWMzd05MQURzczVRJmU9MTU3NDE4NDk1Mw/3/d2/QQwuL1FLCakGarLXh.mp4?loc=ru",
+            "hls": "https://cdn.streambox.in/hls/kinopub/aWQ9NzkyODk7Mjk5NDY5MjY0Njs0MjMwMzE2OzE1NzQwOTg1NTMmaD12c2c2eEc1ZURGZWMzd05MQURzczVRJmU9MTU3NDE4NDk1Mw/3/d2/QQwuL1FLCakGarLXh.mp4/master-v1a1.m3u8?loc=ru",
+            "hls4": "https://cdn.streambox.in/hls4/kinopub/aWQ9NzkyODk7Mjk5NDY5MjY0Njs0MjMwMzE2OzE1NzQwOTg1NTMmaD12c2c2eEc1ZURGZWMzd05MQURzczVRJmU9MTU3NDE4NDk1Mw/435076.m3u8?loc=ru"
+          }
+        },
+        {
+          "quality": "1080p",
+          "url": {
+            "http": "https://cdn.streambox.in/pd/kinopub/aWQ9NzkyODk7Mjk5NDY5MjY0Njs0MjMwMzE2OzE1NzQwOTg1NTMmaD12c2c2eEc1ZURGZWMzd05MQURzczVRJmU9MTU3NDE4NDk1Mw/c/21/6NQGt84Uzrv5jUOHW.mp4?loc=ru",
+            "hls": "https://cdn.streambox.in/hls/kinopub/aWQ9NzkyODk7Mjk5NDY5MjY0Njs0MjMwMzE2OzE1NzQwOTg1NTMmaD12c2c2eEc1ZURGZWMzd05MQURzczVRJmU9MTU3NDE4NDk1Mw/c/21/6NQGt84Uzrv5jUOHW.mp4/master-v1a1.m3u8?loc=ru",
+            "hls4": "https://cdn.streambox.in/hls4/kinopub/aWQ9NzkyODk7Mjk5NDY5MjY0Njs0MjMwMzE2OzE1NzQwOTg1NTMmaD12c2c2eEc1ZURGZWMzd05MQURzczVRJmU9MTU3NDE4NDk1Mw/435076.m3u8?loc=ru"
+          }
+        }
+      ],
+      "still_path": "https://image.tmdb.org/t/p/w300/xfWNJQIBP1UrzH60uvjRoIXIFVs.jpg"
+    },
+    {
+      "uid": "TM1387715",
+      "season": 1,
+      "number": 8,
+      "title": "The Exchange",
+      "overview": "Jason and the SEAL Team have mixed feelings when they are tasked with bringing home an American soldier who was captured after deserting, in exchange for detainees in Gitmo.",
+      "first_aired": "0001-01-01T00:00:00Z",
+      "files": [
+        {
+          "quality": "480p",
+          "url": {
+            "http": "https://cdn.streambox.in/pd/kinopub/aWQ9NzkyODk7Mjk5NDY5MjY0Njs0MjMwMzE2OzE1NzQwOTg1NTMmaD12c2c2eEc1ZURGZWMzd05MQURzczVRJmU9MTU3NDE4NDk1Mw/4/dc/Bg3qfwmc9q2jxSgFt.mp4?loc=ru",
+            "hls": "https://cdn.streambox.in/hls/kinopub/aWQ9NzkyODk7Mjk5NDY5MjY0Njs0MjMwMzE2OzE1NzQwOTg1NTMmaD12c2c2eEc1ZURGZWMzd05MQURzczVRJmU9MTU3NDE4NDk1Mw/4/dc/Bg3qfwmc9q2jxSgFt.mp4/master-v1a1.m3u8?loc=ru",
+            "hls4": "https://cdn.streambox.in/hls4/kinopub/aWQ9NzkyODk7Mjk5NDY5MjY0Njs0MjMwMzE2OzE1NzQwOTg1NTMmaD12c2c2eEc1ZURGZWMzd05MQURzczVRJmU9MTU3NDE4NDk1Mw/435079.m3u8?loc=ru"
+          }
+        },
+        {
+          "quality": "720p",
+          "url": {
+            "http": "https://cdn.streambox.in/pd/kinopub/aWQ9NzkyODk7Mjk5NDY5MjY0Njs0MjMwMzE2OzE1NzQwOTg1NTMmaD12c2c2eEc1ZURGZWMzd05MQURzczVRJmU9MTU3NDE4NDk1Mw/0/09/tVXC5Oa7RX8B0cHnJ.mp4?loc=ru",
+            "hls": "https://cdn.streambox.in/hls/kinopub/aWQ9NzkyODk7Mjk5NDY5MjY0Njs0MjMwMzE2OzE1NzQwOTg1NTMmaD12c2c2eEc1ZURGZWMzd05MQURzczVRJmU9MTU3NDE4NDk1Mw/0/09/tVXC5Oa7RX8B0cHnJ.mp4/master-v1a1.m3u8?loc=ru",
+            "hls4": "https://cdn.streambox.in/hls4/kinopub/aWQ9NzkyODk7Mjk5NDY5MjY0Njs0MjMwMzE2OzE1NzQwOTg1NTMmaD12c2c2eEc1ZURGZWMzd05MQURzczVRJmU9MTU3NDE4NDk1Mw/435079.m3u8?loc=ru"
+          }
+        },
+        {
+          "quality": "1080p",
+          "url": {
+            "http": "https://cdn.streambox.in/pd/kinopub/aWQ9NzkyODk7Mjk5NDY5MjY0Njs0MjMwMzE2OzE1NzQwOTg1NTMmaD12c2c2eEc1ZURGZWMzd05MQURzczVRJmU9MTU3NDE4NDk1Mw/b/85/7ewfSHe1KEsNMx5PZ.mp4?loc=ru",
+            "hls": "https://cdn.streambox.in/hls/kinopub/aWQ9NzkyODk7Mjk5NDY5MjY0Njs0MjMwMzE2OzE1NzQwOTg1NTMmaD12c2c2eEc1ZURGZWMzd05MQURzczVRJmU9MTU3NDE4NDk1Mw/b/85/7ewfSHe1KEsNMx5PZ.mp4/master-v1a1.m3u8?loc=ru",
+            "hls4": "https://cdn.streambox.in/hls4/kinopub/aWQ9NzkyODk7Mjk5NDY5MjY0Njs0MjMwMzE2OzE1NzQwOTg1NTMmaD12c2c2eEc1ZURGZWMzd05MQURzczVRJmU9MTU3NDE4NDk1Mw/435079.m3u8?loc=ru"
+          }
+        }
+      ],
+      "still_path": "https://image.tmdb.org/t/p/w300/iuJ8txqqz5WvNvVxDf0Z8kkhQUz.jpg"
+    },
+    {
+      "uid": "TM1387716",
+      "season": 1,
+      "number": 9,
+      "title": "Rolling Dark",
+      "overview": "Jason and the SEAL team must rescue a Russian scientist and his wife and bring them across the Afghanistan border to safety as Chinese and Russian Special Forces close in, intent on stopping them. Also, Clay endures his first day with Jason’s unit.",
+      "first_aired": "0001-01-01T00:00:00Z",
+      "files": [
+        {
+          "quality": "480p",
+          "url": {
+            "http": "https://cdn.streambox.in/pd/kinopub/aWQ9NzkyODk7Mjk5NDY5MjY0Njs0MjMwMzE2OzE1NzQwOTg1NTMmaD12c2c2eEc1ZURGZWMzd05MQURzczVRJmU9MTU3NDE4NDk1Mw/a/9d/sJDUd35YfzYQ9ZiEN.mp4?loc=ru",
+            "hls": "https://cdn.streambox.in/hls/kinopub/aWQ9NzkyODk7Mjk5NDY5MjY0Njs0MjMwMzE2OzE1NzQwOTg1NTMmaD12c2c2eEc1ZURGZWMzd05MQURzczVRJmU9MTU3NDE4NDk1Mw/a/9d/sJDUd35YfzYQ9ZiEN.mp4/master-v1a1.m3u8?loc=ru",
+            "hls4": "https://cdn.streambox.in/hls4/kinopub/aWQ9NzkyODk7Mjk5NDY5MjY0Njs0MjMwMzE2OzE1NzQwOTg1NTMmaD12c2c2eEc1ZURGZWMzd05MQURzczVRJmU9MTU3NDE4NDk1Mw/435082.m3u8?loc=ru"
+          }
+        },
+        {
+          "quality": "720p",
+          "url": {
+            "http": "https://cdn.streambox.in/pd/kinopub/aWQ9NzkyODk7Mjk5NDY5MjY0Njs0MjMwMzE2OzE1NzQwOTg1NTMmaD12c2c2eEc1ZURGZWMzd05MQURzczVRJmU9MTU3NDE4NDk1Mw/7/a5/p0Kdu1Az2svNvdYym.mp4?loc=ru",
+            "hls": "https://cdn.streambox.in/hls/kinopub/aWQ9NzkyODk7Mjk5NDY5MjY0Njs0MjMwMzE2OzE1NzQwOTg1NTMmaD12c2c2eEc1ZURGZWMzd05MQURzczVRJmU9MTU3NDE4NDk1Mw/7/a5/p0Kdu1Az2svNvdYym.mp4/master-v1a1.m3u8?loc=ru",
+            "hls4": "https://cdn.streambox.in/hls4/kinopub/aWQ9NzkyODk7Mjk5NDY5MjY0Njs0MjMwMzE2OzE1NzQwOTg1NTMmaD12c2c2eEc1ZURGZWMzd05MQURzczVRJmU9MTU3NDE4NDk1Mw/435082.m3u8?loc=ru"
+          }
+        },
+        {
+          "quality": "1080p",
+          "url": {
+            "http": "https://cdn.streambox.in/pd/kinopub/aWQ9NzkyODk7Mjk5NDY5MjY0Njs0MjMwMzE2OzE1NzQwOTg1NTMmaD12c2c2eEc1ZURGZWMzd05MQURzczVRJmU9MTU3NDE4NDk1Mw/a/8e/a40HKF7HtXlhHnPsu.mp4?loc=ru",
+            "hls": "https://cdn.streambox.in/hls/kinopub/aWQ9NzkyODk7Mjk5NDY5MjY0Njs0MjMwMzE2OzE1NzQwOTg1NTMmaD12c2c2eEc1ZURGZWMzd05MQURzczVRJmU9MTU3NDE4NDk1Mw/a/8e/a40HKF7HtXlhHnPsu.mp4/master-v1a1.m3u8?loc=ru",
+            "hls4": "https://cdn.streambox.in/hls4/kinopub/aWQ9NzkyODk7Mjk5NDY5MjY0Njs0MjMwMzE2OzE1NzQwOTg1NTMmaD12c2c2eEc1ZURGZWMzd05MQURzczVRJmU9MTU3NDE4NDk1Mw/435082.m3u8?loc=ru"
+          }
+        }
+      ],
+      "still_path": "https://image.tmdb.org/t/p/w300/uS1Zm58e0JR1Fn74MUhzRVjPmRz.jpg"
+    },
+    {
+      "uid": "TM1407716",
+      "season": 1,
+      "number": 10,
+      "title": "Pattern of Life",
+      "overview": "Tensions are high when Jason and the SEAL Team enter a Yemeni house to locate a cell phone linked to a terrorist network, and interrogate the family while the daughter lays in critical condition after being accidentally shot.",
+      "first_aired": "0001-01-01T00:00:00Z",
+      "files": [
+        {
+          "quality": "480p",
+          "url": {
+            "http": "https://cdn.streambox.in/pd/kinopub/aWQ9NzkyODk7Mjk5NDY5MjY0Njs0MjMwMzE2OzE1NzQwOTg1NTMmaD12c2c2eEc1ZURGZWMzd05MQURzczVRJmU9MTU3NDE4NDk1Mw/4/b5/REolU2RMhyzNAHVUk.mp4?loc=ru",
+            "hls": "https://cdn.streambox.in/hls/kinopub/aWQ9NzkyODk7Mjk5NDY5MjY0Njs0MjMwMzE2OzE1NzQwOTg1NTMmaD12c2c2eEc1ZURGZWMzd05MQURzczVRJmU9MTU3NDE4NDk1Mw/4/b5/REolU2RMhyzNAHVUk.mp4/master-v1a1.m3u8?loc=ru",
+            "hls4": "https://cdn.streambox.in/hls4/kinopub/aWQ9NzkyODk7Mjk5NDY5MjY0Njs0MjMwMzE2OzE1NzQwOTg1NTMmaD12c2c2eEc1ZURGZWMzd05MQURzczVRJmU9MTU3NDE4NDk1Mw/435085.m3u8?loc=ru"
+          }
+        },
+        {
+          "quality": "720p",
+          "url": {
+            "http": "https://cdn.streambox.in/pd/kinopub/aWQ9NzkyODk7Mjk5NDY5MjY0Njs0MjMwMzE2OzE1NzQwOTg1NTMmaD12c2c2eEc1ZURGZWMzd05MQURzczVRJmU9MTU3NDE4NDk1Mw/3/bc/DvRfHNw289kDMQbRf.mp4?loc=ru",
+            "hls": "https://cdn.streambox.in/hls/kinopub/aWQ9NzkyODk7Mjk5NDY5MjY0Njs0MjMwMzE2OzE1NzQwOTg1NTMmaD12c2c2eEc1ZURGZWMzd05MQURzczVRJmU9MTU3NDE4NDk1Mw/3/bc/DvRfHNw289kDMQbRf.mp4/master-v1a1.m3u8?loc=ru",
+            "hls4": "https://cdn.streambox.in/hls4/kinopub/aWQ9NzkyODk7Mjk5NDY5MjY0Njs0MjMwMzE2OzE1NzQwOTg1NTMmaD12c2c2eEc1ZURGZWMzd05MQURzczVRJmU9MTU3NDE4NDk1Mw/435085.m3u8?loc=ru"
+          }
+        },
+        {
+          "quality": "1080p",
+          "url": {
+            "http": "https://cdn.streambox.in/pd/kinopub/aWQ9NzkyODk7Mjk5NDY5MjY0Njs0MjMwMzE2OzE1NzQwOTg1NTMmaD12c2c2eEc1ZURGZWMzd05MQURzczVRJmU9MTU3NDE4NDk1Mw/c/08/y5oi3OdJ49Ja2h7ug.mp4?loc=ru",
+            "hls": "https://cdn.streambox.in/hls/kinopub/aWQ9NzkyODk7Mjk5NDY5MjY0Njs0MjMwMzE2OzE1NzQwOTg1NTMmaD12c2c2eEc1ZURGZWMzd05MQURzczVRJmU9MTU3NDE4NDk1Mw/c/08/y5oi3OdJ49Ja2h7ug.mp4/master-v1a1.m3u8?loc=ru",
+            "hls4": "https://cdn.streambox.in/hls4/kinopub/aWQ9NzkyODk7Mjk5NDY5MjY0Njs0MjMwMzE2OzE1NzQwOTg1NTMmaD12c2c2eEc1ZURGZWMzd05MQURzczVRJmU9MTU3NDE4NDk1Mw/435085.m3u8?loc=ru"
+          }
+        }
+      ],
+      "still_path": "https://image.tmdb.org/t/p/w300/iTUxq01gqbL2fsuL6aLNJRFH2GT.jpg"
+    },
+    {
+      "uid": "TM1407717",
+      "season": 1,
+      "number": 11,
+      "title": "Containment",
+      "overview": "Jason and the SEAL team are sent to intercept the sale of nuclear weapons, but the mission goes sideways when they must make the treacherous journey back to base with nukes that have unsecured fuel rods. Also, Ray is sidelined with a shoulder injury, and Jason and Alana are shocked by their kids’ reactions when the topic of their reunion is brought up.",
+      "first_aired": "0001-01-01T00:00:00Z",
+      "files": [
+        {
+          "quality": "480p",
+          "url": {
+            "http": "https://cdn.streambox.in/pd/kinopub/aWQ9NzkyODk7Mjk5NDY5MjY0Njs0MjMwMzE2OzE1NzQwOTg1NTMmaD12c2c2eEc1ZURGZWMzd05MQURzczVRJmU9MTU3NDE4NDk1Mw/5/03/CsOfUbA0N8ZFv0qVY.mp4?loc=ru",
+            "hls": "https://cdn.streambox.in/hls/kinopub/aWQ9NzkyODk7Mjk5NDY5MjY0Njs0MjMwMzE2OzE1NzQwOTg1NTMmaD12c2c2eEc1ZURGZWMzd05MQURzczVRJmU9MTU3NDE4NDk1Mw/5/03/CsOfUbA0N8ZFv0qVY.mp4/master-v1a1.m3u8?loc=ru",
+            "hls4": "https://cdn.streambox.in/hls4/kinopub/aWQ9NzkyODk7Mjk5NDY5MjY0Njs0MjMwMzE2OzE1NzQwOTg1NTMmaD12c2c2eEc1ZURGZWMzd05MQURzczVRJmU9MTU3NDE4NDk1Mw/435088.m3u8?loc=ru"
+          }
+        },
+        {
+          "quality": "720p",
+          "url": {
+            "http": "https://cdn.streambox.in/pd/kinopub/aWQ9NzkyODk7Mjk5NDY5MjY0Njs0MjMwMzE2OzE1NzQwOTg1NTMmaD12c2c2eEc1ZURGZWMzd05MQURzczVRJmU9MTU3NDE4NDk1Mw/7/f5/mkfBwPSn0LpPjCVEM.mp4?loc=ru",
+            "hls": "https://cdn.streambox.in/hls/kinopub/aWQ9NzkyODk7Mjk5NDY5MjY0Njs0MjMwMzE2OzE1NzQwOTg1NTMmaD12c2c2eEc1ZURGZWMzd05MQURzczVRJmU9MTU3NDE4NDk1Mw/7/f5/mkfBwPSn0LpPjCVEM.mp4/master-v1a1.m3u8?loc=ru",
+            "hls4": "https://cdn.streambox.in/hls4/kinopub/aWQ9NzkyODk7Mjk5NDY5MjY0Njs0MjMwMzE2OzE1NzQwOTg1NTMmaD12c2c2eEc1ZURGZWMzd05MQURzczVRJmU9MTU3NDE4NDk1Mw/435088.m3u8?loc=ru"
+          }
+        },
+        {
+          "quality": "1080p",
+          "url": {
+            "http": "https://cdn.streambox.in/pd/kinopub/aWQ9NzkyODk7Mjk5NDY5MjY0Njs0MjMwMzE2OzE1NzQwOTg1NTMmaD12c2c2eEc1ZURGZWMzd05MQURzczVRJmU9MTU3NDE4NDk1Mw/9/ea/7kanMBMhYKeQMuCDr.mp4?loc=ru",
+            "hls": "https://cdn.streambox.in/hls/kinopub/aWQ9NzkyODk7Mjk5NDY5MjY0Njs0MjMwMzE2OzE1NzQwOTg1NTMmaD12c2c2eEc1ZURGZWMzd05MQURzczVRJmU9MTU3NDE4NDk1Mw/9/ea/7kanMBMhYKeQMuCDr.mp4/master-v1a1.m3u8?loc=ru",
+            "hls4": "https://cdn.streambox.in/hls4/kinopub/aWQ9NzkyODk7Mjk5NDY5MjY0Njs0MjMwMzE2OzE1NzQwOTg1NTMmaD12c2c2eEc1ZURGZWMzd05MQURzczVRJmU9MTU3NDE4NDk1Mw/435088.m3u8?loc=ru"
+          }
+        }
+      ],
+      "still_path": "https://image.tmdb.org/t/p/w300/s0egFXw8N8QKv9yW00mig03oH9m.jpg"
+    },
+    {
+      "uid": "TM1417693",
+      "season": 1,
+      "number": 12,
+      "title": "The Upside Down",
+      "overview": "While on a mission to retrieve a downed top-secret drone, Jason and the SEAL Team disobey orders so they can save Clay, who is trapped beneath a room full of armed terrorists. Also, Clay and Stella’s relationship takes a new turn.",
+      "first_aired": "0001-01-01T00:00:00Z",
+      "files": [
+        {
+          "quality": "480p",
+          "url": {
+            "http": "https://cdn.streambox.in/pd/kinopub/aWQ9NzkyODk7Mjk5NDY5MjY0Njs0MjMwMzE2OzE1NzQwOTg1NTMmaD12c2c2eEc1ZURGZWMzd05MQURzczVRJmU9MTU3NDE4NDk1Mw/1/58/2uifDO10xS7h5ATxJ.mp4?loc=ru",
+            "hls": "https://cdn.streambox.in/hls/kinopub/aWQ9NzkyODk7Mjk5NDY5MjY0Njs0MjMwMzE2OzE1NzQwOTg1NTMmaD12c2c2eEc1ZURGZWMzd05MQURzczVRJmU9MTU3NDE4NDk1Mw/1/58/2uifDO10xS7h5ATxJ.mp4/master-v1a1.m3u8?loc=ru",
+            "hls4": "https://cdn.streambox.in/hls4/kinopub/aWQ9NzkyODk7Mjk5NDY5MjY0Njs0MjMwMzE2OzE1NzQwOTg1NTMmaD12c2c2eEc1ZURGZWMzd05MQURzczVRJmU9MTU3NDE4NDk1Mw/435091.m3u8?loc=ru"
+          }
+        },
+        {
+          "quality": "720p",
+          "url": {
+            "http": "https://cdn.streambox.in/pd/kinopub/aWQ9NzkyODk7Mjk5NDY5MjY0Njs0MjMwMzE2OzE1NzQwOTg1NTMmaD12c2c2eEc1ZURGZWMzd05MQURzczVRJmU9MTU3NDE4NDk1Mw/3/61/wKwISWJbtCs06S1fF.mp4?loc=ru",
+            "hls": "https://cdn.streambox.in/hls/kinopub/aWQ9NzkyODk7Mjk5NDY5MjY0Njs0MjMwMzE2OzE1NzQwOTg1NTMmaD12c2c2eEc1ZURGZWMzd05MQURzczVRJmU9MTU3NDE4NDk1Mw/3/61/wKwISWJbtCs06S1fF.mp4/master-v1a1.m3u8?loc=ru",
+            "hls4": "https://cdn.streambox.in/hls4/kinopub/aWQ9NzkyODk7Mjk5NDY5MjY0Njs0MjMwMzE2OzE1NzQwOTg1NTMmaD12c2c2eEc1ZURGZWMzd05MQURzczVRJmU9MTU3NDE4NDk1Mw/435091.m3u8?loc=ru"
+          }
+        },
+        {
+          "quality": "1080p",
+          "url": {
+            "http": "https://cdn.streambox.in/pd/kinopub/aWQ9NzkyODk7Mjk5NDY5MjY0Njs0MjMwMzE2OzE1NzQwOTg1NTMmaD12c2c2eEc1ZURGZWMzd05MQURzczVRJmU9MTU3NDE4NDk1Mw/4/9d/RaMA832hic81bIhe0.mp4?loc=ru",
+            "hls": "https://cdn.streambox.in/hls/kinopub/aWQ9NzkyODk7Mjk5NDY5MjY0Njs0MjMwMzE2OzE1NzQwOTg1NTMmaD12c2c2eEc1ZURGZWMzd05MQURzczVRJmU9MTU3NDE4NDk1Mw/4/9d/RaMA832hic81bIhe0.mp4/master-v1a1.m3u8?loc=ru",
+            "hls4": "https://cdn.streambox.in/hls4/kinopub/aWQ9NzkyODk7Mjk5NDY5MjY0Njs0MjMwMzE2OzE1NzQwOTg1NTMmaD12c2c2eEc1ZURGZWMzd05MQURzczVRJmU9MTU3NDE4NDk1Mw/435091.m3u8?loc=ru"
+          }
+        }
+      ],
+      "still_path": "https://image.tmdb.org/t/p/w300/dnLF3wzP8zwPkv0Urr5U5Q7zdCn.jpg"
+    },
+    {
+      "uid": "TM1421281",
+      "season": 1,
+      "number": 13,
+      "title": "Getaway Day",
+      "overview": "Jason and the SEAL Team must leave their families immediately when their deployment date is moved up after the team they were going to relieve is ambushed. Also, Jason and Alana make a big decision about their future, and Clay and Stella feel the weight of his marriage proposal.",
+      "first_aired": "0001-01-01T00:00:00Z",
+      "files": [
+        {
+          "quality": "480p",
+          "url": {
+            "http": "https://cdn.streambox.in/pd/kinopub/aWQ9NzkyODk7Mjk5NDY5MjY0Njs0MjMwMzE2OzE1NzQwOTg1NTMmaD12c2c2eEc1ZURGZWMzd05MQURzczVRJmU9MTU3NDE4NDk1Mw/4/21/h2iQtxVXQgrwX8QKk.mp4?loc=ru",
+            "hls": "https://cdn.streambox.in/hls/kinopub/aWQ9NzkyODk7Mjk5NDY5MjY0Njs0MjMwMzE2OzE1NzQwOTg1NTMmaD12c2c2eEc1ZURGZWMzd05MQURzczVRJmU9MTU3NDE4NDk1Mw/4/21/h2iQtxVXQgrwX8QKk.mp4/master-v1a1.m3u8?loc=ru",
+            "hls4": "https://cdn.streambox.in/hls4/kinopub/aWQ9NzkyODk7Mjk5NDY5MjY0Njs0MjMwMzE2OzE1NzQwOTg1NTMmaD12c2c2eEc1ZURGZWMzd05MQURzczVRJmU9MTU3NDE4NDk1Mw/435739.m3u8?loc=ru"
+          }
+        },
+        {
+          "quality": "720p",
+          "url": {
+            "http": "https://cdn.streambox.in/pd/kinopub/aWQ9NzkyODk7Mjk5NDY5MjY0Njs0MjMwMzE2OzE1NzQwOTg1NTMmaD12c2c2eEc1ZURGZWMzd05MQURzczVRJmU9MTU3NDE4NDk1Mw/9/71/f5tjkuFHFkMdSmHFA.mp4?loc=ru",
+            "hls": "https://cdn.streambox.in/hls/kinopub/aWQ9NzkyODk7Mjk5NDY5MjY0Njs0MjMwMzE2OzE1NzQwOTg1NTMmaD12c2c2eEc1ZURGZWMzd05MQURzczVRJmU9MTU3NDE4NDk1Mw/9/71/f5tjkuFHFkMdSmHFA.mp4/master-v1a1.m3u8?loc=ru",
+            "hls4": "https://cdn.streambox.in/hls4/kinopub/aWQ9NzkyODk7Mjk5NDY5MjY0Njs0MjMwMzE2OzE1NzQwOTg1NTMmaD12c2c2eEc1ZURGZWMzd05MQURzczVRJmU9MTU3NDE4NDk1Mw/435739.m3u8?loc=ru"
+          }
+        },
+        {
+          "quality": "1080p",
+          "url": {
+            "http": "https://cdn.streambox.in/pd/kinopub/aWQ9NzkyODk7Mjk5NDY5MjY0Njs0MjMwMzE2OzE1NzQwOTg1NTMmaD12c2c2eEc1ZURGZWMzd05MQURzczVRJmU9MTU3NDE4NDk1Mw/9/73/uMeBgwHWmACLFy4yr.mp4?loc=ru",
+            "hls": "https://cdn.streambox.in/hls/kinopub/aWQ9NzkyODk7Mjk5NDY5MjY0Njs0MjMwMzE2OzE1NzQwOTg1NTMmaD12c2c2eEc1ZURGZWMzd05MQURzczVRJmU9MTU3NDE4NDk1Mw/9/73/uMeBgwHWmACLFy4yr.mp4/master-v1a1.m3u8?loc=ru",
+            "hls4": "https://cdn.streambox.in/hls4/kinopub/aWQ9NzkyODk7Mjk5NDY5MjY0Njs0MjMwMzE2OzE1NzQwOTg1NTMmaD12c2c2eEc1ZURGZWMzd05MQURzczVRJmU9MTU3NDE4NDk1Mw/435739.m3u8?loc=ru"
+          }
+        }
+      ],
+      "still_path": "https://image.tmdb.org/t/p/w300/fyqFR66Er65piwt5a410H4yYkg7.jpg"
+    },
+    {
+      "uid": "TM1427403",
+      "season": 1,
+      "number": 14,
+      "title": "Call Out",
+      "overview": "Jason and the SEAL Team settle into deployment life and get closer to discovering who ambushed Echo Team after Mandy gets a lead from an unlikely source on the base.",
+      "first_aired": "0001-01-01T00:00:00Z",
+      "files": [
+        {
+          "quality": "480p",
+          "url": {
+            "http": "https://cdn.streambox.in/pd/kinopub/aWQ9NzkyODk7Mjk5NDY5MjY0Njs0MjMwMzE2OzE1NzQwOTg1NTMmaD12c2c2eEc1ZURGZWMzd05MQURzczVRJmU9MTU3NDE4NDk1Mw/0/de/mMJesLwHysYyPdveB.mp4?loc=ru",
+            "hls": "https://cdn.streambox.in/hls/kinopub/aWQ9NzkyODk7Mjk5NDY5MjY0Njs0MjMwMzE2OzE1NzQwOTg1NTMmaD12c2c2eEc1ZURGZWMzd05MQURzczVRJmU9MTU3NDE4NDk1Mw/0/de/mMJesLwHysYyPdveB.mp4/master-v1a1.m3u8?loc=ru",
+            "hls4": "https://cdn.streambox.in/hls4/kinopub/aWQ9NzkyODk7Mjk5NDY5MjY0Njs0MjMwMzE2OzE1NzQwOTg1NTMmaD12c2c2eEc1ZURGZWMzd05MQURzczVRJmU9MTU3NDE4NDk1Mw/449134.m3u8?loc=ru"
+          }
+        },
+        {
+          "quality": "720p",
+          "url": {
+            "http": "https://cdn.streambox.in/pd/kinopub/aWQ9NzkyODk7Mjk5NDY5MjY0Njs0MjMwMzE2OzE1NzQwOTg1NTMmaD12c2c2eEc1ZURGZWMzd05MQURzczVRJmU9MTU3NDE4NDk1Mw/8/e9/3ifNWhZmfXpnl3zSR.mp4?loc=ru",
+            "hls": "https://cdn.streambox.in/hls/kinopub/aWQ9NzkyODk7Mjk5NDY5MjY0Njs0MjMwMzE2OzE1NzQwOTg1NTMmaD12c2c2eEc1ZURGZWMzd05MQURzczVRJmU9MTU3NDE4NDk1Mw/8/e9/3ifNWhZmfXpnl3zSR.mp4/master-v1a1.m3u8?loc=ru",
+            "hls4": "https://cdn.streambox.in/hls4/kinopub/aWQ9NzkyODk7Mjk5NDY5MjY0Njs0MjMwMzE2OzE1NzQwOTg1NTMmaD12c2c2eEc1ZURGZWMzd05MQURzczVRJmU9MTU3NDE4NDk1Mw/449134.m3u8?loc=ru"
+          }
+        },
+        {
+          "quality": "1080p",
+          "url": {
+            "http": "https://cdn.streambox.in/pd/kinopub/aWQ9NzkyODk7Mjk5NDY5MjY0Njs0MjMwMzE2OzE1NzQwOTg1NTMmaD12c2c2eEc1ZURGZWMzd05MQURzczVRJmU9MTU3NDE4NDk1Mw/0/14/bwPGp2tYHmMzgKySF.mp4?loc=ru",
+            "hls": "https://cdn.streambox.in/hls/kinopub/aWQ9NzkyODk7Mjk5NDY5MjY0Njs0MjMwMzE2OzE1NzQwOTg1NTMmaD12c2c2eEc1ZURGZWMzd05MQURzczVRJmU9MTU3NDE4NDk1Mw/0/14/bwPGp2tYHmMzgKySF.mp4/master-v1a1.m3u8?loc=ru",
+            "hls4": "https://cdn.streambox.in/hls4/kinopub/aWQ9NzkyODk7Mjk5NDY5MjY0Njs0MjMwMzE2OzE1NzQwOTg1NTMmaD12c2c2eEc1ZURGZWMzd05MQURzczVRJmU9MTU3NDE4NDk1Mw/449134.m3u8?loc=ru"
+          }
+        }
+      ],
+      "still_path": "https://image.tmdb.org/t/p/w300/hP09IthUw0muTPozGJ1kyCfZVti.jpg"
+    },
+    {
+      "uid": "TM1433263",
+      "season": 1,
+      "number": 15,
+      "title": "No Man's Land",
+      "overview": "Jason and the SEAL Team close in on avenging the deaths of Echo Team when they find the money that funded their murder on a nearby poppy farm that was previously used to make heroin. Also, Jason meets an intriguing woman on the base.",
+      "first_aired": "0001-01-01T00:00:00Z",
+      "files": [
+        {
+          "quality": "480p",
+          "url": {
+            "http": "https://cdn.streambox.in/pd/kinopub/aWQ9NzkyODk7Mjk5NDY5MjY0Njs0MjMwMzE2OzE1NzQwOTg1NTMmaD12c2c2eEc1ZURGZWMzd05MQURzczVRJmU9MTU3NDE4NDk1Mw/4/1d/za2LrYyKXsooGIdXX.mp4?loc=ru",
+            "hls": "https://cdn.streambox.in/hls/kinopub/aWQ9NzkyODk7Mjk5NDY5MjY0Njs0MjMwMzE2OzE1NzQwOTg1NTMmaD12c2c2eEc1ZURGZWMzd05MQURzczVRJmU9MTU3NDE4NDk1Mw/4/1d/za2LrYyKXsooGIdXX.mp4/master-v1a1.m3u8?loc=ru",
+            "hls4": "https://cdn.streambox.in/hls4/kinopub/aWQ9NzkyODk7Mjk5NDY5MjY0Njs0MjMwMzE2OzE1NzQwOTg1NTMmaD12c2c2eEc1ZURGZWMzd05MQURzczVRJmU9MTU3NDE4NDk1Mw/450541.m3u8?loc=ru"
+          }
+        },
+        {
+          "quality": "720p",
+          "url": {
+            "http": "https://cdn.streambox.in/pd/kinopub/aWQ9NzkyODk7Mjk5NDY5MjY0Njs0MjMwMzE2OzE1NzQwOTg1NTMmaD12c2c2eEc1ZURGZWMzd05MQURzczVRJmU9MTU3NDE4NDk1Mw/0/1a/XMiZTDqdkPgeiX3h3.mp4?loc=ru",
+            "hls": "https://cdn.streambox.in/hls/kinopub/aWQ9NzkyODk7Mjk5NDY5MjY0Njs0MjMwMzE2OzE1NzQwOTg1NTMmaD12c2c2eEc1ZURGZWMzd05MQURzczVRJmU9MTU3NDE4NDk1Mw/0/1a/XMiZTDqdkPgeiX3h3.mp4/master-v1a1.m3u8?loc=ru",
+            "hls4": "https://cdn.streambox.in/hls4/kinopub/aWQ9NzkyODk7Mjk5NDY5MjY0Njs0MjMwMzE2OzE1NzQwOTg1NTMmaD12c2c2eEc1ZURGZWMzd05MQURzczVRJmU9MTU3NDE4NDk1Mw/450541.m3u8?loc=ru"
+          }
+        },
+        {
+          "quality": "1080p",
+          "url": {
+            "http": "https://cdn.streambox.in/pd/kinopub/aWQ9NzkyODk7Mjk5NDY5MjY0Njs0MjMwMzE2OzE1NzQwOTg1NTMmaD12c2c2eEc1ZURGZWMzd05MQURzczVRJmU9MTU3NDE4NDk1Mw/5/86/OZ6TMgVfH0X4wUXch.mp4?loc=ru",
+            "hls": "https://cdn.streambox.in/hls/kinopub/aWQ9NzkyODk7Mjk5NDY5MjY0Njs0MjMwMzE2OzE1NzQwOTg1NTMmaD12c2c2eEc1ZURGZWMzd05MQURzczVRJmU9MTU3NDE4NDk1Mw/5/86/OZ6TMgVfH0X4wUXch.mp4/master-v1a1.m3u8?loc=ru",
+            "hls4": "https://cdn.streambox.in/hls4/kinopub/aWQ9NzkyODk7Mjk5NDY5MjY0Njs0MjMwMzE2OzE1NzQwOTg1NTMmaD12c2c2eEc1ZURGZWMzd05MQURzczVRJmU9MTU3NDE4NDk1Mw/450541.m3u8?loc=ru"
+          }
+        }
+      ],
+      "still_path": "https://image.tmdb.org/t/p/w300/fyFz2xW8jytgIljzP2f1I3w2xqG.jpg"
+    },
+    {
+      "uid": "TM1449624",
+      "season": 1,
+      "number": 16,
+      "title": "Never Get Out of the Boat",
+      "overview": "Jason leads the SEAL Team on a dangerous daytime mission where Sonny is wounded and must now rely on Clay and his brothers to save his life.",
+      "first_aired": "0001-01-01T00:00:00Z",
+      "files": [
+        {
+          "quality": "480p",
+          "url": {
+            "http": "https://cdn.streambox.in/pd/kinopub/aWQ9NzkyODk7Mjk5NDY5MjY0Njs0MjMwMzE2OzE1NzQwOTg1NTMmaD12c2c2eEc1ZURGZWMzd05MQURzczVRJmU9MTU3NDE4NDk1Mw/4/41/OErkNd2TKEhuhRwma.mp4?loc=ru",
+            "hls": "https://cdn.streambox.in/hls/kinopub/aWQ9NzkyODk7Mjk5NDY5MjY0Njs0MjMwMzE2OzE1NzQwOTg1NTMmaD12c2c2eEc1ZURGZWMzd05MQURzczVRJmU9MTU3NDE4NDk1Mw/4/41/OErkNd2TKEhuhRwma.mp4/master-v1a1.m3u8?loc=ru",
+            "hls4": "https://cdn.streambox.in/hls4/kinopub/aWQ9NzkyODk7Mjk5NDY5MjY0Njs0MjMwMzE2OzE1NzQwOTg1NTMmaD12c2c2eEc1ZURGZWMzd05MQURzczVRJmU9MTU3NDE4NDk1Mw/461974.m3u8?loc=ru"
+          }
+        },
+        {
+          "quality": "720p",
+          "url": {
+            "http": "https://cdn.streambox.in/pd/kinopub/aWQ9NzkyODk7Mjk5NDY5MjY0Njs0MjMwMzE2OzE1NzQwOTg1NTMmaD12c2c2eEc1ZURGZWMzd05MQURzczVRJmU9MTU3NDE4NDk1Mw/c/b7/LH6xCoJCz36icO5Ng.mp4?loc=ru",
+            "hls": "https://cdn.streambox.in/hls/kinopub/aWQ9NzkyODk7Mjk5NDY5MjY0Njs0MjMwMzE2OzE1NzQwOTg1NTMmaD12c2c2eEc1ZURGZWMzd05MQURzczVRJmU9MTU3NDE4NDk1Mw/c/b7/LH6xCoJCz36icO5Ng.mp4/master-v1a1.m3u8?loc=ru",
+            "hls4": "https://cdn.streambox.in/hls4/kinopub/aWQ9NzkyODk7Mjk5NDY5MjY0Njs0MjMwMzE2OzE1NzQwOTg1NTMmaD12c2c2eEc1ZURGZWMzd05MQURzczVRJmU9MTU3NDE4NDk1Mw/461974.m3u8?loc=ru"
+          }
+        },
+        {
+          "quality": "1080p",
+          "url": {
+            "http": "https://cdn.streambox.in/pd/kinopub/aWQ9NzkyODk7Mjk5NDY5MjY0Njs0MjMwMzE2OzE1NzQwOTg1NTMmaD12c2c2eEc1ZURGZWMzd05MQURzczVRJmU9MTU3NDE4NDk1Mw/e/c8/MAsfUdjAz6O86zgv9.mp4?loc=ru",
+            "hls": "https://cdn.streambox.in/hls/kinopub/aWQ9NzkyODk7Mjk5NDY5MjY0Njs0MjMwMzE2OzE1NzQwOTg1NTMmaD12c2c2eEc1ZURGZWMzd05MQURzczVRJmU9MTU3NDE4NDk1Mw/e/c8/MAsfUdjAz6O86zgv9.mp4/master-v1a1.m3u8?loc=ru",
+            "hls4": "https://cdn.streambox.in/hls4/kinopub/aWQ9NzkyODk7Mjk5NDY5MjY0Njs0MjMwMzE2OzE1NzQwOTg1NTMmaD12c2c2eEc1ZURGZWMzd05MQURzczVRJmU9MTU3NDE4NDk1Mw/461974.m3u8?loc=ru"
+          }
+        }
+      ],
+      "still_path": "https://image.tmdb.org/t/p/w300/bAHiUuKGYAM3icNIaPHu0hChdmw.jpg"
+    },
+    {
+      "uid": "TM1449625",
+      "season": 1,
+      "number": 17,
+      "title": "In Name Only",
+      "overview": "As Jason and the SEAL Team come closer to avenging the loss of Echo Team, Mandy takes matters into her own hands after her boss won’t green-light her mission to take out their biggest target. Also, Jason is unsure of where his relationship with Amy stands.",
+      "first_aired": "0001-01-01T00:00:00Z",
+      "files": [
+        {
+          "quality": "480p",
+          "url": {
+            "http": "https://cdn.streambox.in/pd/kinopub/aWQ9NzkyODk7Mjk5NDY5MjY0Njs0MjMwMzE2OzE1NzQwOTg1NTMmaD12c2c2eEc1ZURGZWMzd05MQURzczVRJmU9MTU3NDE4NDk1Mw/1/3d/8271oQaBWoJxLZzji.mp4?loc=ru",
+            "hls": "https://cdn.streambox.in/hls/kinopub/aWQ9NzkyODk7Mjk5NDY5MjY0Njs0MjMwMzE2OzE1NzQwOTg1NTMmaD12c2c2eEc1ZURGZWMzd05MQURzczVRJmU9MTU3NDE4NDk1Mw/1/3d/8271oQaBWoJxLZzji.mp4/master-v1a1.m3u8?loc=ru",
+            "hls4": "https://cdn.streambox.in/hls4/kinopub/aWQ9NzkyODk7Mjk5NDY5MjY0Njs0MjMwMzE2OzE1NzQwOTg1NTMmaD12c2c2eEc1ZURGZWMzd05MQURzczVRJmU9MTU3NDE4NDk1Mw/463633.m3u8?loc=ru"
+          }
+        },
+        {
+          "quality": "720p",
+          "url": {
+            "http": "https://cdn.streambox.in/pd/kinopub/aWQ9NzkyODk7Mjk5NDY5MjY0Njs0MjMwMzE2OzE1NzQwOTg1NTMmaD12c2c2eEc1ZURGZWMzd05MQURzczVRJmU9MTU3NDE4NDk1Mw/f/e7/Kac6d9Bmg2yiLYAic.mp4?loc=ru",
+            "hls": "https://cdn.streambox.in/hls/kinopub/aWQ9NzkyODk7Mjk5NDY5MjY0Njs0MjMwMzE2OzE1NzQwOTg1NTMmaD12c2c2eEc1ZURGZWMzd05MQURzczVRJmU9MTU3NDE4NDk1Mw/f/e7/Kac6d9Bmg2yiLYAic.mp4/master-v1a1.m3u8?loc=ru",
+            "hls4": "https://cdn.streambox.in/hls4/kinopub/aWQ9NzkyODk7Mjk5NDY5MjY0Njs0MjMwMzE2OzE1NzQwOTg1NTMmaD12c2c2eEc1ZURGZWMzd05MQURzczVRJmU9MTU3NDE4NDk1Mw/463633.m3u8?loc=ru"
+          }
+        },
+        {
+          "quality": "1080p",
+          "url": {
+            "http": "https://cdn.streambox.in/pd/kinopub/aWQ9NzkyODk7Mjk5NDY5MjY0Njs0MjMwMzE2OzE1NzQwOTg1NTMmaD12c2c2eEc1ZURGZWMzd05MQURzczVRJmU9MTU3NDE4NDk1Mw/3/1f/hxeUjI0oUjm89E0Tm.mp4?loc=ru",
+            "hls": "https://cdn.streambox.in/hls/kinopub/aWQ9NzkyODk7Mjk5NDY5MjY0Njs0MjMwMzE2OzE1NzQwOTg1NTMmaD12c2c2eEc1ZURGZWMzd05MQURzczVRJmU9MTU3NDE4NDk1Mw/3/1f/hxeUjI0oUjm89E0Tm.mp4/master-v1a1.m3u8?loc=ru",
+            "hls4": "https://cdn.streambox.in/hls4/kinopub/aWQ9NzkyODk7Mjk5NDY5MjY0Njs0MjMwMzE2OzE1NzQwOTg1NTMmaD12c2c2eEc1ZURGZWMzd05MQURzczVRJmU9MTU3NDE4NDk1Mw/463633.m3u8?loc=ru"
+          }
+        }
+      ],
+      "still_path": "https://image.tmdb.org/t/p/w300/aY9tl9YaEGLOEgZ8BUnQswm5FUO.jpg"
+    },
+    {
+      "uid": "TM1460088",
+      "season": 1,
+      "number": 18,
+      "title": "Credible Threat",
+      "overview": "Jason and the SEAL Team are tasked with protecting a delegation of congressmen and department of defense officials who come to Jalalabad for a publicity tour even though a credible threat has been made against them.",
+      "first_aired": "0001-01-01T00:00:00Z",
+      "files": [
+        {
+          "quality": "480p",
+          "url": {
+            "http": "https://cdn.streambox.in/pd/kinopub/aWQ9NzkyODk7Mjk5NDY5MjY0Njs0MjMwMzE2OzE1NzQwOTg1NTMmaD12c2c2eEc1ZURGZWMzd05MQURzczVRJmU9MTU3NDE4NDk1Mw/4/22/6wQl0dxHWw7WuEzqz.mp4?loc=ru",
+            "hls": "https://cdn.streambox.in/hls/kinopub/aWQ9NzkyODk7Mjk5NDY5MjY0Njs0MjMwMzE2OzE1NzQwOTg1NTMmaD12c2c2eEc1ZURGZWMzd05MQURzczVRJmU9MTU3NDE4NDk1Mw/4/22/6wQl0dxHWw7WuEzqz.mp4/master-v1a1.m3u8?loc=ru",
+            "hls4": "https://cdn.streambox.in/hls4/kinopub/aWQ9NzkyODk7Mjk5NDY5MjY0Njs0MjMwMzE2OzE1NzQwOTg1NTMmaD12c2c2eEc1ZURGZWMzd05MQURzczVRJmU9MTU3NDE4NDk1Mw/466315.m3u8?loc=ru"
+          }
+        },
+        {
+          "quality": "720p",
+          "url": {
+            "http": "https://cdn.streambox.in/pd/kinopub/aWQ9NzkyODk7Mjk5NDY5MjY0Njs0MjMwMzE2OzE1NzQwOTg1NTMmaD12c2c2eEc1ZURGZWMzd05MQURzczVRJmU9MTU3NDE4NDk1Mw/1/12/nbyIZo1XyCWVBIBmG.mp4?loc=ru",
+            "hls": "https://cdn.streambox.in/hls/kinopub/aWQ9NzkyODk7Mjk5NDY5MjY0Njs0MjMwMzE2OzE1NzQwOTg1NTMmaD12c2c2eEc1ZURGZWMzd05MQURzczVRJmU9MTU3NDE4NDk1Mw/1/12/nbyIZo1XyCWVBIBmG.mp4/master-v1a1.m3u8?loc=ru",
+            "hls4": "https://cdn.streambox.in/hls4/kinopub/aWQ9NzkyODk7Mjk5NDY5MjY0Njs0MjMwMzE2OzE1NzQwOTg1NTMmaD12c2c2eEc1ZURGZWMzd05MQURzczVRJmU9MTU3NDE4NDk1Mw/466315.m3u8?loc=ru"
+          }
+        },
+        {
+          "quality": "1080p",
+          "url": {
+            "http": "https://cdn.streambox.in/pd/kinopub/aWQ9NzkyODk7Mjk5NDY5MjY0Njs0MjMwMzE2OzE1NzQwOTg1NTMmaD12c2c2eEc1ZURGZWMzd05MQURzczVRJmU9MTU3NDE4NDk1Mw/9/1e/GLYTDWMGfV7VSK2gC.mp4?loc=ru",
+            "hls": "https://cdn.streambox.in/hls/kinopub/aWQ9NzkyODk7Mjk5NDY5MjY0Njs0MjMwMzE2OzE1NzQwOTg1NTMmaD12c2c2eEc1ZURGZWMzd05MQURzczVRJmU9MTU3NDE4NDk1Mw/9/1e/GLYTDWMGfV7VSK2gC.mp4/master-v1a1.m3u8?loc=ru",
+            "hls4": "https://cdn.streambox.in/hls4/kinopub/aWQ9NzkyODk7Mjk5NDY5MjY0Njs0MjMwMzE2OzE1NzQwOTg1NTMmaD12c2c2eEc1ZURGZWMzd05MQURzczVRJmU9MTU3NDE4NDk1Mw/466315.m3u8?loc=ru"
+          }
+        }
+      ],
+      "still_path": "https://image.tmdb.org/t/p/w300/fDpi7UKywpthYufil7fLBUESxr3.jpg"
+    },
+    {
+      "uid": "TM1469191",
+      "season": 1,
+      "number": 19,
+      "title": "Takedown",
+      "overview": "The SEAL Team sends Ray undercover in a busy spice market to make a high-stakes money swap, and Jason attempts to take down a terrorist known to wear a suicide belt. Also, Ray realizes the devastating consequences of his decisions.",
+      "first_aired": "0001-01-01T00:00:00Z",
+      "files": [
+        {
+          "quality": "480p",
+          "url": {
+            "http": "https://cdn.streambox.in/pd/kinopub/aWQ9NzkyODk7Mjk5NDY5MjY0Njs0MjMwMzE2OzE1NzQwOTg1NTMmaD12c2c2eEc1ZURGZWMzd05MQURzczVRJmU9MTU3NDE4NDk1Mw/9/58/UtNvX56E9sNIjM8NO.mp4?loc=ru",
+            "hls": "https://cdn.streambox.in/hls/kinopub/aWQ9NzkyODk7Mjk5NDY5MjY0Njs0MjMwMzE2OzE1NzQwOTg1NTMmaD12c2c2eEc1ZURGZWMzd05MQURzczVRJmU9MTU3NDE4NDk1Mw/9/58/UtNvX56E9sNIjM8NO.mp4/master-v1a1.m3u8?loc=ru",
+            "hls4": "https://cdn.streambox.in/hls4/kinopub/aWQ9NzkyODk7Mjk5NDY5MjY0Njs0MjMwMzE2OzE1NzQwOTg1NTMmaD12c2c2eEc1ZURGZWMzd05MQURzczVRJmU9MTU3NDE4NDk1Mw/470701.m3u8?loc=ru"
+          }
+        },
+        {
+          "quality": "720p",
+          "url": {
+            "http": "https://cdn.streambox.in/pd/kinopub/aWQ9NzkyODk7Mjk5NDY5MjY0Njs0MjMwMzE2OzE1NzQwOTg1NTMmaD12c2c2eEc1ZURGZWMzd05MQURzczVRJmU9MTU3NDE4NDk1Mw/2/3f/gzG5n0AQYou2cXOa4.mp4?loc=ru",
+            "hls": "https://cdn.streambox.in/hls/kinopub/aWQ9NzkyODk7Mjk5NDY5MjY0Njs0MjMwMzE2OzE1NzQwOTg1NTMmaD12c2c2eEc1ZURGZWMzd05MQURzczVRJmU9MTU3NDE4NDk1Mw/2/3f/gzG5n0AQYou2cXOa4.mp4/master-v1a1.m3u8?loc=ru",
+            "hls4": "https://cdn.streambox.in/hls4/kinopub/aWQ9NzkyODk7Mjk5NDY5MjY0Njs0MjMwMzE2OzE1NzQwOTg1NTMmaD12c2c2eEc1ZURGZWMzd05MQURzczVRJmU9MTU3NDE4NDk1Mw/470701.m3u8?loc=ru"
+          }
+        },
+        {
+          "quality": "1080p",
+          "url": {
+            "http": "https://cdn.streambox.in/pd/kinopub/aWQ9NzkyODk7Mjk5NDY5MjY0Njs0MjMwMzE2OzE1NzQwOTg1NTMmaD12c2c2eEc1ZURGZWMzd05MQURzczVRJmU9MTU3NDE4NDk1Mw/a/81/MY7ULor5jEfC5dpBt.mp4?loc=ru",
+            "hls": "https://cdn.streambox.in/hls/kinopub/aWQ9NzkyODk7Mjk5NDY5MjY0Njs0MjMwMzE2OzE1NzQwOTg1NTMmaD12c2c2eEc1ZURGZWMzd05MQURzczVRJmU9MTU3NDE4NDk1Mw/a/81/MY7ULor5jEfC5dpBt.mp4/master-v1a1.m3u8?loc=ru",
+            "hls4": "https://cdn.streambox.in/hls4/kinopub/aWQ9NzkyODk7Mjk5NDY5MjY0Njs0MjMwMzE2OzE1NzQwOTg1NTMmaD12c2c2eEc1ZURGZWMzd05MQURzczVRJmU9MTU3NDE4NDk1Mw/470701.m3u8?loc=ru"
+          }
+        }
+      ],
+      "still_path": "https://image.tmdb.org/t/p/w300/tklBavuCBOAARtb4eYOJ36h11cc.jpg"
+    },
+    {
+      "uid": "TM1469192",
+      "season": 1,
+      "number": 20,
+      "title": "Enemy of My Enemy",
+      "overview": "The lives of Jason and the SEAL Team are in jeopardy when a risky mission to capture a highly valuable target may actually be a trap. Also, Clay and Davis commiserate about the frustrations of having long distance relationships, and Ray has a meeting regarding his involvement with the accidental death of the local boy that could affect his military career.",
+      "first_aired": "0001-01-01T00:00:00Z",
+      "files": [
+        {
+          "quality": "480p",
+          "url": {
+            "http": "https://cdn.streambox.in/pd/kinopub/aWQ9NzkyODk7Mjk5NDY5MjY0Njs0MjMwMzE2OzE1NzQwOTg1NTMmaD12c2c2eEc1ZURGZWMzd05MQURzczVRJmU9MTU3NDE4NDk1Mw/b/3b/dJw6r31kHTBuhhZKD.mp4?loc=ru",
+            "hls": "https://cdn.streambox.in/hls/kinopub/aWQ9NzkyODk7Mjk5NDY5MjY0Njs0MjMwMzE2OzE1NzQwOTg1NTMmaD12c2c2eEc1ZURGZWMzd05MQURzczVRJmU9MTU3NDE4NDk1Mw/b/3b/dJw6r31kHTBuhhZKD.mp4/master-v1a1.m3u8?loc=ru",
+            "hls4": "https://cdn.streambox.in/hls4/kinopub/aWQ9NzkyODk7Mjk5NDY5MjY0Njs0MjMwMzE2OzE1NzQwOTg1NTMmaD12c2c2eEc1ZURGZWMzd05MQURzczVRJmU9MTU3NDE4NDk1Mw/471364.m3u8?loc=ru"
+          }
+        },
+        {
+          "quality": "720p",
+          "url": {
+            "http": "https://cdn.streambox.in/pd/kinopub/aWQ9NzkyODk7Mjk5NDY5MjY0Njs0MjMwMzE2OzE1NzQwOTg1NTMmaD12c2c2eEc1ZURGZWMzd05MQURzczVRJmU9MTU3NDE4NDk1Mw/d/93/wVSESgNoFvsmgXDip.mp4?loc=ru",
+            "hls": "https://cdn.streambox.in/hls/kinopub/aWQ9NzkyODk7Mjk5NDY5MjY0Njs0MjMwMzE2OzE1NzQwOTg1NTMmaD12c2c2eEc1ZURGZWMzd05MQURzczVRJmU9MTU3NDE4NDk1Mw/d/93/wVSESgNoFvsmgXDip.mp4/master-v1a1.m3u8?loc=ru",
+            "hls4": "https://cdn.streambox.in/hls4/kinopub/aWQ9NzkyODk7Mjk5NDY5MjY0Njs0MjMwMzE2OzE1NzQwOTg1NTMmaD12c2c2eEc1ZURGZWMzd05MQURzczVRJmU9MTU3NDE4NDk1Mw/471364.m3u8?loc=ru"
+          }
+        },
+        {
+          "quality": "1080p",
+          "url": {
+            "http": "https://cdn.streambox.in/pd/kinopub/aWQ9NzkyODk7Mjk5NDY5MjY0Njs0MjMwMzE2OzE1NzQwOTg1NTMmaD12c2c2eEc1ZURGZWMzd05MQURzczVRJmU9MTU3NDE4NDk1Mw/b/f0/h2rPQS1SlJPP2S5RI.mp4?loc=ru",
+            "hls": "https://cdn.streambox.in/hls/kinopub/aWQ9NzkyODk7Mjk5NDY5MjY0Njs0MjMwMzE2OzE1NzQwOTg1NTMmaD12c2c2eEc1ZURGZWMzd05MQURzczVRJmU9MTU3NDE4NDk1Mw/b/f0/h2rPQS1SlJPP2S5RI.mp4/master-v1a1.m3u8?loc=ru",
+            "hls4": "https://cdn.streambox.in/hls4/kinopub/aWQ9NzkyODk7Mjk5NDY5MjY0Njs0MjMwMzE2OzE1NzQwOTg1NTMmaD12c2c2eEc1ZURGZWMzd05MQURzczVRJmU9MTU3NDE4NDk1Mw/471364.m3u8?loc=ru"
+          }
+        }
+      ],
+      "still_path": "https://image.tmdb.org/t/p/w300/5uFqREX1qDn8f7Iz0AED3326eLa.jpg"
+    },
+    {
+      "uid": "TM1470114",
+      "season": 1,
+      "number": 21,
+      "title": "The Graveyard of Empires",
+      "overview": "Following a helicopter crash, the SEAL Team must proceed with the mission as hostiles bear down on them and an injured and impaired Jason goes after their target alone.",
+      "first_aired": "0001-01-01T00:00:00Z",
+      "files": [
+        {
+          "quality": "480p",
+          "url": {
+            "http": "https://cdn.streambox.in/pd/kinopub/aWQ9NzkyODk7Mjk5NDY5MjY0Njs0MjMwMzE2OzE1NzQwOTg1NTMmaD12c2c2eEc1ZURGZWMzd05MQURzczVRJmU9MTU3NDE4NDk1Mw/c/8d/vw8NBjJeAjXHNGld2.mp4?loc=ru",
+            "hls": "https://cdn.streambox.in/hls/kinopub/aWQ9NzkyODk7Mjk5NDY5MjY0Njs0MjMwMzE2OzE1NzQwOTg1NTMmaD12c2c2eEc1ZURGZWMzd05MQURzczVRJmU9MTU3NDE4NDk1Mw/c/8d/vw8NBjJeAjXHNGld2.mp4/master-v1a1.m3u8?loc=ru",
+            "hls4": "https://cdn.streambox.in/hls4/kinopub/aWQ9NzkyODk7Mjk5NDY5MjY0Njs0MjMwMzE2OzE1NzQwOTg1NTMmaD12c2c2eEc1ZURGZWMzd05MQURzczVRJmU9MTU3NDE4NDk1Mw/478900.m3u8?loc=ru"
+          }
+        },
+        {
+          "quality": "720p",
+          "url": {
+            "http": "https://cdn.streambox.in/pd/kinopub/aWQ9NzkyODk7Mjk5NDY5MjY0Njs0MjMwMzE2OzE1NzQwOTg1NTMmaD12c2c2eEc1ZURGZWMzd05MQURzczVRJmU9MTU3NDE4NDk1Mw/9/24/bWDhzI7uJEqlAKoQM.mp4?loc=ru",
+            "hls": "https://cdn.streambox.in/hls/kinopub/aWQ9NzkyODk7Mjk5NDY5MjY0Njs0MjMwMzE2OzE1NzQwOTg1NTMmaD12c2c2eEc1ZURGZWMzd05MQURzczVRJmU9MTU3NDE4NDk1Mw/9/24/bWDhzI7uJEqlAKoQM.mp4/master-v1a1.m3u8?loc=ru",
+            "hls4": "https://cdn.streambox.in/hls4/kinopub/aWQ9NzkyODk7Mjk5NDY5MjY0Njs0MjMwMzE2OzE1NzQwOTg1NTMmaD12c2c2eEc1ZURGZWMzd05MQURzczVRJmU9MTU3NDE4NDk1Mw/478900.m3u8?loc=ru"
+          }
+        },
+        {
+          "quality": "1080p",
+          "url": {
+            "http": "https://cdn.streambox.in/pd/kinopub/aWQ9NzkyODk7Mjk5NDY5MjY0Njs0MjMwMzE2OzE1NzQwOTg1NTMmaD12c2c2eEc1ZURGZWMzd05MQURzczVRJmU9MTU3NDE4NDk1Mw/9/e8/3f3Df3124Y32umei5.mp4?loc=ru",
+            "hls": "https://cdn.streambox.in/hls/kinopub/aWQ9NzkyODk7Mjk5NDY5MjY0Njs0MjMwMzE2OzE1NzQwOTg1NTMmaD12c2c2eEc1ZURGZWMzd05MQURzczVRJmU9MTU3NDE4NDk1Mw/9/e8/3f3Df3124Y32umei5.mp4/master-v1a1.m3u8?loc=ru",
+            "hls4": "https://cdn.streambox.in/hls4/kinopub/aWQ9NzkyODk7Mjk5NDY5MjY0Njs0MjMwMzE2OzE1NzQwOTg1NTMmaD12c2c2eEc1ZURGZWMzd05MQURzczVRJmU9MTU3NDE4NDk1Mw/478900.m3u8?loc=ru"
+          }
+        }
+      ],
+      "still_path": "https://image.tmdb.org/t/p/w300/pUXSBJjktMtzVYas2SqDhT7dnsw.jpg"
+    },
+    {
+      "uid": "TM1470115",
+      "season": 1,
+      "number": 22,
+      "title": "The Cost of Doing Business",
+      "overview": "After Jason lies about his concussion to get cleared for combat, he and the SEAL Team plan a final mission to avenge Echo Team’s deaths once and for all before they return home from deployment.",
+      "first_aired": "0001-01-01T00:00:00Z",
+      "files": [
+        {
+          "quality": "480p",
+          "url": {
+            "http": "https://cdn.streambox.in/pd/kinopub/aWQ9NzkyODk7Mjk5NDY5MjY0Njs0MjMwMzE2OzE1NzQwOTg1NTMmaD12c2c2eEc1ZURGZWMzd05MQURzczVRJmU9MTU3NDE4NDk1Mw/3/69/Vepfos9rM4Jt0OWM4.mp4?loc=ru",
+            "hls": "https://cdn.streambox.in/hls/kinopub/aWQ9NzkyODk7Mjk5NDY5MjY0Njs0MjMwMzE2OzE1NzQwOTg1NTMmaD12c2c2eEc1ZURGZWMzd05MQURzczVRJmU9MTU3NDE4NDk1Mw/3/69/Vepfos9rM4Jt0OWM4.mp4/master-v1a1.m3u8?loc=ru",
+            "hls4": "https://cdn.streambox.in/hls4/kinopub/aWQ9NzkyODk7Mjk5NDY5MjY0Njs0MjMwMzE2OzE1NzQwOTg1NTMmaD12c2c2eEc1ZURGZWMzd05MQURzczVRJmU9MTU3NDE4NDk1Mw/485632.m3u8?loc=ru"
+          }
+        },
+        {
+          "quality": "720p",
+          "url": {
+            "http": "https://cdn.streambox.in/pd/kinopub/aWQ9NzkyODk7Mjk5NDY5MjY0Njs0MjMwMzE2OzE1NzQwOTg1NTMmaD12c2c2eEc1ZURGZWMzd05MQURzczVRJmU9MTU3NDE4NDk1Mw/2/d9/3T3jViH65sDfWMbRx.mp4?loc=ru",
+            "hls": "https://cdn.streambox.in/hls/kinopub/aWQ9NzkyODk7Mjk5NDY5MjY0Njs0MjMwMzE2OzE1NzQwOTg1NTMmaD12c2c2eEc1ZURGZWMzd05MQURzczVRJmU9MTU3NDE4NDk1Mw/2/d9/3T3jViH65sDfWMbRx.mp4/master-v1a1.m3u8?loc=ru",
+            "hls4": "https://cdn.streambox.in/hls4/kinopub/aWQ9NzkyODk7Mjk5NDY5MjY0Njs0MjMwMzE2OzE1NzQwOTg1NTMmaD12c2c2eEc1ZURGZWMzd05MQURzczVRJmU9MTU3NDE4NDk1Mw/485632.m3u8?loc=ru"
+          }
+        },
+        {
+          "quality": "1080p",
+          "url": {
+            "http": "https://cdn.streambox.in/pd/kinopub/aWQ9NzkyODk7Mjk5NDY5MjY0Njs0MjMwMzE2OzE1NzQwOTg1NTMmaD12c2c2eEc1ZURGZWMzd05MQURzczVRJmU9MTU3NDE4NDk1Mw/9/bf/VULcfvUY5Nr0PH9ja.mp4?loc=ru",
+            "hls": "https://cdn.streambox.in/hls/kinopub/aWQ9NzkyODk7Mjk5NDY5MjY0Njs0MjMwMzE2OzE1NzQwOTg1NTMmaD12c2c2eEc1ZURGZWMzd05MQURzczVRJmU9MTU3NDE4NDk1Mw/9/bf/VULcfvUY5Nr0PH9ja.mp4/master-v1a1.m3u8?loc=ru",
+            "hls4": "https://cdn.streambox.in/hls4/kinopub/aWQ9NzkyODk7Mjk5NDY5MjY0Njs0MjMwMzE2OzE1NzQwOTg1NTMmaD12c2c2eEc1ZURGZWMzd05MQURzczVRJmU9MTU3NDE4NDk1Mw/485632.m3u8?loc=ru"
+          }
+        }
+      ],
+      "still_path": "https://image.tmdb.org/t/p/w300/6DUIBTEaLQqpQ9lxOyJp1ILsrAS.jpg"
+    }
+  ],
+  "poster_path": "https://image.tmdb.org/t/p/original/hxQH0F6MRUTRzbthlfKY8qg69zu.jpg"
+}

@@ -1,22 +1,27 @@
 package services
 
 import (
+	"net/http"
 	"sort"
 	"strconv"
 	"strings"
 	"time"
 
+	"github.com/go-chi/chi"
+	"github.com/go-chi/render"
 	"github.com/pkg/errors"
 	"github.com/sirupsen/logrus"
 
 	"github.com/dpfg/kinohub-core/provider/kinopub"
 	"github.com/dpfg/kinohub-core/provider/tmdb"
 	"github.com/dpfg/kinohub-core/provider/trakt"
+	"github.com/dpfg/kinohub-core/util"
 
 	"github.com/dpfg/kinohub-core/domain"
 )
 
 type Feed interface {
+	Handler() func(r chi.Router)
 	Releases(from time.Time, to time.Time) ([]FeedItem, error)
 }
 
@@ -31,6 +36,25 @@ type FeedImpl struct {
 	kpc     kinopub.KinoPubClient
 	tmdbCli tmdb.Client
 	logger  *logrus.Entry
+}
+
+func (feed FeedImpl) Handler() func(r chi.Router) {
+
+	return func(router chi.Router) {
+
+		router.Get("/tv/releases", func(w http.ResponseWriter, req *http.Request) {
+			from, _ := time.Parse("2006-01-02", req.URL.Query().Get("from"))
+			to, _ := time.Parse("2006-01-02", req.URL.Query().Get("to"))
+
+			releases, err := feed.Releases(from, to)
+			if err != nil {
+				util.InternalError(w, req, err)
+				return
+			}
+
+			render.JSON(w, req, releases)
+		})
+	}
 }
 
 func (f FeedImpl) Releases(from time.Time, to time.Time) ([]FeedItem, error) {
@@ -78,11 +102,11 @@ func (f FeedImpl) Releases(from time.Time, to time.Time) ([]FeedItem, error) {
 	return r, nil
 }
 
-func NewFeed(tc *trakt.Client, kpc kinopub.KinoPubClient, tmdb tmdb.Client, logger *logrus.Logger) Feed {
+func NewFeed(tc *trakt.Client, kpc kinopub.KinoPubClient, tmdb tmdb.Client, logger *logrus.Entry) Feed {
 	return FeedImpl{
 		tc:      tc,
 		kpc:     kpc,
 		tmdbCli: tmdb,
-		logger:  logger.WithFields(logrus.Fields{"prefix": "feed"}),
+		logger:  logger,
 	}
 }
