@@ -2,21 +2,22 @@ POST https://api.service-kp.com/oauth2/device?grant_type=device_code&client_id=x
 
 
 # {
-#   "code": "jq7egf3ml3ulnp8zw7pzx3i8bpgz7ybq",
-#   "user_code": "75B95",
+#   "code": "yktjbzuimag05gc0cut1ni1au9fjet2f",
+#   "user_code": "7ARL8",
 #   "verification_uri": "https://kino.pub/device",
 #   "interval": 5,
 #   "expires_in": 300
 # }
 ###
 
-POST https://api.service-kp.com/oauth2/device?grant_type=device_token&client_id=xbmc&client_secret=cgg3gtifu46urtfp2zp1nqtba0k2ezxh&code=jq7egf3ml3ulnp8zw7pzx3i8bpgz7ybq
+POST https://api.service-kp.com/oauth2/device?grant_type=device_token&client_id=xbmc&client_secret=cgg3gtifu46urtfp2zp1nqtba0k2ezxh&code=yktjbzuimag05gc0cut1ni1au9fjet2f
 ##
 
 @accessToken=q0bdivhxvo5wb2eats3fcu07k405lshq
+
 # {
-#   "access_token": "4iku3ixfd653xudmd2gj62lbnevd90s3",
-#   "refresh_token": "gu443hesc2javc9lhwb241obohg71000",
+#   "access_token": "q82bnuc90sc19veo8052mcmt8hnpclpp",
+#   "refresh_token": "n08zxdg4qpdvt16thgmgm88vxldi63kg",
 #   "expires_in": 86400
 # }
 ####
