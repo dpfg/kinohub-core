@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>KinoHub E-Player</title>
+    <link href="https://vjs.zencdn.net/7.7.6/video-js.css" rel="stylesheet" />
+    <link rel="stylesheet" href="youtube-theme.css" />
+    <style>
+      body,
+      html {
+        padding: 0px;
+        margin: 0px;
+        height: 100%;
+      }
+
+      #player {
+        display: none;
+      }
+
+      #landing {
+        position: absolute;
+        height: 100%;
+        width: 100%;
+        background-color: black;
+        color: white;
+        font-family: sans-serif;
+        text-align: center;
+      }
+    </style>
+  </head>
+
+  <body>
+    <div id="landing">
+      <h1>Click to start</h1>
+    </div>
+    <video-js
+      id="player"
+      class="video-js"
+      controls
+      preload="auto"
+      width="1280px"
+      height="720px"
+      data-setup="{}"
+    >
+    </video-js>
+
+    <script src="https://vjs.zencdn.net/7.7.6/video.js"></script>
+    <script src="./player.js"></script>
+  </body>
+</html>

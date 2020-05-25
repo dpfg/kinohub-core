@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"net/http"
 
+	"github.com/dpfg/kinohub-core/internal/player"
 	provider "github.com/dpfg/kinohub-core/provider"
 	"github.com/dpfg/kinohub-core/provider/kinopub"
 	"github.com/dpfg/kinohub-core/provider/tmdb"
@@ -55,15 +56,16 @@ func (cmd *ServerCommand) Execute(args []string) error {
 	trakt := cmd.makeTraktIntegration(logger)
 
 	server := Server{
-		port:         cmd.Port,
-		logger:       logger,
-		cacheFactory: cacheFactory,
-		trakt:        trakt,
-		tmdb:         tmdbc,
-		kinopub:      kpc,
-		search:       cmd.makeContentSearch(kpc, tmdbc, logger),
-		feedService:  cmd.makeFeed(trakt.Client, kpc, tmdbc, logger),
-		infoService:  cmd.makeContentBrowser(kpc, tmdbc, logger),
+		port:           cmd.Port,
+		logger:         logger,
+		cacheFactory:   cacheFactory,
+		trakt:          trakt,
+		tmdb:           tmdbc,
+		kinopub:        kpc,
+		search:         cmd.makeContentSearch(kpc, tmdbc, logger),
+		feedService:    cmd.makeFeed(trakt.Client, kpc, tmdbc, logger),
+		infoService:    cmd.makeContentBrowser(kpc, tmdbc, logger),
+		embeddedPlayer: cmd.makeEmbeddedPlayer(),
 	}
 
 	server.serve()
@@ -110,6 +112,10 @@ func (cmd *ServerCommand) makeContentBrowser(kinopub kinopub.KinoPubClient, tmdb
 	return services.NewContentBrowser(kinopub, tmdbc)
 }
 
+func (cmd *ServerCommand) makeEmbeddedPlayer() *player.Server {
+	return player.NewServer()
+}
+
 func (cmd *ServerCommand) makeKinoPubClient(cf provider.CacheFactory, logger *logrus.Logger) kinopub.KinoPubClient {
 	return kinopub.KinoPubClientImpl{
 		ClientID:     cmd.Auth.KinoPub.CID,
@@ -145,6 +151,8 @@ type Server struct {
 	search       *services.ContentSearch
 	infoService  services.ContentBrowser
 	feedService  services.Feed
+
+	embeddedPlayer *player.Server
 }
 
 func (server *Server) serve() {
@@ -153,7 +161,7 @@ func (server *Server) serve() {
 	router.Use(cors.AllowAll().Handler)
 
 	router.Get("/", func(w http.ResponseWriter, r *http.Request) {
-		w.Write([]byte("kinohub v0.0.2"))
+		w.Write([]byte("kinohub v0.0.3"))
 	})
 
 	router.Mount("/trakt", server.trakt.Handler())
@@ -161,6 +169,8 @@ func (server *Server) serve() {
 
 	router.Group(server.infoService.Handler())
 	router.Group(server.feedService.Handler())
+
+	router.Group(server.embeddedPlayer.Handler())
 
 	server.logger.Infof("Starting KinuHub server on localhost:%d", server.port)
 	http.ListenAndServe(fmt.Sprintf(":%d", server.port), router)
