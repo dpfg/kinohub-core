@@ -11,8 +11,8 @@ import (
 	"strconv"
 	"time"
 
+	httpu "github.com/dpfg/kinohub-core/pkg/http"
 	provider "github.com/dpfg/kinohub-core/provider"
-	"github.com/dpfg/kinohub-core/util"
 	"github.com/pkg/errors"
 	"github.com/sirupsen/logrus"
 
@@ -139,7 +139,7 @@ func (tc *Client) post(url string, body interface{}, response interface{}) error
 
 func (tc *Client) TrendingShows() ([]interface{}, error) {
 	m := make([]interface{}, 0)
-	err := tc.get(util.JoinURL(BaseURL, "shows", "trending"), &m)
+	err := tc.get(httpu.JoinURL(BaseURL, "shows", "trending"), &m)
 	if err != nil {
 		return nil, err
 	}
@@ -150,7 +150,7 @@ func (tc *Client) TrendingShows() ([]interface{}, error) {
 // Settings - https://trakt.docs.apiary.io/#reference/users/settings/retrieve-settings
 func (tc *Client) Settings() (interface{}, error) {
 	m := make([]interface{}, 0)
-	err := tc.get(util.JoinURL(BaseURL, "users", "settings", "retrieve-settings"), &m)
+	err := tc.get(httpu.JoinURL(BaseURL, "users", "settings", "retrieve-settings"), &m)
 	if err != nil {
 		return nil, err
 	}
@@ -165,7 +165,7 @@ func (tc *Client) MyShows(from time.Time, to time.Time) ([]MyShow, error) {
 	fromDate := from.Format("2006-01-02")
 	numDays := int(to.Sub(from).Hours() / 24)
 
-	err := tc.get(util.JoinURL(BaseURL, "calendars", "my", "shows", fromDate, strconv.Itoa(numDays)), &m)
+	err := tc.get(httpu.JoinURL(BaseURL, "calendars", "my", "shows", fromDate, strconv.Itoa(numDays)), &m)
 	if err != nil {
 		tc.Logger.Error(err.Error())
 		return nil, errors.WithStack(err)
@@ -190,7 +190,7 @@ func (tc *Client) Scrobble(tmdbID int) error {
 		Progress: 0,
 	}
 
-	return tc.post(util.JoinURL(BaseURL, "scrobble", "start"), body, nil)
+	return tc.post(httpu.JoinURL(BaseURL, "scrobble", "start"), body, nil)
 }
 
 // NewTraktClient creates new client

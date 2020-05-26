@@ -9,8 +9,8 @@ import (
 
 	"strings"
 
+	httpu "github.com/dpfg/kinohub-core/pkg/http"
 	provider "github.com/dpfg/kinohub-core/provider"
-	"github.com/dpfg/kinohub-core/util"
 	"github.com/franela/goreq"
 	"github.com/pkg/errors"
 	"github.com/sirupsen/logrus"
@@ -140,7 +140,7 @@ func (cl KinoPubClientImpl) SearchItemBy(q ItemsFilter) ([]Item, error) {
 
 	resp, err := goreq.Request{
 		Method: "GET",
-		Uri:    util.JoinURL(BaseURL, "items"),
+		Uri:    httpu.JoinURL(BaseURL, "items"),
 		QueryString: struct {
 			Title       string `url:"title,omitempty"`
 			AccessToken string `url:"access_token,omitempty"`
@@ -191,7 +191,7 @@ func (cl KinoPubClientImpl) GetItemById(id int) (*Item, error) {
 	cl.Logger.Debugln("Fetching kinpub item from the remote service")
 	resp, err := goreq.Request{
 		Method: "GET",
-		Uri:    util.JoinURL(BaseURL, "items", strconv.FormatInt(int64(id), 10)),
+		Uri:    httpu.JoinURL(BaseURL, "items", strconv.FormatInt(int64(id), 10)),
 		QueryString: struct {
 			AccessToken string `url:"access_token,omitempty"`
 		}{

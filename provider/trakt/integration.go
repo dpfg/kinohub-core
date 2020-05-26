@@ -4,7 +4,7 @@ import (
 	"context"
 	"net/http"
 
-	"github.com/dpfg/kinohub-core/util"
+	httpu "github.com/dpfg/kinohub-core/pkg/http"
 	"github.com/go-chi/chi"
 	"github.com/go-chi/render"
 )
@@ -21,7 +21,7 @@ func (trakt *Integration) Handler() http.Handler {
 	router.Get("/trending", func(w http.ResponseWriter, req *http.Request) {
 		shows, err := trakt.Client.TrendingShows()
 		if err != nil {
-			util.InternalError(w, req, err)
+			httpu.InternalError(w, req, err)
 			return
 		}
 
@@ -35,7 +35,7 @@ func (trakt *Integration) Handler() http.Handler {
 	router.Get("/exchange", func(w http.ResponseWriter, req *http.Request) {
 		_, err := trakt.Client.Exchange(context.Background(), req.URL.Query().Get("code"))
 		if err != nil {
-			util.InternalError(w, req, err)
+			httpu.InternalError(w, req, err)
 			return
 		}
 
@@ -45,7 +45,7 @@ func (trakt *Integration) Handler() http.Handler {
 	router.Get("/status", func(w http.ResponseWriter, req *http.Request) {
 		s, err := trakt.Client.Settings()
 		if err != nil {
-			util.InternalError(w, req, err)
+			httpu.InternalError(w, req, err)
 			return
 		}
 		render.JSON(w, req, s)

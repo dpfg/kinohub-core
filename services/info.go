@@ -5,10 +5,10 @@ import (
 	"strconv"
 
 	"github.com/dpfg/kinohub-core/domain"
+	httpu "github.com/dpfg/kinohub-core/pkg/http"
 	provider "github.com/dpfg/kinohub-core/provider"
 	"github.com/dpfg/kinohub-core/provider/kinopub"
 	"github.com/dpfg/kinohub-core/provider/tmdb"
-	"github.com/dpfg/kinohub-core/util"
 	"github.com/go-chi/chi"
 	"github.com/go-chi/render"
 	"github.com/pkg/errors"
@@ -39,7 +39,7 @@ func (browser ContentBrowserImpl) Handler() func(r chi.Router) {
 			show, err := browser.Show(uid)
 
 			if err != nil {
-				util.BadGateway(w, req, err)
+				httpu.BadGateway(w, req, err)
 				return
 			}
 			render.JSON(w, req, show)
@@ -50,13 +50,13 @@ func (browser ContentBrowserImpl) Handler() func(r chi.Router) {
 
 			seasonNum, err := strconv.Atoi(chi.URLParam(req, "season-num"))
 			if err != nil {
-				util.BadRequest(w, req, err)
+				httpu.BadRequest(w, req, err)
 				return
 			}
 
 			season, err := browser.Season(uid, seasonNum)
 			if err != nil {
-				util.BadRequest(w, req, err)
+				httpu.BadRequest(w, req, err)
 				return
 			}
 
@@ -67,7 +67,7 @@ func (browser ContentBrowserImpl) Handler() func(r chi.Router) {
 			uid := chi.URLParam(req, "movie-id")
 			m, err := browser.Movie(uid)
 			if err != nil {
-				util.BadGateway(w, req, err)
+				httpu.BadGateway(w, req, err)
 				return
 			}
 

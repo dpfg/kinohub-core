@@ -12,10 +12,10 @@ import (
 	"github.com/pkg/errors"
 	"github.com/sirupsen/logrus"
 
+	httpu "github.com/dpfg/kinohub-core/pkg/http"
 	"github.com/dpfg/kinohub-core/provider/kinopub"
 	"github.com/dpfg/kinohub-core/provider/tmdb"
 	"github.com/dpfg/kinohub-core/provider/trakt"
-	"github.com/dpfg/kinohub-core/util"
 
 	"github.com/dpfg/kinohub-core/domain"
 )
@@ -48,7 +48,7 @@ func (feed FeedImpl) Handler() func(r chi.Router) {
 
 			releases, err := feed.Releases(from, to)
 			if err != nil {
-				util.InternalError(w, req, err)
+				httpu.InternalError(w, req, err)
 				return
 			}
 

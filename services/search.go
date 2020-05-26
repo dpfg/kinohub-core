@@ -3,10 +3,11 @@ package services
 import (
 	"net/http"
 
+	httpu "github.com/dpfg/kinohub-core/pkg/http"
+
 	"github.com/dpfg/kinohub-core/domain"
 	"github.com/dpfg/kinohub-core/provider/kinopub"
 	"github.com/dpfg/kinohub-core/provider/tmdb"
-	"github.com/dpfg/kinohub-core/util"
 	"github.com/go-chi/chi"
 	"github.com/go-chi/render"
 	"github.com/sirupsen/logrus"
@@ -26,7 +27,7 @@ func (cs ContentSearch) Handler() http.Handler {
 	router.Get("/", func(w http.ResponseWriter, req *http.Request) {
 		result, err := cs.Search(req.URL.Query().Get("q"))
 		if err != nil {
-			util.InternalError(w, req, err)
+			httpu.InternalError(w, req, err)
 			return
 		}
 		render.JSON(w, req, result)

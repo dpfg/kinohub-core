@@ -1,11 +1,12 @@
 package player
 
 import (
+	"errors"
 	"net/http"
 	"strconv"
 
 	"github.com/dpfg/kinohub-core/pkg/fileserver"
-	"github.com/dpfg/kinohub-core/util"
+	httpu "github.com/dpfg/kinohub-core/pkg/http"
 	"github.com/go-chi/chi"
 	"github.com/go-chi/render"
 )
@@ -67,18 +68,33 @@ func (srv Server) httpListAll(w http.ResponseWriter, r *http.Request) {
 
 func (srv Server) httpPlay(w http.ResponseWriter, r *http.Request) {
 	p := srv.findPlayer(chi.URLParam(r, "pid"))
+	if p == nil {
+		httpu.NotFound(w, r, errors.New("Cannot find printer"))
+		return
+	}
+
 	p.sendPlay()
 	render.Status(r, http.StatusAccepted)
 }
 
 func (srv Server) httpPause(w http.ResponseWriter, r *http.Request) {
 	p := srv.findPlayer(chi.URLParam(r, "pid"))
+	if p == nil {
+		httpu.NotFound(w, r, errors.New("Cannot find printer"))
+		return
+	}
+
 	p.sendPause()
 	render.Status(r, http.StatusAccepted)
 }
 
 func (srv Server) httpPlayList(w http.ResponseWriter, r *http.Request) {
 	p := srv.findPlayer(chi.URLParam(r, "pid"))
+	if p == nil {
+		httpu.NotFound(w, r, errors.New("Cannot find printer"))
+		return
+	}
+
 	render.JSON(w, r, p.playList)
 }
 
@@ -87,11 +103,16 @@ func (srv Server) httpPlayListAdd(w http.ResponseWriter, r *http.Request) {
 	media := MediaEntry{}
 	err := render.DecodeJSON(r.Body, &media)
 	if err != nil {
-		util.BadRequest(w, r, err)
+		httpu.BadRequest(w, r, err)
 		return
 	}
 
 	player := srv.findPlayer(chi.URLParam(r, "pid"))
+	if player == nil {
+		httpu.NotFound(w, r, errors.New("Cannot find printer"))
+		return
+	}
+
 	index := player.playList.AddEntry(media)
 
 	sel, _ := strconv.ParseBool(r.URL.Query().Get("select"))
@@ -110,11 +131,15 @@ func (srv Server) httpPlayListSelect(w http.ResponseWriter, r *http.Request) {
 
 	err := render.DecodeJSON(r.Body, body)
 	if err != nil {
-		util.BadRequest(w, r, err)
+		httpu.BadRequest(w, r, err)
 		return
 	}
 
 	p := srv.findPlayer(chi.URLParam(r, "pid"))
+	if p == nil {
+		httpu.NotFound(w, r, errors.New("Cannot find printer"))
+		return
+	}
 
 	entry := p.playList.Select(body.Position)
 	p.sendSetSource(entry)

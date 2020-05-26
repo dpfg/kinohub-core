@@ -27,17 +27,13 @@ func append(p1, p2 string) string {
 	return p1 + "/" + p2
 }
 
-func PadLeft(str, pad string, lenght int) string {
-	for {
-		if len(str) >= lenght {
-			return str
-		}
-		str = pad + str
-	}
-}
-
 func InternalError(w http.ResponseWriter, r *http.Request, err error) {
 	render.Status(r, http.StatusInternalServerError)
+	renderError(w, r, err)
+}
+
+func NotFound(w http.ResponseWriter, r *http.Request, err error) {
+	render.Status(r, http.StatusNotFound)
 	renderError(w, r, err)
 }
 

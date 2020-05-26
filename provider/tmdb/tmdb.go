@@ -9,8 +9,9 @@ import (
 	"strings"
 	"time"
 
+	httpu "github.com/dpfg/kinohub-core/pkg/http"
+
 	provider "github.com/dpfg/kinohub-core/provider"
-	"github.com/dpfg/kinohub-core/util"
 	"github.com/franela/goreq"
 	"github.com/pkg/errors"
 	"github.com/sirupsen/logrus"
@@ -103,7 +104,7 @@ func (cl ClientImpl) GetTVShowByID(id int) (*TVShow, error) {
 	cl.Logger.Debugf("Getting TMDB show by ID=[%d]", id)
 
 	show := &TVShow{}
-	err := cl.doGet(util.JoinURL(BaseURL, "tv", strconv.Itoa(id)), nil, provider.Cacheable(show))
+	err := cl.doGet(httpu.JoinURL(BaseURL, "tv", strconv.Itoa(id)), nil, provider.Cacheable(show))
 	if err != nil {
 		return nil, err
 	}
@@ -116,7 +117,7 @@ func (cl ClientImpl) GetTVShowByID(id int) (*TVShow, error) {
 // GetTVShowExternalIDS returns the external ids for a TV show
 func (cl ClientImpl) GetTVShowExternalIDS(id int) (*Ids, error) {
 	ids := &Ids{}
-	err := cl.doGet(util.JoinURL(BaseURL, "tv", id, "external_ids"), nil, provider.Cacheable(ids))
+	err := cl.doGet(httpu.JoinURL(BaseURL, "tv", id, "external_ids"), nil, provider.Cacheable(ids))
 	if err != nil {
 		return nil, err
 	}
@@ -127,7 +128,7 @@ func (cl ClientImpl) GetTVShowExternalIDS(id int) (*Ids, error) {
 // GetTVShowImages returns the images that belong to a TV show.
 func (cl ClientImpl) GetTVShowImages(id int) (*ShowBackdrops, error) {
 	backdrops := &ShowBackdrops{}
-	err := cl.doGet(util.JoinURL(BaseURL, "tv", id, "images"), nil, provider.Cacheable(backdrops))
+	err := cl.doGet(httpu.JoinURL(BaseURL, "tv", id, "images"), nil, provider.Cacheable(backdrops))
 	if err != nil {
 		return nil, err
 	}
@@ -138,7 +139,7 @@ func (cl ClientImpl) GetTVShowImages(id int) (*ShowBackdrops, error) {
 // GetTVSeason return the detailed information about the season
 func (cl ClientImpl) GetTVSeason(seriesID, seasonNum int) (*TVSeason, error) {
 	season := &TVSeason{}
-	err := cl.doGet(util.JoinURL(BaseURL, "tv", seriesID, "season", seasonNum), nil, provider.Cacheable(season))
+	err := cl.doGet(httpu.JoinURL(BaseURL, "tv", seriesID, "season", seasonNum), nil, provider.Cacheable(season))
 	if err != nil {
 		cl.Logger.Error(err)
 		return nil, errors.Wrap(err, "Unable to get season")
@@ -151,7 +152,7 @@ func (cl ClientImpl) GetTVSeason(seriesID, seasonNum int) (*TVSeason, error) {
 
 // GetTVEpisode returns TV episode details by id.
 func (cl ClientImpl) GetTVEpisode(tvID int, seasonNum int, episodeNum int) (*TVEpisode, error) {
-	url := util.JoinURL(BaseURL, "tv", tvID, "season", seasonNum, "episode", episodeNum)
+	url := httpu.JoinURL(BaseURL, "tv", tvID, "season", seasonNum, "episode", episodeNum)
 
 	episode := &TVEpisode{}
 	err := cl.doGet(url, nil, provider.Cacheable(episode))
@@ -165,7 +166,7 @@ func (cl ClientImpl) GetTVEpisode(tvID int, seasonNum int, episodeNum int) (*TVE
 
 // GetTVEpisodeImages returnes the images that belong to a TV episode.
 func (cl ClientImpl) GetTVEpisodeImages(tvID int, seasonNum int, episodeNum int) (TVEpisodeStills, error) {
-	url := util.JoinURL(BaseURL, "tv", tvID, "season", seasonNum, "episode", episodeNum, "images")
+	url := httpu.JoinURL(BaseURL, "tv", tvID, "season", seasonNum, "episode", episodeNum, "images")
 
 	stills := TVEpisodeStills{}
 	err := cl.doGet(url, nil, provider.Cacheable(&stills))
@@ -179,7 +180,7 @@ func (cl ClientImpl) GetTVEpisodeImages(tvID int, seasonNum int, episodeNum int)
 
 // FindByExternalID search TMDB entry by IMDB id
 func (cl ClientImpl) FindByExternalID(id string) (*SearchResult, error) {
-	uri := util.JoinURL(BaseURL, "find", id)
+	uri := httpu.JoinURL(BaseURL, "find", id)
 	result := &SearchResult{}
 
 	err := cl.doGet(
@@ -222,7 +223,7 @@ func (cl ClientImpl) FindMovieByExternalID(id string) (*Movie, error) {
 }
 
 func (cl ClientImpl) Movie(id int) (*Movie, error) {
-	url := util.JoinURL(BaseURL, "movie", id)
+	url := httpu.JoinURL(BaseURL, "movie", id)
 
 	movie := &Movie{}
 	err := cl.doGet(url, nil, provider.Cacheable(movie))
