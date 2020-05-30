@@ -18,12 +18,12 @@
 
   var player = videojs("player");
   player.on("fullscreenchange", function () {
-    if (player.isFullscreen()) {
-      landing.style.display = "none";
-    } else {
-      landing.style.display = "block";
-      playerEl.style.display = "none";
-    }
+    // if (player.isFullscreen()) {
+    //   landing.style.display = "none";
+    // } else {
+    //   landing.style.display = "block";
+    //   playerEl.style.display = "none";
+    // }
   });
 
   var ws = new WebSocket("ws://localhost:8090/ui/pws/?pid=LG-TV");
@@ -37,9 +37,19 @@
       case "pause":
         player.pause();
         break;
+      case "stop":
+        player.pause();
+        player.currentTime(0);
+        player.reset();
+        break;
       case "set-source":
         player.src([{ src: msg["data"]["url"] }]);
         player.play();
+        break;
+      case "rewind":
+        player.currentTime(
+          player.currentTime() + parseInt(msg["data"]["duration"])
+        );
         break;
       default:
         console.log("Unknown message");

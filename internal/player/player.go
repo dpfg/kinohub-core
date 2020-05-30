@@ -135,8 +135,23 @@ func (c *Player) sendPause() {
 	c.sendMessage(message{TypeID: "pause"})
 }
 
+func (c *Player) sendStop() {
+	c.sendMessage(message{TypeID: "stop"})
+}
+
 func (c *Player) sendSetSource(entry *MediaEntry) {
 	c.sendMessage(message{TypeID: "set-source", Data: entry})
+}
+
+func (c *Player) sendRewind(duration int) {
+	c.sendMessage(message{
+		TypeID: "rewind",
+		Data: struct {
+			Duration int `json:"duration,omitempty"`
+		}{
+			Duration: duration,
+		},
+	})
 }
 
 func (c *Player) sendMessage(msg message) {

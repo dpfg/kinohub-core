@@ -31,7 +31,15 @@ func (srv Server) Handler() func(r chi.Router) {
 			serveWebSocket(srv.hub, w, r)
 		})
 
-		router.Route("/ui/player", fileserver.FileServer("/ui/player/", "./web/player"))
+		fs := fileserver.FileServer{
+			PublicPath: "/ui/player/",
+			StaticPath: "./web/player",
+			CacheControl: fileserver.CacheControl{
+				Cache: "no-store",
+			},
+		}
+
+		router.Route("/ui/player", fs.Handler())
 
 		router.Route("/api/players/", func(r chi.Router) {
 			r.Get("/", srv.httpListAll)
@@ -39,6 +47,8 @@ func (srv Server) Handler() func(r chi.Router) {
 			r.Route("/{pid}", func(r chi.Router) {
 				r.Post("/pause", srv.httpPause)
 				r.Post("/play", srv.httpPlay)
+				r.Post("/stop", srv.httpStop)
+				r.Post("/rewind", srv.httpRewind)
 				r.Get("/plist", srv.httpPlayList)
 				r.Post("/plist", srv.httpPlayListAdd)
 				r.Post("/plist/commands/select", srv.httpPlayListSelect)
@@ -85,6 +95,17 @@ func (srv Server) httpPause(w http.ResponseWriter, r *http.Request) {
 	}
 
 	p.sendPause()
+	render.Status(r, http.StatusAccepted)
+}
+
+func (srv Server) httpStop(w http.ResponseWriter, r *http.Request) {
+	p := srv.findPlayer(chi.URLParam(r, "pid"))
+	if p == nil {
+		httpu.NotFound(w, r, errors.New("Cannot find printer"))
+		return
+	}
+
+	p.sendStop()
 	render.Status(r, http.StatusAccepted)
 }
 
@@ -143,6 +164,28 @@ func (srv Server) httpPlayListSelect(w http.ResponseWriter, r *http.Request) {
 
 	entry := p.playList.Select(body.Position)
 	p.sendSetSource(entry)
+
+	render.Status(r, http.StatusAccepted)
+}
+
+func (srv Server) httpRewind(w http.ResponseWriter, r *http.Request) {
+	body := &struct {
+		Duration int `json:"duration,omitempty"`
+	}{}
+
+	err := render.DecodeJSON(r.Body, body)
+	if err != nil {
+		httpu.BadRequest(w, r, err)
+		return
+	}
+
+	p := srv.findPlayer(chi.URLParam(r, "pid"))
+	if p == nil {
+		httpu.NotFound(w, r, errors.New("Cannot find printer"))
+		return
+	}
+
+	p.sendRewind(body.Duration)
 
 	render.Status(r, http.StatusAccepted)
 }
