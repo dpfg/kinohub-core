@@ -34,7 +34,7 @@ func (browser ContentBrowserImpl) Handler() func(r chi.Router) {
 
 	return func(router chi.Router) {
 
-		router.Get("/series/{series-id}", func(w http.ResponseWriter, req *http.Request) {
+		router.Get("/api/series/{series-id}", func(w http.ResponseWriter, req *http.Request) {
 			uid := chi.URLParam(req, "series-id")
 			show, err := browser.Show(uid)
 
@@ -45,7 +45,7 @@ func (browser ContentBrowserImpl) Handler() func(r chi.Router) {
 			render.JSON(w, req, show)
 		})
 
-		router.Get("/series/{series-id}/seasons/{season-num}", func(w http.ResponseWriter, req *http.Request) {
+		router.Get("/api/series/{series-id}/seasons/{season-num}", func(w http.ResponseWriter, req *http.Request) {
 			uid := chi.URLParam(req, "series-id")
 
 			seasonNum, err := strconv.Atoi(chi.URLParam(req, "season-num"))
@@ -63,7 +63,7 @@ func (browser ContentBrowserImpl) Handler() func(r chi.Router) {
 			render.JSON(w, req, season)
 		})
 
-		router.Get("/movies/{movie-id}", func(w http.ResponseWriter, req *http.Request) {
+		router.Get("/api/movies/{movie-id}", func(w http.ResponseWriter, req *http.Request) {
 			uid := chi.URLParam(req, "movie-id")
 			m, err := browser.Movie(uid)
 			if err != nil {

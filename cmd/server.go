@@ -87,7 +87,7 @@ func (cmd *ServerCommand) makeTraktIntegration(logger *logrus.Logger) *trakt.Int
 				AuthURL:  "https://api.trakt.tv/oauth/authorize",
 				TokenURL: "https://api.trakt.tv/oauth/token",
 			},
-			RedirectURL: fmt.Sprintf("http://%s:%d/trakt/exchange", cmd.SiteName, cmd.Port),
+			RedirectURL: fmt.Sprintf("https://%s:%d/trakt/exchange", cmd.SiteName, cmd.Port),
 		},
 		PreferenceStorage: provider.JSONPreferenceStorage{
 			Path: cmd.DataLocation,
@@ -165,7 +165,7 @@ func (server *Server) serve() {
 	})
 
 	router.Mount("/trakt", server.trakt.Handler())
-	router.Mount("/search", server.search.Handler())
+	router.Mount("/api/search", server.search.Handler())
 
 	router.Group(server.infoService.Handler())
 	router.Group(server.feedService.Handler())

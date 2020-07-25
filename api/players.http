@@ -1,0 +1,29 @@
+GET http://localhost:8090/api/players/
+###
+
+GET http://localhost:8090/api/players/LG-TV/plist
+###
+
+POST http://localhost:8090/api/players/LG-TV/plist?select=1
+Content-Type: application/json
+
+{
+    "url": "https://cdn.streambox.in/pd/kinopub/aWQ9NzkyODk7NjIzNjYyNTA3OzY3ODA2MTM7MTU5NTY5NjQxNSZoPVlRQ1ZjWmNkNzNfczN2U2pCOEdCcUEmZT0xNTk1NzgyODE1/5/8d/xhaAkznAfYHij6P0H.mp4?loc=de",
+    "media_info": {
+        "title": "Example"
+    }
+}
+###
+
+
+POST http://localhost:8090/api/players/LG-TV/play
+###
+
+
+POST http://localhost:8090/api/players/LG-TV/plist/commands/select
+Content-Type: application/json
+
+{
+    "position": 1
+}
+###

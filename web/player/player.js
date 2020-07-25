@@ -26,13 +26,14 @@
     // }
   });
 
-  var ws = new WebSocket("ws://localhost:8090/ui/pws/?pid=LG-TV");
+  var ws = new WebSocket(`ws://${window.location.host}/ui/pws/?pid=LG-TV`);
+
   ws.onmessage = function (event) {
     var msg = JSON.parse(event.data);
     switch (msg["type_id"]) {
       case "play":
         player.play();
-        showPlayer();
+        // showPlayer();
         break;
       case "pause":
         player.pause();

@@ -42,7 +42,7 @@ func (feed FeedImpl) Handler() func(r chi.Router) {
 
 	return func(router chi.Router) {
 
-		router.Get("/tv/releases", func(w http.ResponseWriter, req *http.Request) {
+		router.Get("/api/tv/releases", func(w http.ResponseWriter, req *http.Request) {
 			from, _ := time.Parse("2006-01-02", req.URL.Query().Get("from"))
 			to, _ := time.Parse("2006-01-02", req.URL.Query().Get("to"))
 

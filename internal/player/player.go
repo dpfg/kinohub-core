@@ -47,7 +47,7 @@ type Player struct {
 	send chan []byte
 
 	// playList is a list of media entries to play sequentially
-	playList PList
+	playList *PList
 }
 
 type message struct {
@@ -169,7 +169,14 @@ func serveWebSocket(hub *Hub, w http.ResponseWriter, r *http.Request) {
 	pid := r.URL.Query().Get("pid")
 	// TODO: check pid not empty
 
-	player := &Player{pid: pid, hub: hub, conn: conn, send: make(chan []byte, 256)}
+	player := &Player{
+		pid:      pid,
+		hub:      hub,
+		conn:     conn,
+		send:     make(chan []byte, 256),
+		playList: NewPlayList([]MediaEntry{}),
+	}
+
 	player.hub.register <- player
 
 	// Allow collection of memory referenced by the caller by doing all work in
