@@ -107,7 +107,8 @@ func (cl KinoPubClientImpl) refreshToken(t *Token) error {
 	}
 
 	if resp.StatusCode != http.StatusOK {
-		return errors.Errorf("Cannot refresh kinopub token: service response - %s", resp.Status)
+		msg, _ := resp.Body.ToString()
+		return errors.Errorf("Cannot refresh kinopub token: service response - %s", msg)
 	}
 
 	nt := &struct {
