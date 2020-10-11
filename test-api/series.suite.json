@@ -1,44 +1,44 @@
 [
-    {
-        "name": "Get series by TMDB ID",
-        "calls": [
-            {
-                "on": {
-                    "method": "GET",
-                    "url": "/series/TM64836"
-                },
-                "expect": {
-                    "statusCode": 200,
-                    "contentType": "application/json",
-                    "body": {
-                        "poster_path": "https://image.tmdb.org/t/p/original/qnXx9TMHCfOHgEZ5vv76pPmIwTS.jpg",
-                        "title": "Good Behavior",
-                        "uid": "TM64836",
-                        "seasons.size()": 2
-                    }
-                }
-            }
-        ]
-    },
-    {
-        "name": "Get series by KinoPub ID",
-        "calls": [
-            {
-                "on": {
-                    "method": "GET",
-                    "url": "/series/KH8930"
-                },
-                "expect": {
-                    "statusCode": 200,
-                    "contentType": "application/json",
-                    "body": {
-                        "poster_path": "https://image.tmdb.org/t/p/original/ooBGRQBdbGzBxAVfExiO8r7kloA.jpg",
-                        "title": "The Big Bang Theory",
-                        "uid": "TM1418",
-                        "seasons.size()": 12
-                    }
-                }
-            }
-        ]
-    }
+  {
+    "name": "Get series by TMDB ID",
+    "calls": [
+      {
+        "on": {
+          "method": "GET",
+          "url": "/series/TM64836"
+        },
+        "expect": {
+          "statusCode": 200,
+          "contentType": "application/json",
+          "bodyPath": {
+            "poster_path": "https://image.tmdb.org/t/p/original/qnXx9TMHCfOHgEZ5vv76pPmIwTS.jpg",
+            "title": "Good Behavior",
+            "uid": "TM64836",
+            "seasons.size()": 2
+          }
+        }
+      }
+    ]
+  },
+  {
+    "name": "Get series by KinoPub ID",
+    "calls": [
+      {
+        "on": {
+          "method": "GET",
+          "url": "/series/KH8930"
+        },
+        "expect": {
+          "statusCode": 200,
+          "contentType": "application/json",
+          "bodyPath": {
+            "poster_path": "https://image.tmdb.org/t/p/original/ooBGRQBdbGzBxAVfExiO8r7kloA.jpg",
+            "title": "The Big Bang Theory",
+            "uid": "TM1418",
+            "seasons.size()": 13
+          }
+        }
+      }
+    ]
+  }
 ]

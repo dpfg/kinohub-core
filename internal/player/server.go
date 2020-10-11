@@ -2,13 +2,21 @@ package player
 
 import (
 	"errors"
+	"math/rand"
 	"net/http"
 	"strconv"
+	"time"
 
 	"github.com/dpfg/kinohub-core/pkg/fileserver"
 	httpu "github.com/dpfg/kinohub-core/pkg/http"
 	"github.com/go-chi/chi"
 	"github.com/go-chi/render"
+	"github.com/google/uuid"
+	"github.com/sirupsen/logrus"
+)
+
+const (
+	PlayerUIDCookieName = "puid"
 )
 
 // Server is an entry entity to provide player functionality based on JS-player with ability to control playback though WebSocket
@@ -16,8 +24,8 @@ type Server struct {
 	hub *Hub
 }
 
-func NewServer() *Server {
-	hub := newHub()
+func NewServer(logger *logrus.Entry) *Server {
+	hub := newHub(logger)
 	go hub.run()
 	return &Server{hub: hub}
 }
@@ -34,8 +42,19 @@ func (srv Server) Handler() func(r chi.Router) {
 		fs := fileserver.FileServer{
 			PublicPath: "/ui/player/",
 			StaticPath: "./web/player",
-			CacheControl: fileserver.CacheControl{
+			CacheControl: &fileserver.CacheControl{
 				Cache: "no-store",
+			},
+			CookieControl: &fileserver.CookieControl{
+				Name: PlayerUIDCookieName,
+				TTL:  time.Hour * 24 * 31 * 12,
+				ValueFunc: func() string {
+					uuid, err := uuid.NewUUID()
+					if err != nil {
+						return string(rand.Int31())
+					}
+					return uuid.String()
+				},
 			},
 		}
 

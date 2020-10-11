@@ -1,5 +1,7 @@
 package player
 
+import "github.com/sirupsen/logrus"
+
 // Hub maintains the set of active clients and broadcasts messages to the
 // clients.
 type Hub struct {
@@ -14,14 +16,16 @@ type Hub struct {
 
 	// Unregister requests from clients.
 	unregister chan *Player
+	logger     *logrus.Entry
 }
 
-func newHub() *Hub {
+func newHub(logger *logrus.Entry) *Hub {
 	return &Hub{
 		broadcast:  make(chan []byte),
 		register:   make(chan *Player),
 		unregister: make(chan *Player),
 		players:    make(map[*Player]bool),
+		logger:     logger,
 	}
 }
 
@@ -46,4 +50,17 @@ func (h *Hub) run() {
 			}
 		}
 	}
+}
+
+func (h *Hub) Disconnect(pid string) bool {
+	for p := range h.players {
+		if p.pid == pid {
+			h.logger.Debugf("Disconnecting player: %s\n", pid)
+
+			delete(h.players, p)
+			close(p.send)
+			return true
+		}
+	}
+	return false
 }

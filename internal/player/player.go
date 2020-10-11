@@ -167,7 +167,11 @@ func serveWebSocket(hub *Hub, w http.ResponseWriter, r *http.Request) {
 	}
 
 	pid := r.URL.Query().Get("pid")
-	// TODO: check pid not empty
+	if pid == "" {
+		return
+	}
+
+	hub.Disconnect(pid)
 
 	player := &Player{
 		pid:      pid,

@@ -26,7 +26,8 @@
     // }
   });
 
-  var ws = new WebSocket(`ws://${window.location.host}/ui/pws/?pid=LG-TV`);
+  var pid = Cookies.get("puid");
+  var ws = new WebSocket(`ws://${window.location.host}/ui/pws/?pid=${pid}`);
 
   ws.onmessage = function (event) {
     var msg = JSON.parse(event.data);

@@ -65,7 +65,7 @@ func (cmd *ServerCommand) Execute(args []string) error {
 		search:         cmd.makeContentSearch(kpc, tmdbc, logger),
 		feedService:    cmd.makeFeed(trakt.Client, kpc, tmdbc, logger),
 		infoService:    cmd.makeContentBrowser(kpc, tmdbc, logger),
-		embeddedPlayer: cmd.makeEmbeddedPlayer(),
+		embeddedPlayer: cmd.makeEmbeddedPlayer(logger),
 	}
 
 	server.serve()
@@ -112,8 +112,8 @@ func (cmd *ServerCommand) makeContentBrowser(kinopub kinopub.KinoPubClient, tmdb
 	return services.NewContentBrowser(kinopub, tmdbc)
 }
 
-func (cmd *ServerCommand) makeEmbeddedPlayer() *player.Server {
-	return player.NewServer()
+func (cmd *ServerCommand) makeEmbeddedPlayer(logger *logrus.Logger) *player.Server {
+	return player.NewServer(logger.WithField("prefix", "hub"))
 }
 
 func (cmd *ServerCommand) makeKinoPubClient(cf provider.CacheFactory, logger *logrus.Logger) kinopub.KinoPubClient {
