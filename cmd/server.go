@@ -11,6 +11,7 @@ import (
 	"github.com/dpfg/kinohub-core/provider/trakt"
 	"github.com/dpfg/kinohub-core/services"
 	"github.com/go-chi/chi"
+	"github.com/go-chi/chi/middleware"
 	"github.com/rs/cors"
 	"github.com/sirupsen/logrus"
 	prefixed "github.com/x-cray/logrus-prefixed-formatter"
@@ -159,6 +160,8 @@ func (server *Server) serve() {
 	router := chi.NewRouter()
 
 	router.Use(cors.AllowAll().Handler)
+	router.Use(middleware.Heartbeat("/ping"))
+	router.Use(middleware.Logger)
 
 	router.Get("/", func(w http.ResponseWriter, r *http.Request) {
 		w.Write([]byte("kinohub v0.0.3"))
