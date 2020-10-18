@@ -9,8 +9,8 @@ import (
 
 	"strings"
 
-	"github.com/dpfg/kinohub-core/providers"
-	"github.com/dpfg/kinohub-core/util"
+	httpu "github.com/dpfg/kinohub-core/pkg/http"
+	provider "github.com/dpfg/kinohub-core/provider"
 	"github.com/franela/goreq"
 	"github.com/pkg/errors"
 	"github.com/sirupsen/logrus"
@@ -47,9 +47,10 @@ type ItemsFilter struct {
 type KinoPubClientImpl struct {
 	ClientID          string
 	ClientSecret      string
-	PreferenceStorage providers.PreferenceStorage
-	CacheFactory      providers.CacheFactory
+	PreferenceStorage provider.PreferenceStorage
+	CacheFactory      provider.CacheFactory
 	Logger            *logrus.Entry
+	fixer             *fixer
 }
 
 const (
@@ -67,16 +68,16 @@ func (cl KinoPubClientImpl) getToken() (*Token, error) {
 	t := &Token{}
 	err := cl.PreferenceStorage.Load(KinoPubPrefKey, t)
 	if err != nil {
-		return nil, err
+		return nil, errors.Wrap(err, "Unable to load preferences")
 	}
 
 	if !t.IsValid() {
 		if err = cl.refreshToken(t); err != nil {
-			return nil, err
+			return nil, errors.Wrap(err, "Unable to refresh access token")
 		}
 
 		if err = cl.PreferenceStorage.Load(KinoPubPrefKey, t); err != nil {
-			return nil, err
+			return nil, errors.Wrap(err, "Unable to load preferences")
 		}
 	}
 
@@ -106,7 +107,8 @@ func (cl KinoPubClientImpl) refreshToken(t *Token) error {
 	}
 
 	if resp.StatusCode != http.StatusOK {
-		return errors.Errorf("Cannot refresh kinopub token: service response - %s", resp.Status)
+		msg, _ := resp.Body.ToString()
+		return errors.Errorf("Cannot refresh kinopub token: service response - %s", msg)
 	}
 
 	nt := &struct {
@@ -139,7 +141,7 @@ func (cl KinoPubClientImpl) SearchItemBy(q ItemsFilter) ([]Item, error) {
 
 	resp, err := goreq.Request{
 		Method: "GET",
-		Uri:    util.JoinURL(BaseURL, "items"),
+		Uri:    httpu.JoinURL(BaseURL, "items"),
 		QueryString: struct {
 			Title       string `url:"title,omitempty"`
 			AccessToken string `url:"access_token,omitempty"`
@@ -178,6 +180,7 @@ func (cl KinoPubClientImpl) GetItemById(id int) (*Item, error) {
 	item := &Item{}
 
 	if cache.Load(cacheKey, item) {
+		// cl.fixer.fixID(item)
 		return item, nil
 	}
 
@@ -189,7 +192,7 @@ func (cl KinoPubClientImpl) GetItemById(id int) (*Item, error) {
 	cl.Logger.Debugln("Fetching kinpub item from the remote service")
 	resp, err := goreq.Request{
 		Method: "GET",
-		Uri:    util.JoinURL(BaseURL, "items", strconv.FormatInt(int64(id), 10)),
+		Uri:    httpu.JoinURL(BaseURL, "items", strconv.FormatInt(int64(id), 10)),
 		QueryString: struct {
 			AccessToken string `url:"access_token,omitempty"`
 		}{
@@ -213,6 +216,8 @@ func (cl KinoPubClientImpl) GetItemById(id int) (*Item, error) {
 	if err != nil {
 		return nil, errors.WithStack(err)
 	}
+
+	// cl.fixer.fixID(&m.Item)
 
 	cache.Save(cacheKey, &m.Item)
 
@@ -284,15 +289,16 @@ func (cl KinoPubClientImpl) GetEpisode(imdbID int, title string, seasonNum int, 
 }
 
 // NewKinoPubClient returns new kinopub client
-func NewKinoPubClient(logger *logrus.Logger, cf providers.CacheFactory) KinoPubClient {
+func NewKinoPubClient(logger *logrus.Logger, cf provider.CacheFactory) KinoPubClient {
 	return KinoPubClientImpl{
 		ClientID:     os.Getenv("KINOPUB_CLIENT_ID"),
 		ClientSecret: os.Getenv("KINOPUB_CLIENT_SECRET"),
-		PreferenceStorage: providers.JSONPreferenceStorage{
+		PreferenceStorage: provider.JSONPreferenceStorage{
 			Path: ".data/",
 		},
 		CacheFactory: cf,
 		Logger:       logger.WithFields(logrus.Fields{"prefix": "kinpub"}),
+		fixer:        &fixer{logger: logger.WithFields(logrus.Fields{"prefix": "id-fixer"})},
 	}
 }
 
@@ -306,15 +312,15 @@ func ToImdbID(id int) string {
 }
 
 func ToUID(id int) string {
-	return fmt.Sprintf("%s%d", providers.IDTypeKinoHub, id)
+	return fmt.Sprintf("%s%d", provider.IDTypeKinoHub, id)
 }
 
 func ParseUID(uid string) (int, error) {
-	if !strings.HasPrefix(uid, providers.IDTypeKinoHub) {
+	if !strings.HasPrefix(uid, provider.IDTypeKinoHub) {
 		return -1, errors.New("Invalid UID type")
 	}
 
-	return strconv.Atoi(strings.TrimLeft(uid, providers.IDTypeKinoHub))
+	return strconv.Atoi(strings.TrimLeft(uid, provider.IDTypeKinoHub))
 }
 
 func truncateProblematicTitle(title string) string {

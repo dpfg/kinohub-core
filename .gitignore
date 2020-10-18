@@ -22,4 +22,4 @@ kinohub-core
 
 # Runtime data
 .data
-.env.sh
+.creds

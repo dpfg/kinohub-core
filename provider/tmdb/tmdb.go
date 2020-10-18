@@ -9,8 +9,9 @@ import (
 	"strings"
 	"time"
 
-	"github.com/dpfg/kinohub-core/providers"
-	"github.com/dpfg/kinohub-core/util"
+	httpu "github.com/dpfg/kinohub-core/pkg/http"
+
+	provider "github.com/dpfg/kinohub-core/provider"
 	"github.com/franela/goreq"
 	"github.com/pkg/errors"
 	"github.com/sirupsen/logrus"
@@ -50,14 +51,14 @@ const (
 
 // ClientImpl is a default implementation of TMDB API consumer
 type ClientImpl struct {
-	apiKey            string
-	logger            *logrus.Entry
-	cache             providers.CacheFactory
-	preferenceStorage providers.PreferenceStorage
+	APIKey            string
+	Logger            *logrus.Entry
+	Cache             provider.CacheFactory
+	PreferenceStorage provider.PreferenceStorage
 }
 
-func (cl ClientImpl) doGet(uri string, qp url.Values, body providers.CacheEntry) error {
-	cache := cl.cache.Get("TMDB_ENTITIES", 24*time.Hour)
+func (cl ClientImpl) doGet(uri string, qp url.Values, body provider.CacheEntry) error {
+	cache := cl.Cache.Get("TMDB_ENTITIES", 24*time.Hour)
 
 	if cache.Load(uri, body) {
 		return nil
@@ -67,7 +68,7 @@ func (cl ClientImpl) doGet(uri string, qp url.Values, body providers.CacheEntry)
 		qp = url.Values{}
 	}
 
-	qp.Add("api_key", cl.apiKey)
+	qp.Add("api_key", cl.APIKey)
 
 	resp, err := goreq.Request{
 		Method:      "GET",
@@ -100,15 +101,15 @@ func (cl ClientImpl) doGet(uri string, qp url.Values, body providers.CacheEntry)
 
 // GetTVShowByID returns the primary TV show details by id.
 func (cl ClientImpl) GetTVShowByID(id int) (*TVShow, error) {
-	cl.logger.Debugf("Getting TMDB show by ID=[%d]", id)
+	cl.Logger.Debugf("Getting TMDB show by ID=[%d]", id)
 
 	show := &TVShow{}
-	err := cl.doGet(util.JoinURL(BaseURL, "tv", strconv.Itoa(id)), nil, providers.Cacheable(show))
+	err := cl.doGet(httpu.JoinURL(BaseURL, "tv", strconv.Itoa(id)), nil, provider.Cacheable(show))
 	if err != nil {
 		return nil, err
 	}
 
-	cl.logger.Debugf("TMDB show ID=[%d] has been loaded", id)
+	cl.Logger.Debugf("TMDB show ID=[%d] has been loaded", id)
 
 	return show, nil
 }
@@ -116,7 +117,7 @@ func (cl ClientImpl) GetTVShowByID(id int) (*TVShow, error) {
 // GetTVShowExternalIDS returns the external ids for a TV show
 func (cl ClientImpl) GetTVShowExternalIDS(id int) (*Ids, error) {
 	ids := &Ids{}
-	err := cl.doGet(util.JoinURL(BaseURL, "tv", id, "external_ids"), nil, providers.Cacheable(ids))
+	err := cl.doGet(httpu.JoinURL(BaseURL, "tv", id, "external_ids"), nil, provider.Cacheable(ids))
 	if err != nil {
 		return nil, err
 	}
@@ -127,7 +128,7 @@ func (cl ClientImpl) GetTVShowExternalIDS(id int) (*Ids, error) {
 // GetTVShowImages returns the images that belong to a TV show.
 func (cl ClientImpl) GetTVShowImages(id int) (*ShowBackdrops, error) {
 	backdrops := &ShowBackdrops{}
-	err := cl.doGet(util.JoinURL(BaseURL, "tv", id, "images"), nil, providers.Cacheable(backdrops))
+	err := cl.doGet(httpu.JoinURL(BaseURL, "tv", id, "images"), nil, provider.Cacheable(backdrops))
 	if err != nil {
 		return nil, err
 	}
@@ -138,9 +139,10 @@ func (cl ClientImpl) GetTVShowImages(id int) (*ShowBackdrops, error) {
 // GetTVSeason return the detailed information about the season
 func (cl ClientImpl) GetTVSeason(seriesID, seasonNum int) (*TVSeason, error) {
 	season := &TVSeason{}
-	err := cl.doGet(util.JoinURL(BaseURL, "tv", seriesID, "season", seasonNum), nil, providers.Cacheable(season))
+	err := cl.doGet(httpu.JoinURL(BaseURL, "tv", seriesID, "season", seasonNum), nil, provider.Cacheable(season))
 	if err != nil {
-		return nil, err
+		cl.Logger.Error(err)
+		return nil, errors.Wrap(err, "Unable to get season")
 	}
 
 	season.PosterPath = ImagePath(season.PosterPath, OriginalSize)
@@ -150,10 +152,10 @@ func (cl ClientImpl) GetTVSeason(seriesID, seasonNum int) (*TVSeason, error) {
 
 // GetTVEpisode returns TV episode details by id.
 func (cl ClientImpl) GetTVEpisode(tvID int, seasonNum int, episodeNum int) (*TVEpisode, error) {
-	url := util.JoinURL(BaseURL, "tv", tvID, "season", seasonNum, "episode", episodeNum)
+	url := httpu.JoinURL(BaseURL, "tv", tvID, "season", seasonNum, "episode", episodeNum)
 
 	episode := &TVEpisode{}
-	err := cl.doGet(url, nil, providers.Cacheable(episode))
+	err := cl.doGet(url, nil, provider.Cacheable(episode))
 
 	if err != nil {
 		return nil, err
@@ -164,10 +166,10 @@ func (cl ClientImpl) GetTVEpisode(tvID int, seasonNum int, episodeNum int) (*TVE
 
 // GetTVEpisodeImages returnes the images that belong to a TV episode.
 func (cl ClientImpl) GetTVEpisodeImages(tvID int, seasonNum int, episodeNum int) (TVEpisodeStills, error) {
-	url := util.JoinURL(BaseURL, "tv", tvID, "season", seasonNum, "episode", episodeNum, "images")
+	url := httpu.JoinURL(BaseURL, "tv", tvID, "season", seasonNum, "episode", episodeNum, "images")
 
 	stills := TVEpisodeStills{}
-	err := cl.doGet(url, nil, providers.Cacheable(&stills))
+	err := cl.doGet(url, nil, provider.Cacheable(&stills))
 
 	if err != nil {
 		return stills, err
@@ -178,18 +180,18 @@ func (cl ClientImpl) GetTVEpisodeImages(tvID int, seasonNum int, episodeNum int)
 
 // FindByExternalID search TMDB entry by IMDB id
 func (cl ClientImpl) FindByExternalID(id string) (*SearchResult, error) {
-	uri := util.JoinURL(BaseURL, "find", id)
+	uri := httpu.JoinURL(BaseURL, "find", id)
 	result := &SearchResult{}
 
 	err := cl.doGet(
 		uri,
 		map[string][]string{"external_source": []string{"imdb_id"}},
-		providers.Cacheable(result),
+		provider.Cacheable(result),
 	)
 	if err != nil {
 		return nil, err
 	}
-	cl.logger.Debugf("Search by external id: tv=%d", len(result.TVResults))
+	cl.Logger.Debugf("Search by external id: tv=%d", len(result.TVResults))
 
 	return result, nil
 }
@@ -221,10 +223,10 @@ func (cl ClientImpl) FindMovieByExternalID(id string) (*Movie, error) {
 }
 
 func (cl ClientImpl) Movie(id int) (*Movie, error) {
-	url := util.JoinURL(BaseURL, "movie", id)
+	url := httpu.JoinURL(BaseURL, "movie", id)
 
 	movie := &Movie{}
-	err := cl.doGet(url, nil, providers.Cacheable(movie))
+	err := cl.doGet(url, nil, provider.Cacheable(movie))
 
 	if err != nil {
 		return nil, err
@@ -255,23 +257,23 @@ func ImagePath(tmdbPath string, w int) string {
 }
 
 // New returns new TMDB API client
-func New(logger *logrus.Logger, cf providers.CacheFactory, ps providers.PreferenceStorage) Client {
+func New(logger *logrus.Logger, cf provider.CacheFactory, ps provider.PreferenceStorage) Client {
 	return ClientImpl{
-		apiKey:            os.Getenv("TMDB_API_KEY"),
-		preferenceStorage: ps,
-		cache:             cf,
-		logger:            logger.WithField("prefix", "tmdb"),
+		APIKey:            os.Getenv("TMDB_API_KEY"),
+		PreferenceStorage: ps,
+		Cache:             cf,
+		Logger:            logger.WithField("prefix", "tmdb"),
 	}
 }
 
 func ToUID(id int) string {
-	return fmt.Sprintf("%s%d", providers.IDTypeTMDB, id)
+	return fmt.Sprintf("%s%d", provider.IDTypeTMDB, id)
 }
 
 func ParseUID(uid string) (int, error) {
-	if !strings.HasPrefix(uid, providers.IDTypeTMDB) {
+	if !strings.HasPrefix(uid, provider.IDTypeTMDB) {
 		return -1, errors.New("Invalid UID type")
 	}
 
-	return strconv.Atoi(strings.TrimLeft(uid, providers.IDTypeTMDB))
+	return strconv.Atoi(strings.TrimLeft(uid, provider.IDTypeTMDB))
 }

@@ -1,24 +1,42 @@
 package services
 
 import (
+	"net/http"
+
+	httpu "github.com/dpfg/kinohub-core/pkg/http"
+
 	"github.com/dpfg/kinohub-core/domain"
-	"github.com/dpfg/kinohub-core/providers/kinopub"
-	"github.com/dpfg/kinohub-core/providers/tmdb"
+	"github.com/dpfg/kinohub-core/provider/kinopub"
+	"github.com/dpfg/kinohub-core/provider/tmdb"
+	"github.com/go-chi/chi"
+	"github.com/go-chi/render"
 	"github.com/sirupsen/logrus"
 )
 
 // ContentSearch provides a way to find available media streams
-type ContentSearch interface {
-	Search(q string) ([]domain.SearchResult, error)
-}
-
-type ContentSearchImpl struct {
+type ContentSearch struct {
 	Logger  *logrus.Entry
 	Kinopub kinopub.KinoPubClient
 	TMDB    tmdb.Client
 }
 
-func (cs ContentSearchImpl) Search(q string) ([]domain.SearchResult, error) {
+// Handler return http.Handler that can servce search-related requests
+func (cs ContentSearch) Handler() http.Handler {
+	router := chi.NewRouter()
+
+	router.Get("/", func(w http.ResponseWriter, req *http.Request) {
+		result, err := cs.Search(req.URL.Query().Get("q"))
+		if err != nil {
+			httpu.InternalError(w, req, err)
+			return
+		}
+		render.JSON(w, req, result)
+	})
+
+	return router
+}
+
+func (cs ContentSearch) Search(q string) ([]domain.SearchResult, error) {
 	r, err := cs.Kinopub.SearchItemBy(kinopub.ItemsFilter{
 		Title: q,
 	})

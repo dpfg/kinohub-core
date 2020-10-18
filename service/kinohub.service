@@ -1,0 +1,14 @@
+[Unit]
+Description=KinHub Core
+After=network.target
+
+[Service]
+ExecStart=/usr/bin/kinohub-core server
+Type=simple
+User=pi
+Restart=always
+StandardOutput=syslog
+StandardError=syslog
+
+[Install]
+WantedBy=multi-user.target

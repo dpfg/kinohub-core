@@ -18,13 +18,15 @@
 
 `GET /tv/watching`
 
+## Development
+
 ## Downloader (?)
 
 Requiremets:
 
-* predownload files to play from local FS
-* automatically cleanup old file
-* ability to set max size of stored data
+- predownload files to play from local FS
+- automatically cleanup old file
+- ability to set max size of stored data
 
 ### Overview
 
