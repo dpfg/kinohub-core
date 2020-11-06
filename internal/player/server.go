@@ -159,6 +159,7 @@ func (srv Server) httpPlayListAdd(w http.ResponseWriter, r *http.Request) {
 	if sel {
 		entry := player.playList.Select(index)
 		player.sendSetSource(entry)
+		player.sendPlay()
 	}
 
 	render.JSON(w, r, player.playList)

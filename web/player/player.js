@@ -25,36 +25,41 @@
     //   playerEl.style.display = "none";
     // }
   });
+  // player.muted(false);
 
   var pid = Cookies.get("puid");
   var ws = new WebSocket(`ws://${window.location.host}/ui/pws/?pid=${pid}`);
 
   ws.onmessage = function (event) {
-    var msg = JSON.parse(event.data);
-    switch (msg["type_id"]) {
-      case "play":
-        player.play();
-        // showPlayer();
-        break;
-      case "pause":
-        player.pause();
-        break;
-      case "stop":
-        player.pause();
-        player.currentTime(0);
-        player.reset();
-        break;
-      case "set-source":
-        player.src([{ src: msg["data"]["url"] }]);
-        player.play();
-        break;
-      case "rewind":
-        player.currentTime(
-          player.currentTime() + parseInt(msg["data"]["duration"])
-        );
-        break;
-      default:
-        console.log("Unknown message");
-    }
+    var msgs = (event.data || "").split("\n");
+    msgs.forEach((msg) => {
+      var msg = JSON.parse(msg);
+      switch (msg["type_id"]) {
+        case "play":
+          player.play();
+          player.volume(1);
+          // showPlayer();
+          break;
+        case "pause":
+          player.pause();
+          break;
+        case "stop":
+          player.pause();
+          player.currentTime(0);
+          player.reset();
+          break;
+        case "set-source":
+          player.src([{ src: msg["data"]["url"] }]);
+          player.play();
+          break;
+        case "rewind":
+          player.currentTime(
+            player.currentTime() + parseInt(msg["data"]["duration"])
+          );
+          break;
+        default:
+          console.log("Unknown message");
+      }
+    });
   };
 })();
