@@ -16,13 +16,7 @@ type FileServer struct {
 	PublicPath string
 	StaticPath string
 
-	CacheControl  *CacheControl
 	CookieControl *CookieControl
-}
-
-// CacheControl holds description of standard http cache Header
-type CacheControl struct {
-	Cache string
 }
 
 // CookieControl holds description of cookie policy to use.

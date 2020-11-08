@@ -16,7 +16,7 @@ import (
 )
 
 const (
-	PlayerUIDCookieName = "puid"
+	UIDCookieName = "puid"
 )
 
 // Server is an entry entity to provide player functionality based on JS-player with ability to control playback though WebSocket
@@ -42,11 +42,8 @@ func (srv Server) Handler() func(r chi.Router) {
 		fs := fileserver.FileServer{
 			PublicPath: "/ui/player/",
 			StaticPath: "/web/player",
-			CacheControl: &fileserver.CacheControl{
-				Cache: "no-store",
-			},
 			CookieControl: &fileserver.CookieControl{
-				Name: PlayerUIDCookieName,
+				Name: UIDCookieName,
 				TTL:  time.Hour * 24 * 31 * 12,
 				ValueFunc: func() string {
 					uuid, err := uuid.NewUUID()
