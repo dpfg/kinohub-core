@@ -95,7 +95,7 @@ func (srv Server) httpListAll(w http.ResponseWriter, r *http.Request) {
 func (srv Server) httpPlay(w http.ResponseWriter, r *http.Request) {
 	p := srv.findPlayer(chi.URLParam(r, "pid"))
 	if p == nil {
-		httpu.NotFound(w, r, errors.New("Cannot find printer"))
+		httpu.NotFound(w, r, errors.New("cannot find printer"))
 		return
 	}
 
@@ -106,7 +106,7 @@ func (srv Server) httpPlay(w http.ResponseWriter, r *http.Request) {
 func (srv Server) httpPause(w http.ResponseWriter, r *http.Request) {
 	p := srv.findPlayer(chi.URLParam(r, "pid"))
 	if p == nil {
-		httpu.NotFound(w, r, errors.New("Cannot find printer"))
+		httpu.NotFound(w, r, errors.New("cannot find printer"))
 		return
 	}
 
@@ -117,7 +117,7 @@ func (srv Server) httpPause(w http.ResponseWriter, r *http.Request) {
 func (srv Server) httpStop(w http.ResponseWriter, r *http.Request) {
 	p := srv.findPlayer(chi.URLParam(r, "pid"))
 	if p == nil {
-		httpu.NotFound(w, r, errors.New("Cannot find printer"))
+		httpu.NotFound(w, r, errors.New("cannot find printer"))
 		return
 	}
 
@@ -128,7 +128,7 @@ func (srv Server) httpStop(w http.ResponseWriter, r *http.Request) {
 func (srv Server) httpPlayList(w http.ResponseWriter, r *http.Request) {
 	p := srv.findPlayer(chi.URLParam(r, "pid"))
 	if p == nil {
-		httpu.NotFound(w, r, errors.New("Cannot find printer"))
+		httpu.NotFound(w, r, errors.New("cannot find printer"))
 		return
 	}
 
@@ -146,7 +146,7 @@ func (srv Server) httpPlayListAdd(w http.ResponseWriter, r *http.Request) {
 
 	player := srv.findPlayer(chi.URLParam(r, "pid"))
 	if player == nil {
-		httpu.NotFound(w, r, errors.New("Cannot find printer"))
+		httpu.NotFound(w, r, errors.New("cannot find printer"))
 		return
 	}
 
@@ -175,7 +175,7 @@ func (srv Server) httpPlayListSelect(w http.ResponseWriter, r *http.Request) {
 
 	p := srv.findPlayer(chi.URLParam(r, "pid"))
 	if p == nil {
-		httpu.NotFound(w, r, errors.New("Cannot find printer"))
+		httpu.NotFound(w, r, errors.New("cannot find printer"))
 		return
 	}
 
@@ -198,7 +198,7 @@ func (srv Server) httpRewind(w http.ResponseWriter, r *http.Request) {
 
 	p := srv.findPlayer(chi.URLParam(r, "pid"))
 	if p == nil {
-		httpu.NotFound(w, r, errors.New("Cannot find printer"))
+		httpu.NotFound(w, r, errors.New("cannot find printer"))
 		return
 	}
 
