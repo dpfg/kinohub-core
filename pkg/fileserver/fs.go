@@ -16,7 +16,13 @@ type FileServer struct {
 	PublicPath string
 	StaticPath string
 
+	CacheControl  *CacheControl
 	CookieControl *CookieControl
+}
+
+// CacheControl holds description of standard http cache Header
+type CacheControl struct {
+	Cache string
 }
 
 // CookieControl holds description of cookie policy to use.
@@ -74,6 +80,10 @@ func (fsd *FileServer) Handler() func(router chi.Router) {
 						Expires: time.Now().Add(fsd.CookieControl.TTL),
 					})
 				}
+			}
+
+			if fsd.CacheControl != nil {
+				w.Header().Add("Cache-Control", fsd.CacheControl.Cache)
 			}
 
 			http.StripPrefix(fsd.PublicPath, fs).ServeHTTP(w, r)

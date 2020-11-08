@@ -42,6 +42,9 @@ func (srv Server) Handler() func(r chi.Router) {
 		fs := fileserver.FileServer{
 			PublicPath: "/ui/player/",
 			StaticPath: "/web/player",
+			CacheControl: &fileserver.CacheControl{
+				Cache: "no-cache",
+			},
 			CookieControl: &fileserver.CookieControl{
 				Name: UIDCookieName,
 				TTL:  time.Hour * 24 * 31 * 12,
