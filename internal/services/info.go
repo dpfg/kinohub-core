@@ -5,10 +5,10 @@ import (
 	"strconv"
 
 	"github.com/dpfg/kinohub-core/domain"
+	provider "github.com/dpfg/kinohub-core/internal/provider"
+	"github.com/dpfg/kinohub-core/internal/provider/kinopub"
+	"github.com/dpfg/kinohub-core/internal/provider/tmdb"
 	httpu "github.com/dpfg/kinohub-core/pkg/http"
-	provider "github.com/dpfg/kinohub-core/provider"
-	"github.com/dpfg/kinohub-core/provider/kinopub"
-	"github.com/dpfg/kinohub-core/provider/tmdb"
 	"github.com/go-chi/chi"
 	"github.com/go-chi/render"
 	"github.com/pkg/errors"
@@ -76,7 +76,7 @@ func (browser ContentBrowserImpl) Handler() func(r chi.Router) {
 	}
 }
 
-func (b ContentBrowserImpl) Season(uid string, seasonNum int) (*domain.Season, error) {
+func (browser ContentBrowserImpl) Season(uid string, seasonNum int) (*domain.Season, error) {
 	if !provider.MatchUIDType(uid, provider.IDTypeTMDB) {
 		return nil, errors.New("Not implemented")
 	}
@@ -86,17 +86,17 @@ func (b ContentBrowserImpl) Season(uid string, seasonNum int) (*domain.Season, e
 		return nil, err
 	}
 
-	season, err := b.TMDB.GetTVSeason(id, seasonNum)
+	season, err := browser.TMDB.GetTVSeason(id, seasonNum)
 	if err != nil {
 		return nil, err
 	}
 
-	show, err := b.TMDB.GetTVShowByID(id)
+	show, err := browser.TMDB.GetTVShowByID(id)
 	if err != nil {
 		return nil, err
 	}
 
-	ids, err := b.TMDB.GetTVShowExternalIDS(id)
+	ids, err := browser.TMDB.GetTVShowExternalIDS(id)
 	if err != nil {
 		return nil, err
 	}
@@ -105,7 +105,7 @@ func (b ContentBrowserImpl) Season(uid string, seasonNum int) (*domain.Season, e
 		return nil, errors.New("Could not load TMDB data")
 	}
 
-	kpi, err := b.Kinopub.FindItemByIMDB(kinopub.StripImdbID(ids.ImdbID), show.OriginalName)
+	kpi, err := browser.Kinopub.FindItemByIMDB(kinopub.StripImdbID(ids.ImdbID), show.OriginalName)
 
 	if err != nil {
 		return nil, err
@@ -115,7 +115,7 @@ func (b ContentBrowserImpl) Season(uid string, seasonNum int) (*domain.Season, e
 		return nil, errors.New("Could not find kinopub item")
 	}
 
-	if kpi, err = b.Kinopub.GetItemById(kpi.ID); kpi != nil {
+	if kpi, err = browser.Kinopub.GetItemById(kpi.ID); kpi != nil {
 		return &domain.Season{
 			UID:        tmdb.ToUID(season.ID),
 			Name:       season.Name,
@@ -129,23 +129,23 @@ func (b ContentBrowserImpl) Season(uid string, seasonNum int) (*domain.Season, e
 	return nil, err
 }
 
-func (b ContentBrowserImpl) Show(uid string) (*domain.Series, error) {
+func (browser ContentBrowserImpl) Show(uid string) (*domain.Series, error) {
 	if provider.MatchUIDType(uid, provider.IDTypeKinoHub) {
 		id, _ := kinopub.ParseUID(uid)
 
-		item, err := b.Kinopub.GetItemById(id)
+		item, err := browser.Kinopub.GetItemById(id)
 		if err != nil {
 			return nil, err
 		}
 
-		show, err := b.TMDB.FindTVShowByExternalID(item.ImdbID())
+		show, err := browser.TMDB.FindTVShowByExternalID(item.ImdbID())
 
 		if err != nil {
 			return nil, err
 		}
 
 		if show != nil {
-			show, err = b.TMDB.GetTVShowByID(show.ID)
+			show, err = browser.TMDB.GetTVShowByID(show.ID)
 			if err != nil {
 				return nil, err
 			}
@@ -160,7 +160,7 @@ func (b ContentBrowserImpl) Show(uid string) (*domain.Series, error) {
 
 	if provider.MatchUIDType(uid, provider.IDTypeTMDB) {
 		id, _ := tmdb.ParseUID(uid)
-		show, err := b.TMDB.GetTVShowByID(id)
+		show, err := browser.TMDB.GetTVShowByID(id)
 
 		if err != nil {
 			return nil, err
@@ -195,14 +195,14 @@ func toDomainEpisodes(seasonNumber int, episodes []tmdb.TVEpisode, kpi *kinopub.
 	return r
 }
 
-func (b ContentBrowserImpl) Movie(uid string) (*domain.Movie, error) {
+func (browser ContentBrowserImpl) Movie(uid string) (*domain.Movie, error) {
 
 	var imdbID string
 
 	if provider.MatchUIDType(uid, provider.IDTypeKinoHub) {
 		id, _ := kinopub.ParseUID(uid)
 
-		item, err := b.Kinopub.GetItemById(id)
+		item, err := browser.Kinopub.GetItemById(id)
 		if err != nil {
 			return nil, err
 		}
@@ -210,14 +210,14 @@ func (b ContentBrowserImpl) Movie(uid string) (*domain.Movie, error) {
 		imdbID = item.ImdbID()
 	}
 
-	movie, err := b.TMDB.FindMovieByExternalID(imdbID)
+	movie, err := browser.TMDB.FindMovieByExternalID(imdbID)
 
 	if err != nil {
 		return nil, err
 	}
 
 	if movie != nil {
-		movie, err = b.TMDB.Movie(movie.ID)
+		movie, err = browser.TMDB.Movie(movie.ID)
 		if err != nil {
 			return nil, err
 		}

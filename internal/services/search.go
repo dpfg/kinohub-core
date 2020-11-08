@@ -6,8 +6,8 @@ import (
 	httpu "github.com/dpfg/kinohub-core/pkg/http"
 
 	"github.com/dpfg/kinohub-core/domain"
-	"github.com/dpfg/kinohub-core/provider/kinopub"
-	"github.com/dpfg/kinohub-core/provider/tmdb"
+	"github.com/dpfg/kinohub-core/internal/provider/kinopub"
+	"github.com/dpfg/kinohub-core/internal/provider/tmdb"
 	"github.com/go-chi/chi"
 	"github.com/go-chi/render"
 	"github.com/sirupsen/logrus"
@@ -20,7 +20,7 @@ type ContentSearch struct {
 	TMDB    tmdb.Client
 }
 
-// Handler return http.Handler that can servce search-related requests
+// Handler return http.Handler that can service search-related requests
 func (cs ContentSearch) Handler() http.Handler {
 	router := chi.NewRouter()
 

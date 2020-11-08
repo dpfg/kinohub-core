@@ -2,14 +2,15 @@ package cmd
 
 import (
 	"fmt"
+	"github.com/markbates/pkger"
 	"net/http"
 
 	"github.com/dpfg/kinohub-core/internal/player"
-	provider "github.com/dpfg/kinohub-core/provider"
-	"github.com/dpfg/kinohub-core/provider/kinopub"
-	"github.com/dpfg/kinohub-core/provider/tmdb"
-	"github.com/dpfg/kinohub-core/provider/trakt"
-	"github.com/dpfg/kinohub-core/services"
+	provider "github.com/dpfg/kinohub-core/internal/provider"
+	"github.com/dpfg/kinohub-core/internal/provider/kinopub"
+	"github.com/dpfg/kinohub-core/internal/provider/tmdb"
+	"github.com/dpfg/kinohub-core/internal/provider/trakt"
+	"github.com/dpfg/kinohub-core/internal/services"
 	"github.com/go-chi/chi"
 	"github.com/go-chi/chi/middleware"
 	"github.com/rs/cors"
@@ -43,6 +44,8 @@ type APIKeyGroup struct {
 
 // Execute starts web server on specified port. Called by flags parser
 func (cmd *ServerCommand) Execute(args []string) error {
+	pkger.Include("/web")
+
 	logger := newLogger()
 
 	logger.Debugf("%v", cmd)

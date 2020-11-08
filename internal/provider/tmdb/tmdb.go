@@ -11,7 +11,7 @@ import (
 
 	httpu "github.com/dpfg/kinohub-core/pkg/http"
 
-	provider "github.com/dpfg/kinohub-core/provider"
+	provider "github.com/dpfg/kinohub-core/internal/provider"
 	"github.com/franela/goreq"
 	"github.com/pkg/errors"
 	"github.com/sirupsen/logrus"

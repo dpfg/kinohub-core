@@ -41,7 +41,7 @@ func (srv Server) Handler() func(r chi.Router) {
 
 		fs := fileserver.FileServer{
 			PublicPath: "/ui/player/",
-			StaticPath: "./web/player",
+			StaticPath: "/web/player",
 			CacheControl: &fileserver.CacheControl{
 				Cache: "no-store",
 			},
