@@ -11,8 +11,8 @@ import (
 	"strconv"
 	"time"
 
+	provider "github.com/dpfg/kinohub-core/internal/provider"
 	httpu "github.com/dpfg/kinohub-core/pkg/http"
-	provider "github.com/dpfg/kinohub-core/provider"
 	"github.com/pkg/errors"
 	"github.com/sirupsen/logrus"
 

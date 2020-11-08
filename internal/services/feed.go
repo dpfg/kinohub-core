@@ -12,10 +12,10 @@ import (
 	"github.com/pkg/errors"
 	"github.com/sirupsen/logrus"
 
+	"github.com/dpfg/kinohub-core/internal/provider/kinopub"
+	"github.com/dpfg/kinohub-core/internal/provider/tmdb"
+	"github.com/dpfg/kinohub-core/internal/provider/trakt"
 	httpu "github.com/dpfg/kinohub-core/pkg/http"
-	"github.com/dpfg/kinohub-core/provider/kinopub"
-	"github.com/dpfg/kinohub-core/provider/tmdb"
-	"github.com/dpfg/kinohub-core/provider/trakt"
 
 	"github.com/dpfg/kinohub-core/domain"
 )
@@ -57,9 +57,9 @@ func (feed FeedImpl) Handler() func(r chi.Router) {
 	}
 }
 
-func (f FeedImpl) Releases(from time.Time, to time.Time) ([]FeedItem, error) {
+func (feed FeedImpl) Releases(from time.Time, to time.Time) ([]FeedItem, error) {
 
-	m, err := f.tc.MyShows(from, to)
+	m, err := feed.tc.MyShows(from, to)
 	if err != nil {
 		return nil, err
 	}
@@ -70,13 +70,13 @@ func (f FeedImpl) Releases(from time.Time, to time.Time) ([]FeedItem, error) {
 	for _, item := range m {
 
 		imdbID, _ := strconv.Atoi(strings.TrimLeft(item.Show.Ids.Imdb, "tt"))
-		ep, err := f.kpc.GetEpisode(imdbID, item.Show.Title, item.Episode.Season, item.Episode.Number)
+		ep, err := feed.kpc.GetEpisode(imdbID, item.Show.Title, item.Episode.Season, item.Episode.Number)
 		if err != nil {
-			f.logger.Errorln(errors.WithMessage(err, "Cannot load KinHub episode").Error())
+			feed.logger.Errorln(errors.WithMessage(err, "Cannot load KinHub episode").Error())
 			continue
 		}
 
-		images, _ := f.tmdbCli.GetTVEpisodeImages(item.Show.Ids.Tmdb, item.Episode.Season, item.Episode.Number)
+		images, _ := feed.tmdbCli.GetTVEpisodeImages(item.Show.Ids.Tmdb, item.Episode.Season, item.Episode.Number)
 		episodeStill := ""
 		if len(images.Stills) > 0 {
 			episodeStill = tmdb.ImagePath(images.Stills[0].FilePath, 300)
