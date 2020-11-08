@@ -28,38 +28,53 @@
   // player.muted(false);
 
   var pid = Cookies.get("puid");
-  var ws = new WebSocket(`ws://${window.location.host}/ui/pws/?pid=${pid}`);
 
-  ws.onmessage = function (event) {
-    var msgs = (event.data || "").split("\n");
-    msgs.forEach((msg) => {
-      var msg = JSON.parse(msg);
-      switch (msg["type_id"]) {
-        case "play":
-          player.play();
-          player.volume(1);
-          // showPlayer();
-          break;
-        case "pause":
-          player.pause();
-          break;
-        case "stop":
-          player.pause();
-          player.currentTime(0);
-          player.reset();
-          break;
-        case "set-source":
-          player.src([{ src: msg["data"]["url"] }]);
-          player.play();
-          break;
-        case "rewind":
-          player.currentTime(
-            player.currentTime() + parseInt(msg["data"]["duration"])
-          );
-          break;
-        default:
-          console.log("Unknown message");
-      }
-    });
+  var openSocket = function () {
+    var ws = new WebSocket(
+      "wss://" + window.location.host + "/ui/pws/?pid=" + pid
+    );
+
+    ws.onclose = function (event) {
+      setTimeout(function () {
+        ws = openSocket();
+      }, 5000);
+    };
+
+    // ws.onerror = function (event) {
+    //   alert(event.reason + ": " + event.code);
+    // };
+
+    ws.onmessage = function (event) {
+      var msgs = (event.data || "").split("\n");
+      msgs.forEach(function (msg) {
+        var msg = JSON.parse(msg);
+        switch (msg["type_id"]) {
+          case "play":
+            player.play();
+            player.volume(1);
+            // showPlayer();
+            break;
+          case "pause":
+            player.pause();
+            break;
+          case "stop":
+            player.pause();
+            player.currentTime(0);
+            player.reset();
+            break;
+          case "set-source":
+            player.src([{ src: msg["data"]["url"] }]);
+            player.play();
+            break;
+          case "rewind":
+            player.currentTime(
+              player.currentTime() + parseInt(msg["data"]["duration"])
+            );
+            break;
+          default:
+            console.log("Unknown message");
+        }
+      });
+    };
   };
 })();
